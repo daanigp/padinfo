@@ -6,4 +6,5 @@
     <string name="editUsuario">Editar Usuario</string>
     <string name="registrarPartidos">Registrar Partidos</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="volver">VOLVER</string>
 </resources>

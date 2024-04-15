@@ -129,6 +129,8 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemListado:
                 Toast.makeText(getApplicationContext(), "Listado torneos", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
+                startActivity(intent);
                 return true;
             case R.id.itemTop5:
                 Toast.makeText(getApplicationContext(), "Top 5 jugadores/as", Toast.LENGTH_SHORT).show();
