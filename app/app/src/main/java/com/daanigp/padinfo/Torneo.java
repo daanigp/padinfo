@@ -13,6 +13,7 @@ public class Torneo {
         this.ciudad = ciudad;
         this.imagen = imagen;
     }
+
     public String getNombre() {
         return nombre;
     }

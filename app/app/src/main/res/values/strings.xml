@@ -7,4 +7,6 @@
     <string name="registrarPartidos">Registrar Partidos</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
     <string name="volver">VOLVER</string>
+    <string name="rankFem">Ranking Femenino</string>
+    <string name="rankMasc">Ranking Masculino</string>
 </resources>

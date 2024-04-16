@@ -134,6 +134,8 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemTop5:
                 Toast.makeText(getApplicationContext(), "Top 5 jugadores/as", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(Activity_Inicio.this, ActivityRanking.class);
+                startActivity(intent2);
                 return true;
             case R.id.itemRegistrarPartidos:
                 Toast.makeText(getApplicationContext(), "Registrar Partidos", Toast.LENGTH_SHORT).show();

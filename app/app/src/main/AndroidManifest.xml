@@ -12,6 +12,15 @@
         android:theme="@style/Theme.Padinfo"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityRankingFemenino"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRankingMasculino"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRanking"
+            android:exported="false" />
+        <activity
             android:name=".ActivityListTorneos"
             android:exported="false" />
         <activity
