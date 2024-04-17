@@ -32,7 +32,7 @@
         android:background="#AAA7A7"
         android:textAlignment="center"
         android:textColor="#0B0B0B"
-        android:textColorLink="#4CAF50"
+        android:textColorLink="#2196F3"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -17,9 +17,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class Activity_Inicio extends AppCompatActivity {
 
     TextView txtInfoApp, txtInfoApp_webs;
@@ -124,24 +121,28 @@ public class Activity_Inicio extends AppCompatActivity {
         int opcionID = item.getItemId();
 
         switch (opcionID) {
-            case R.id.itemEditarUsuario:
-                Toast.makeText(getApplicationContext(), "Editar Usuario", Toast.LENGTH_SHORT).show();
+            case R.id.itemPerfil:
+                Toast.makeText(getApplicationContext(), "Perfil", Toast.LENGTH_SHORT).show();
+                Intent intentPerfilUsuario = new Intent(Activity_Inicio.this, ActivityPerfilUsuario.class);
+                startActivity(intentPerfilUsuario);
                 return true;
             case R.id.itemListado:
                 Toast.makeText(getApplicationContext(), "Listado torneos", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
-                startActivity(intent);
+                Intent intentListadoTorneos = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
+                startActivity(intentListadoTorneos);
                 return true;
             case R.id.itemTop5:
                 Toast.makeText(getApplicationContext(), "Top 5 jugadores/as", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(Activity_Inicio.this, ActivityRanking.class);
-                startActivity(intent2);
+                Intent intentRanking = new Intent(Activity_Inicio.this, ActivityRanking.class);
+                startActivity(intentRanking
+                );
                 return true;
             case R.id.itemRegistrarPartidos:
                 Toast.makeText(getApplicationContext(), "Registrar Partidos", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.itemCerrarSesion:
                 Toast.makeText(getApplicationContext(), "Cerrar Sessión", Toast.LENGTH_SHORT).show();
+                finish();
                 return true;
         }
 

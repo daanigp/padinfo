@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/itemEditarUsuario"
-        android:title="@string/editUsuario" />
+        android:id="@+id/itemPerfil"
+        android:title="@string/perfil" />
     <item
         android:id="@+id/itemListado"
         android:title="@string/torneos2023" />
