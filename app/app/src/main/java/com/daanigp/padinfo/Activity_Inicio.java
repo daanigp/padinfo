@@ -20,6 +20,7 @@ import android.widget.Toast;
 public class Activity_Inicio extends AppCompatActivity {
 
     TextView txtInfoApp, txtInfoApp_webs;
+    boolean usuarioRegistrado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,7 @@ public class Activity_Inicio extends AppCompatActivity {
 
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
         txtInfoApp_webs = (TextView) findViewById(R.id.txtInfoApp_webs);
+        usuarioRegistrado = false;
 
         String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
         premierPadel = "https://premierpadel.com/";
@@ -112,7 +114,12 @@ public class Activity_Inicio extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_dinamico, menu);
+        if (usuarioRegistrado) {
+            getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
+        }
+
         return true;
     }
 
@@ -134,15 +141,21 @@ public class Activity_Inicio extends AppCompatActivity {
             case R.id.itemTop5:
                 Toast.makeText(getApplicationContext(), "Top 5 jugadores/as", Toast.LENGTH_SHORT).show();
                 Intent intentRanking = new Intent(Activity_Inicio.this, ActivityRanking.class);
-                startActivity(intentRanking
-                );
+                startActivity(intentRanking);
                 return true;
             case R.id.itemRegistrarPartidos:
                 Toast.makeText(getApplicationContext(), "Registrar Partidos", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.itemCerrarSesion:
                 Toast.makeText(getApplicationContext(), "Cerrar Sessión", Toast.LENGTH_SHORT).show();
-                finish();
+                //finish();
+                usuarioRegistrado = false;
+                invalidateOptionsMenu();
+                return true;
+            case R.id.itemInicioSesion:
+                Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
+                usuarioRegistrado = true;
+                invalidateOptionsMenu();
                 return true;
         }
 

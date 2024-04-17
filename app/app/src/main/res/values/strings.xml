@@ -6,6 +6,7 @@
     <string name="perfil">Perfil</string>
     <string name="editUsuario">Editar Usuario</string>
     <string name="registrarPartidos">Registrar Partidos</string>
+    <string name="iniciarSesion">Iniciar Sesión</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
     <string name="volver">VOLVER</string>
     <string name="editar">EDITAR</string>
