@@ -11,4 +11,7 @@
     <item
         android:id="@+id/itemInicioSesion"
         android:title="@string/iniciarSesion" />
+    <item
+        android:id="@+id/itemSalir"
+        android:title="@string/salir" />
 </menu>

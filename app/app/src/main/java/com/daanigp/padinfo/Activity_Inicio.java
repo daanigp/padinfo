@@ -156,6 +156,12 @@ public class Activity_Inicio extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
                 usuarioRegistrado = true;
                 invalidateOptionsMenu();
+                Intent intentInicioSesion = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
+                startActivity(intentInicioSesion);
+                return true;
+            case R.id.itemSalir:
+                Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
+                finish();
                 return true;
         }
 

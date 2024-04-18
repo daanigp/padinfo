@@ -17,4 +17,7 @@
     <item
         android:id="@+id/itemCerrarSesion"
         android:title="@string/cerrarSesion" />
+    <item
+        android:id="@+id/itemSalir"
+        android:title="@string/salir" />
 </menu>
