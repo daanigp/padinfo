@@ -40,9 +40,9 @@ public class ActivityInicioSesion extends AppCompatActivity {
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intentRegistro = new Intent();
-                startActivity(intentRegistro);*/
-                Toast.makeText(ActivityInicioSesion.this, "Registro", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Registro", Toast.LENGTH_SHORT).show();
+                Intent intentRegistro = new Intent(ActivityInicioSesion.this, ActivityRegistroUsuarios.class);
+                startActivity(intentRegistro);
             }
         });
     }

@@ -10,7 +10,7 @@
         android:title="@string/top5" />
     <item
         android:id="@+id/itemInicioSesion"
-        android:title="@string/iniciarSesion" />
+        android:title="@string/inicioSesionMenu" />
     <item
         android:id="@+id/itemSalir"
         android:title="@string/salir" />

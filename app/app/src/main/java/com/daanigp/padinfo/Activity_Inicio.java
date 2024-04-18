@@ -161,7 +161,7 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemSalir:
                 Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
-                finish();
+                finishAffinity();
                 return true;
         }
 
