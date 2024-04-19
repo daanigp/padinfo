@@ -1,9 +1,12 @@
 package com.daanigp.padinfo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -19,8 +22,11 @@ import android.widget.Toast;
 
 public class Activity_Inicio extends AppCompatActivity {
 
+    public static int USER_LOGIN = 1;
+    SQLiteDatabase db;
     TextView txtInfoApp, txtInfoApp_webs;
     boolean usuarioRegistrado;
+    String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +34,9 @@ public class Activity_Inicio extends AppCompatActivity {
 
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
         txtInfoApp_webs = (TextView) findViewById(R.id.txtInfoApp_webs);
-        usuarioRegistrado = false;
+
+        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
 
         String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
         premierPadel = "https://premierpadel.com/";
@@ -154,10 +162,8 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemInicioSesion:
                 Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
-                usuarioRegistrado = true;
-                invalidateOptionsMenu();
                 Intent intentInicioSesion = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
-                startActivity(intentInicioSesion);
+                startActivityForResult(intentInicioSesion, USER_LOGIN);
                 return true;
             case R.id.itemSalir:
                 Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
@@ -167,4 +173,16 @@ public class Activity_Inicio extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == USER_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                usuarioRegistrado = true;
+                invalidateOptionsMenu();
+            }
+        }
+    }
+
 }
