@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +39,12 @@ public class Activity_Inicio extends AppCompatActivity {
 
         db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
+
+        if (userIsConnected()) {
+            usuarioRegistrado = true;
+        } else {
+            usuarioRegistrado = false;
+        }
 
         String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
         premierPadel = "https://premierpadel.com/";
@@ -156,9 +164,9 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemCerrarSesion:
                 Toast.makeText(getApplicationContext(), "Cerrar Sessión", Toast.LENGTH_SHORT).show();
-                //finish();
                 usuarioRegistrado = false;
                 invalidateOptionsMenu();
+                putUserDisconnected();
                 return true;
             case R.id.itemInicioSesion:
                 Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
@@ -167,6 +175,9 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemSalir:
                 Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
+                usuarioRegistrado = false;
+                invalidateOptionsMenu();
+                putUserDisconnected();
                 finishAffinity();
                 return true;
         }
@@ -182,6 +193,49 @@ public class Activity_Inicio extends AppCompatActivity {
                 usuarioRegistrado = true;
                 invalidateOptionsMenu();
             }
+        }
+    }
+
+    private boolean userIsConnected(){
+        boolean connected = false;
+        Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
+
+        if (c.moveToFirst()) {
+            int indexUser = c.getColumnIndex("User");
+            String user = c.getString(indexUser);
+            if (user != null || !user.isEmpty()){
+                Toast.makeText(getApplicationContext(), "Bienvenido de nuevo, " + user + "!", Toast.LENGTH_SHORT).show();
+                connected = true;
+            }
+        }
+
+        return connected;
+    }
+
+    private void putUserDisconnected(){
+        Cursor c = db.rawQuery("SELECT User FROM users WHERE Isconnected = 1", null);
+
+        if (c.moveToFirst()) {
+            int index = c.getColumnIndex("User");
+            String user = c.getString(index);
+
+            //Comprobasr que recibimos un String válido
+            if (user != null || !user.isEmpty()) {
+                //Valores a actualizar
+                ContentValues valores = new ContentValues();
+                valores.put("Isconnected", 0);
+
+                // Definir la cláusula where para identificar el usuario a actualizar
+                String whereClause = "User = ?";
+                String[] whereArgs = { user };
+                db.update("users", valores, whereClause, whereArgs);
+
+                Toast.makeText(getApplicationContext(), "Usuario desconectado correctamente", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "NO se ha podido desconectar el usuario", Toast.LENGTH_SHORT).show();
+            }
+
+            c.close();
         }
     }
 

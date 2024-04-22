@@ -6,16 +6,65 @@
     android:layout_height="match_parent"
     tools:context=".ActivityRegistroUsuarios">
 
+    <EditText
+        android:id="@+id/editTxtEmailRegistro"
+        android:layout_width="237dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtApellidosRegistro" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="115dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/email"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewApellidos" />
+
+    <EditText
+        android:id="@+id/editTxtApellidosRegistro"
+        android:layout_width="237dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Apellidos"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewApellidos"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtNombreRegistro" />
+
+    <TextView
+        android:id="@+id/textViewApellidos"
+        android:layout_width="115dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/apellidos"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="200dp"
+        android:layout_width="195dp"
         android:layout_height="43dp"
         android:layout_marginTop="20dp"
         android:text="@string/cancelar"
         android:textSize="18dp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNewRegistro" />
 
@@ -23,21 +72,46 @@
         android:id="@+id/editTxtNuevaContrasenya"
         android:layout_width="237dp"
         android:layout_height="44dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewUsr"
+        app:layout_constraintStart_toEndOf="@+id/textViewPass"
         app:layout_constraintTop_toBottomOf="@+id/editTxtNuevoUsuario" />
+
+    <EditText
+        android:id="@+id/editTxtNombreRegistro"
+        android:layout_width="237dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Nombre"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewName"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtNuevaContrasenya" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="115dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/nombre"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPass" />
 
     <TextView
         android:id="@+id/textViewPass"
         android:layout_width="115dp"
         android:layout_height="31dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
         android:text="@string/contrasenya"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,46 +121,47 @@
         android:id="@+id/imgApp2"
         android:layout_width="178dp"
         android:layout_height="177dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <EditText
+        android:id="@+id/editTxtNuevoUsuario"
+        android:layout_width="236dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Usuario"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toEndOf="@+id/textViewUsr"
+        app:layout_constraintTop_toBottomOf="@+id/imgApp2" />
+
     <TextView
         android:id="@+id/textViewUsr"
         android:layout_width="114dp"
         android:layout_height="31dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
         android:text="@string/usuario"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgApp2" />
 
-    <EditText
-        android:id="@+id/editTxtNuevoUsuario"
-        android:layout_width="236dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
-        app:layout_constraintStart_toEndOf="@+id/textViewUsr"
-        app:layout_constraintTop_toBottomOf="@+id/imgApp2" />
-
     <Button
         android:id="@+id/btnNewRegistro"
         android:layout_width="195dp"
         android:layout_height="45dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="228dp"
         android:text="@string/registroUsuario"
         android:textSize="18dp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTxtNuevaContrasenya" />
 </androidx.constraintlayout.widget.ConstraintLayout>
