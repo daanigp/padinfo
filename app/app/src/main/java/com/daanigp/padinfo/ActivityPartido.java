@@ -201,41 +201,30 @@ public class ActivityPartido extends AppCompatActivity {
                 ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
                 ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
 
-                /*if (puntosSet1Eq1 == puntosSet1Eq2) {
-                    Toast.makeText(ActivityPartido.this, "1. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
-                } else if (ptosSet1Eq1 == 7) {
-                    if (ptosSet1Eq2 != 6) {
-                        Toast.makeText(ActivityPartido.this, "2. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
-                    }
-                } else if (ptosSet1Eq2 != 7) {
-                    if (ptosSet1Eq1 == 6) {
-                        Toast.makeText(ActivityPartido.this, "3. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
-                    }
-                } else if (ptosSet1Eq1 != 6 && ptosSet1Eq2 != 6) {
-                    Toast.makeText(ActivityPartido.this, "4. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ActivityPartido.this, "PArtidito guardadito.", Toast.LENGTH_SHORT).show();
-                }*/
-                //checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1");
-                /*if (ptosSet1Eq1 == 6 && ptosSet1Eq2 < 6) {
-                    Toast.makeText(ActivityPartido.this, "1. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
-                } else if (ptosSet1Eq1 < 6 && ptosSet1Eq2 == 6) {
-                    Toast.makeText(ActivityPartido.this, "2. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
-                } else if (ptosSet1Eq1 == 7 && ptosSet1Eq2 == 6) {
-                    Toast.makeText(ActivityPartido.this, "3. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
-                } else if (ptosSet1Eq1 == 6 && ptosSet1Eq2 == 7) {
-                    Toast.makeText(ActivityPartido.this, "4. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ActivityPartido.this, "No se puede guardar el partido.", Toast.LENGTH_SHORT).show();
-                }*/
-                //checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2");
-                //checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3");
-
                 if (checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1") && checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2") && checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
-                    Toast.makeText(ActivityPartido.this, "PARTIDITO GUARDADITO", Toast.LENGTH_SHORT).show();
+                    if (setWonByTeam1(ptosSet1Eq1, ptosSet1Eq2)) { // 1 - 0
+                        if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
+                            Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                        } else { // 1 - 1
+                            if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
+                                Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            } else { // 1 - 2
+                                Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else { // 0 - 1
+                        if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 1 - 1
+                            if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
+                                Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            } else { // 1 - 2
+                                Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else { // 0 - 2
+                            Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-
-
+                
             }
         });
 
@@ -271,20 +260,20 @@ public class ActivityPartido extends AppCompatActivity {
 
     private boolean checkSetPoints(int ptos1, int ptos2, String set){
         if (ptos1 == 6 && ptos2 < 6) {
-            Toast.makeText(ActivityPartido.this, "1. " + set + " ok.", Toast.LENGTH_SHORT).show();
             return true;
         } else if (ptos1 < 6 && ptos2 == 6) {
-            Toast.makeText(ActivityPartido.this, "2. " + set + " ok.", Toast.LENGTH_SHORT).show();
             return true;
         } else if (ptos1 == 7 && ptos2 == 6) {
-            Toast.makeText(ActivityPartido.this, "3. " + set + " ok.", Toast.LENGTH_SHORT).show();
             return true;
         } else if (ptos1 == 6 && ptos2 == 7) {
-            Toast.makeText(ActivityPartido.this, "4. " + set + " ok.", Toast.LENGTH_SHORT).show();
             return true;
         } else {
             Toast.makeText(ActivityPartido.this, "No se puede guardar el " + set +".", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    private boolean setWonByTeam1(int ptos1, int ptos2){
+        return ptos1 > ptos2;
     }
 }
