@@ -419,13 +419,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btnGuardarPartido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/guardar" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/btnCancelarPartido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cancelar" />

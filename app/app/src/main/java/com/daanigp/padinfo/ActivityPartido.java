@@ -28,6 +28,7 @@ public class ActivityPartido extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        // Añadir y borrar puntos set 1 equipo 1
         binding.btnAddPtsSet11P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,25 +36,8 @@ public class ActivityPartido extends AppCompatActivity {
                 puntosSet = binding.txtPtosSet1Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
-                /*if (pts == puntos[0]){
-                    ptos = String.valueOf(puntos[1]);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                } else if (pts == puntos[1]) {
-                    ptos = String.valueOf(puntos[2]);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                } else if (pts == puntos[2]) {
-                    ptos = String.valueOf(puntos[3]);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                } else if (pts == puntos[3]) {
-                    Toast.makeText(ActivityPartido.this, "No puedes poner más puntos", Toast.LENGTH_SHORT).show();
-                }*/
+
                 addPoints(pts, binding.txtPtosSet1Eq1P, binding.textViewSet11P);
-                /*if (pts == 7) {
-                    Toast.makeText(ActivityPartido.this, "No puedes poner más puntos en " + binding.textViewSet11P.getText().toString(), Toast.LENGTH_SHORT).show();
-                } else {
-                    ptos = String.valueOf(++pts);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                }*/
             }
         });
 
@@ -64,28 +48,12 @@ public class ActivityPartido extends AppCompatActivity {
                 puntosSet = binding.txtPtosSet1Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
-                /*if (pts == puntos[0]){
-                    Toast.makeText(ActivityPartido.this, "No puedes poner menos puntos", Toast.LENGTH_SHORT).show();
-                } else if (pts == puntos[1]) {
-                    ptos = String.valueOf(puntos[0]);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                } else if (pts == puntos[2]) {
-                    ptos = String.valueOf(puntos[1]);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                } else if (pts == puntos[3]) {
-                    ptos = String.valueOf(puntos[2]);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                }*/
+
                 delPoints(pts, binding.txtPtosSet1Eq1P, binding.textViewSet11P);
-                /*if (pts == 0) {
-                    Toast.makeText(ActivityPartido.this, "No puedes poner menos puntos en " + binding.textViewSet11P.getText().toString(), Toast.LENGTH_SHORT).show();
-                } else {
-                    ptos = String.valueOf(--pts);
-                    binding.txtPtosSet1Eq1P.setText(ptos);
-                }*/
             }
         });
 
+        // Añadir y borrar puntos set 2 equipo 1
         binding.btnAddPtsSet21P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,19 +61,8 @@ public class ActivityPartido extends AppCompatActivity {
                 puntosSet = binding.txtPtosSet2Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
+
                 addPoints(pts, binding.txtPtosSet2Eq1P, binding.textViewSet21P);
-                /*if (pts == puntos[0]){
-                    ptos = String.valueOf(puntos[1]);
-                    binding.txtPtosSet2Eq1P.setText(ptos);
-                } else if (pts == puntos[1]) {
-                    ptos = String.valueOf(puntos[2]);
-                    binding.txtPtosSet2Eq1P.setText(ptos);
-                } else if (pts == puntos[2]) {
-                    ptos = String.valueOf(puntos[3]);
-                    binding.txtPtosSet2Eq1P.setText(ptos);
-                } else if (pts == puntos[3]) {
-                    Toast.makeText(ActivityPartido.this, "No puedes poner más puntos", Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
 
@@ -116,19 +73,176 @@ public class ActivityPartido extends AppCompatActivity {
                 puntosSet = binding.txtPtosSet2Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
+
                 delPoints(pts, binding.txtPtosSet2Eq1P, binding.textViewSet21P);
-                /*if (pts == puntos[0]){
-                    Toast.makeText(ActivityPartido.this, "No puedes poner menos puntos", Toast.LENGTH_SHORT).show();
-                } else if (pts == puntos[1]) {
-                    ptos = String.valueOf(puntos[0]);
-                    binding.txtPtosSet2Eq1P.setText(ptos);
-                } else if (pts == puntos[2]) {
-                    ptos = String.valueOf(puntos[1]);
-                    binding.txtPtosSet2Eq1P.setText(ptos);
-                } else if (pts == puntos[3]) {
-                    ptos = String.valueOf(puntos[2]);
-                    binding.txtPtosSet2Eq1P.setText(ptos);
+            }
+        });
+
+        // Añadir y borrar puntos set 3 equipo 1
+        binding.btnAddPtsSet31P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet3Eq1P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                addPoints(pts, binding.txtPtosSet3Eq1P, binding.textViewSet31P);
+            }
+        });
+
+        binding.btnDelPtsSet31P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet3Eq1P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                delPoints(pts, binding.txtPtosSet3Eq1P, binding.textViewSet31P);
+            }
+        });
+
+        // Añadir y borrar puntos set 1 equipo 2
+        binding.btnAddPtsSet12P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet1Eq2P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                addPoints(pts, binding.txtPtosSet1Eq2P, binding.textViewSet12P);
+            }
+        });
+
+        binding.btnDelPtsSet12P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet1Eq2P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                delPoints(pts, binding.txtPtosSet1Eq2P, binding.textViewSet12P);
+            }
+        });
+
+        // Añadir y borrar puntos set 2 equipo 2
+        binding.btnAddPtsSet22P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet2Eq2P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                addPoints(pts, binding.txtPtosSet2Eq2P, binding.textViewSet22P);
+            }
+        });
+
+        binding.btnDelPtsSet22P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet2Eq2P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                delPoints(pts, binding.txtPtosSet2Eq2P, binding.textViewSet22P);
+            }
+        });
+
+        // Añadir y borrar puntos set 3 equipo 2
+        binding.btnAddPtsSet32P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet3Eq2P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                addPoints(pts, binding.txtPtosSet3Eq2P, binding.textViewSet32P);
+            }
+        });
+
+        binding.btnDelPtsSet32P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String puntosSet, ptos;
+                puntosSet = binding.txtPtosSet3Eq2P.getText().toString();
+
+                int pts = Integer.parseInt(puntosSet);
+
+                delPoints(pts, binding.txtPtosSet3Eq2P, binding.textViewSet32P);
+            }
+        });
+
+        // Botones de guardar y cancelar partido
+        binding.btnGuardarPartido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(ActivityPartido.this, "Partido guardado", Toast.LENGTH_SHORT).show();
+
+                String puntosSet1Eq1, puntosSet1Eq2, puntosSet2Eq1, puntosSet2Eq2, puntosSet3Eq1, puntosSet3Eq2;
+                int ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2;
+
+                puntosSet1Eq1 = binding.txtPtosSet1Eq1P.getText().toString();
+                puntosSet1Eq2 = binding.txtPtosSet1Eq2P.getText().toString();
+                puntosSet2Eq1 = binding.txtPtosSet2Eq1P.getText().toString();
+                puntosSet2Eq2 = binding.txtPtosSet2Eq2P.getText().toString();
+                puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
+                puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
+
+                ptosSet1Eq1 = Integer.parseInt(puntosSet1Eq1);
+                ptosSet1Eq2 = Integer.parseInt(puntosSet1Eq2);
+                ptosSet2Eq1 = Integer.parseInt(puntosSet2Eq1);
+                ptosSet2Eq2 = Integer.parseInt(puntosSet2Eq2);
+                ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
+                ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
+
+                /*if (puntosSet1Eq1 == puntosSet1Eq2) {
+                    Toast.makeText(ActivityPartido.this, "1. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
+                } else if (ptosSet1Eq1 == 7) {
+                    if (ptosSet1Eq2 != 6) {
+                        Toast.makeText(ActivityPartido.this, "2. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (ptosSet1Eq2 != 7) {
+                    if (ptosSet1Eq1 == 6) {
+                        Toast.makeText(ActivityPartido.this, "3. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (ptosSet1Eq1 != 6 && ptosSet1Eq2 != 6) {
+                    Toast.makeText(ActivityPartido.this, "4. No se puede guardar el partido pts1 = " + ptosSet1Eq1 + ", pts2 = " + ptosSet1Eq2 + ".", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ActivityPartido.this, "PArtidito guardadito.", Toast.LENGTH_SHORT).show();
                 }*/
+                //checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1");
+                /*if (ptosSet1Eq1 == 6 && ptosSet1Eq2 < 6) {
+                    Toast.makeText(ActivityPartido.this, "1. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
+                } else if (ptosSet1Eq1 < 6 && ptosSet1Eq2 == 6) {
+                    Toast.makeText(ActivityPartido.this, "2. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
+                } else if (ptosSet1Eq1 == 7 && ptosSet1Eq2 == 6) {
+                    Toast.makeText(ActivityPartido.this, "3. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
+                } else if (ptosSet1Eq1 == 6 && ptosSet1Eq2 == 7) {
+                    Toast.makeText(ActivityPartido.this, "4. PArtidito guardadito.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ActivityPartido.this, "No se puede guardar el partido.", Toast.LENGTH_SHORT).show();
+                }*/
+                //checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2");
+                //checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3");
+
+                if (checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1") && checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2") && checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
+                    Toast.makeText(ActivityPartido.this, "PARTIDITO GUARDADITO", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ActivityPartido.this, "Has cancelado los cambios", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -152,6 +266,25 @@ public class ActivityPartido extends AppCompatActivity {
         } else {
             ptos = String.valueOf(--points);
             txtPuntos.setText(ptos);
+        }
+    }
+
+    private boolean checkSetPoints(int ptos1, int ptos2, String set){
+        if (ptos1 == 6 && ptos2 < 6) {
+            Toast.makeText(ActivityPartido.this, "1. " + set + " ok.", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (ptos1 < 6 && ptos2 == 6) {
+            Toast.makeText(ActivityPartido.this, "2. " + set + " ok.", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (ptos1 == 7 && ptos2 == 6) {
+            Toast.makeText(ActivityPartido.this, "3. " + set + " ok.", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (ptos1 == 6 && ptos2 == 7) {
+            Toast.makeText(ActivityPartido.this, "4. " + set + " ok.", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            Toast.makeText(ActivityPartido.this, "No se puede guardar el " + set +".", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 }
