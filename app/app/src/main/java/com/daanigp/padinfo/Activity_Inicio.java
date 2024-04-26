@@ -161,6 +161,8 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemRegistrarPartidos:
                 Toast.makeText(getApplicationContext(), "Registrar Partidos", Toast.LENGTH_SHORT).show();
+                Intent intentPartidos = new Intent(Activity_Inicio.this, ActivityListPartidos.class);
+                startActivity(intentPartidos);
                 return true;
             case R.id.itemCerrarSesion:
                 Toast.makeText(getApplicationContext(), "Cerrar Sessión", Toast.LENGTH_SHORT).show();

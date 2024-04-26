@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityPartido">
+
+    <TextView
+        android:id="@+id/textViewEquipo2"
+        android:layout_width="243dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/eq2"
+        android:textColor="#FF1100"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.327"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtPuntosSet3" />
+
+    <EditText
+        android:id="@+id/editTxtNombreJugador3"
+        android:layout_width="269dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Nombre Jugador 1"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.387"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEquipo2" />
+
+    <EditText
+        android:id="@+id/editTxtPuntosSet1_2"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toEndOf="@+id/textViewSet1_2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPuntosEq2" />
+
+    <EditText
+        android:id="@+id/editTxtPuntosSet2_2"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="172dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/textViewSet2_2"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtPuntosSet1_2" />
+
+    <EditText
+        android:id="@+id/editTxtPuntosSet3_2"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="188dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.909"
+        app:layout_constraintStart_toEndOf="@+id/textViewSet3_2"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtPuntosSet2_2" />
+
+    <TextView
+        android:id="@+id/textViewPuntosEq2"
+        android:layout_width="243dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/puntosEq2"
+        android:textColor="#FF1100"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.327"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtNombreJugador4" />
+
+    <TextView
+        android:id="@+id/textViewSet2_2"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/set2"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSet1_2" />
+
+    <TextView
+        android:id="@+id/textViewSet1_2"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/set1"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPuntosEq2" />
+
+    <EditText
+        android:id="@+id/editTxtNombreJugador4"
+        android:layout_width="269dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Nombre Jugador 2"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.387"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtNombreJugador3" />
+
+    <TextView
+        android:id="@+id/textViewSet3_2"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/set3"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSet2_2" />
+
+    <EditText
+        android:id="@+id/editTxtPuntosSet3"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="172dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/textViewSet3"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtPuntosSet2" />
+
+    <TextView
+        android:id="@+id/textViewSet3"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/set3"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSet2" />
+
+    <EditText
+        android:id="@+id/editTxtPuntosSet2"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="172dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/textViewSet2"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtPuntosSet1" />
+
+    <TextView
+        android:id="@+id/textViewSet2"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/set2"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSet1" />
+
+    <TextView
+        android:id="@+id/textViewPuntosEq1"
+        android:layout_width="243dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/puntosEq1"
+        android:textColor="#4CAF50"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.422"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtNombreJugador2" />
+
+    <EditText
+        android:id="@+id/editTxtNombreJugador2"
+        android:layout_width="269dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Nombre Jugador 2"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtNombreJugador1" />
+
+    <TextView
+        android:id="@+id/textViewEquipo1"
+        android:layout_width="243dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/eq1"
+        android:textColor="#4CAF50"
+        android:textSize="18dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.422"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTxtNombreJugador1"
+        android:layout_width="269dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Nombre Jugador 1"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEquipo1" />
+
+    <TextView
+        android:id="@+id/textViewSet1"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/set1"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPuntosEq1" />
+
+    <EditText
+        android:id="@+id/editTxtPuntosSet1"
+        android:layout_width="61dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewSet1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPuntosEq1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
