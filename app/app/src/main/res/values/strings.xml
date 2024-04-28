@@ -30,4 +30,7 @@
     <string name="set1">SET 1</string>
     <string name="set2">SET 2</string>
     <string name="set3">SET 3</string>
+    <string name="nomJugEq1">Nombre jugadores equipo 1</string>
+    <string name="nomJugEq2">Nombre jugadores equipo 2</string>
+    <string name="numeroCero">0</string>
 </resources>

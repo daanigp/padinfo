@@ -1,12 +1,15 @@
 package com.daanigp.padinfo;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -42,6 +45,31 @@ public class PartidoAdapter extends ArrayAdapter<Partido> {
         nombreJugadoresEq1 = partidos.get(position).getPlayer1() + "\n" + partidos.get(position).getPlayer2();
         nombreJugadoresEq2 = partidos.get(position).getPlayer3() + "\n" + partidos.get(position).getPlayer4();
 
+        int equipoGanador = partidos.get(position).getEquipoGanador();
+
+        if (equipoGanador == 1) {
+            txtNombreJugadoresEq1.setTextColor(Color.argb(255, 0 ,255, 0));
+        } else {
+            txtNombreJugadoresEq2.setTextColor(Color.argb(255, 0 ,255, 0));
+        }
+
+        if (partidos.get(position).getSet1PointsT1() > partidos.get(position).getSet1PointsT2()) {
+            txtSet1Eq1.setTypeface(null, Typeface.BOLD);
+        } else {
+            txtSet1Eq2.setTypeface(null, Typeface.BOLD);
+        }
+
+        if (partidos.get(position).getSet2PointsT1() > partidos.get(position).getSet2PointsT2()) {
+            txtSet2Eq1.setTypeface(null, Typeface.BOLD);
+        } else {
+            txtSet2Eq2.setTypeface(null, Typeface.BOLD);
+        }
+
+        if (partidos.get(position).getSet3PointsT1() > partidos.get(position).getSet3PointsT2()) {
+            txtSet3Eq1.setTypeface(null, Typeface.BOLD);
+        } else {
+            txtSet3Eq2.setTypeface(null, Typeface.BOLD);
+        }
 
         txtNombreJugadoresEq1.setText(nombreJugadoresEq1);
         txtNombreJugadoresEq2.setText(nombreJugadoresEq2);
