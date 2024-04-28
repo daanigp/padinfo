@@ -66,9 +66,9 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
     private void signup(String user, String pwd, String name, String lastName, String email){
         Cursor c = db.rawQuery("SELECT * FROM users WHERE User = '" + user + "' AND Password = '" + pwd + "'", null);
         if (c.getCount() == 0){
+            saveUserInfo(user, name, lastName, email);
             db.execSQL("INSERT INTO users VALUES('" + user + "', '" + pwd + "', 0);");
             c.close();
-            saveUserInfo(user, name, lastName, email);
             Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
             finish();
         } else {

@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewEq1_p2"
+                android:id="@+id/textViewEq1_p"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/eq1"
@@ -28,7 +28,7 @@
                 android:textStyle="bold|italic" />
 
             <EditText
-                android:id="@+id/editTxtNombreJug1_p2"
+                android:id="@+id/editTxtNombreJug1_p"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -36,7 +36,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/editTxtNombreJug2_p2"
+                android:id="@+id/editTxtNombreJug2_p"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -44,7 +44,7 @@
                 android:inputType="text" />
 
             <TextView
-                android:id="@+id/textViewPuntosEq1_p2"
+                android:id="@+id/textViewPuntosEq1_p"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/puntosEq1"
@@ -219,7 +219,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textViewEq1_p"
+                android:id="@+id/textViewEq2_p"
                 android:layout_width="162dp"
                 android:layout_height="match_parent"
                 android:text="@string/eq2"
@@ -228,7 +228,7 @@
                 android:textStyle="bold|italic" />
 
             <EditText
-                android:id="@+id/editTxtNombreJug1_p"
+                android:id="@+id/editTxtNombreJug3_p"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -236,7 +236,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/editTxtNombreJug2_p"
+                android:id="@+id/editTxtNombreJug4_p"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -244,7 +244,7 @@
                 android:inputType="text" />
 
             <TextView
-                android:id="@+id/textViewPuntosEq1_p"
+                android:id="@+id/textViewPuntosEq2_p"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/puntosEq2"

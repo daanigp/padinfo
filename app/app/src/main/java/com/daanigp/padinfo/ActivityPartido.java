@@ -2,6 +2,9 @@ package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,19 +14,38 @@ import com.daanigp.padinfo.databinding.ActivityPartidoBinding;
 
 public class ActivityPartido extends AppCompatActivity {
 
+    SQLiteDatabase db;
     ActivityPartidoBinding binding;
-    /*Button btnAddPtsSet1Eq1, btnAddPtsSet2Eq1, btnAddPtsSet3Eq1, btnAddPtsSet1Eq2, btnAddPtsSet2Eq2, btnAddPtsSet3Eq2;
-    Button btnDelPtsSet1Eq1, btnDelPtsSet2Eq1, btnDelPtsSet3Eq1, btnDelPtsSet1Eq2, btnDelPtsSet2Eq2, btnDelPtsSet3Eq2;
-    TextView txtPtsSet1Eq1, txtPtsSet2Eq1, txtPtsSet3Eq1, txtPtsSet1Eq2, txtPtsSet2Eq2, txtPtsSet3Eq2;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partido);
 
-        int ptsSet1Eq1, ptsSet2Eq1, ptsSet3Eq1, ptsSet1Eq2, ptsSet2Eq2, ptsSet3Eq2;
+        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS users(" +
+                "User VARCHAR, " +
+                "Password VARCHAR, " +
+                "Isconnected INTEGER" +
+                ");"
+        );
+        db.execSQL("CREATE TABLE IF NOT EXISTS games(" +
+                "IdGame INTEGER, " +
+                "User VARCHAR, " +
+                "Player1 VARCHAR, " +
+                "Player2 VARCHAR, " +
+                "Player3 VARCHAR, " +
+                "Player4 VARCHAR, " +
+                "Set1PointsT1 INTEGER, " +
+                "Set2PointsT1 INTEGER, " +
+                "Set3PointsT1 INTEGER, " +
+                "Set1PointsT2 INTEGER, " +
+                "Set2PointsT2 INTEGER, " +
+                "Set3PointsT2 INTEGER, " +
+                "EquipoGanador INTEGER" +
+                ");"
+        );
 
-        int[] puntos = { 0, 15, 30, 40 };
         binding = ActivityPartidoBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -32,7 +54,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnAddPtsSet11P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet1Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -44,7 +66,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnDelPtsSet11P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet1Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -57,7 +79,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnAddPtsSet21P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet2Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -69,7 +91,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnDelPtsSet21P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet2Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -82,7 +104,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnAddPtsSet31P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet3Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -94,7 +116,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnDelPtsSet31P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet3Eq1P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -107,7 +129,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnAddPtsSet12P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet1Eq2P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -119,7 +141,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnDelPtsSet12P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet1Eq2P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -132,7 +154,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnAddPtsSet22P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet2Eq2P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -144,7 +166,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnDelPtsSet22P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet2Eq2P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -157,7 +179,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnAddPtsSet32P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet3Eq2P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -169,7 +191,7 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnDelPtsSet32P.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String puntosSet, ptos;
+                String puntosSet;
                 puntosSet = binding.txtPtosSet3Eq2P.getText().toString();
 
                 int pts = Integer.parseInt(puntosSet);
@@ -182,49 +204,79 @@ public class ActivityPartido extends AppCompatActivity {
         binding.btnGuardarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(ActivityPartido.this, "Partido guardado", Toast.LENGTH_SHORT).show();
+                String nomJugador1, nomJugador2, nomJugador3, nomJugador4, puntosSet1Eq1, puntosSet1Eq2, puntosSet2Eq1, puntosSet2Eq2, puntosSet3Eq1, puntosSet3Eq2;
+                int ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador;
 
-                String puntosSet1Eq1, puntosSet1Eq2, puntosSet2Eq1, puntosSet2Eq2, puntosSet3Eq1, puntosSet3Eq2;
-                int ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2;
+                nomJugador1 = binding.editTxtNombreJug1P.getText().toString();
+                nomJugador2 = binding.editTxtNombreJug2P.getText().toString();
+                nomJugador3 = binding.editTxtNombreJug3P.getText().toString();
+                nomJugador4 = binding.editTxtNombreJug4P.getText().toString();
 
                 puntosSet1Eq1 = binding.txtPtosSet1Eq1P.getText().toString();
                 puntosSet1Eq2 = binding.txtPtosSet1Eq2P.getText().toString();
                 puntosSet2Eq1 = binding.txtPtosSet2Eq1P.getText().toString();
                 puntosSet2Eq2 = binding.txtPtosSet2Eq2P.getText().toString();
-                puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
-                puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
 
                 ptosSet1Eq1 = Integer.parseInt(puntosSet1Eq1);
                 ptosSet1Eq2 = Integer.parseInt(puntosSet1Eq2);
                 ptosSet2Eq1 = Integer.parseInt(puntosSet2Eq1);
                 ptosSet2Eq2 = Integer.parseInt(puntosSet2Eq2);
-                ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
-                ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
+                ptosSet3Eq1 = 0;
+                ptosSet3Eq2 = 0;
 
-                if (checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1") && checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2") && checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
+                equipoGanador = 0;
+
+                if (checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1") && checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2")) {
                     if (setWonByTeam1(ptosSet1Eq1, ptosSet1Eq2)) { // 1 - 0
                         if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
+                            binding.txtPtosSet3Eq1P.setText("0");
+                            binding.txtPtosSet3Eq2P.setText("0");
                             Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            equipoGanador = 1;
                         } else { // 1 - 1
-                            if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
-                            } else { // 1 - 2
-                                Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
+                            puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
+                            ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
+                            ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
+
+                            if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
+                                if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
+                                    Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    equipoGanador = 1;
+                                } else { // 1 - 2
+                                    Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    equipoGanador = 2;
+                                }
                             }
                         }
                     } else { // 0 - 1
                         if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 1 - 1
-                            if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
-                            } else { // 1 - 2
-                                Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
+                            puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
+                            ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
+                            ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
+
+                            if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
+                                if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
+                                    Toast.makeText(ActivityPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    equipoGanador = 1;
+                                } else { // 1 - 2
+                                    Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    equipoGanador = 2;
+                                }
                             }
                         } else { // 0 - 2
+                            binding.txtPtosSet3Eq1P.setText("0");
+                            binding.txtPtosSet3Eq2P.setText("0");
                             Toast.makeText(ActivityPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            equipoGanador = 2;
                         }
                     }
                 }
-                
+
+                Toast.makeText(getApplicationContext(), "EQUIPO 1 -> " + nomJugador1 + " + " + nomJugador2 + "\nEQUIPO 2 -> " + nomJugador3 + " + " + nomJugador4, Toast.LENGTH_SHORT).show();
+
+                saveDB(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador);
             }
         });
 
@@ -275,5 +327,67 @@ public class ActivityPartido extends AppCompatActivity {
 
     private boolean setWonByTeam1(int ptos1, int ptos2){
         return ptos1 > ptos2;
+    }
+
+    private void saveDB(String nomJugador1, String nomJugador2, String nomJugador3, String nomJugador4, int ptosSet1Eq1, int ptosSet1Eq2, int ptosSet2Eq1, int ptosSet2Eq2, int ptosSet3Eq1, int ptosSet3Eq2, int equipoGanador){
+        String usr = userConnected();
+
+        if (!(usr.equalsIgnoreCase("") || usr.isEmpty())) {
+            int idGame = getIdGame();
+            db.execSQL("INSERT INTO games VALUES(" +
+                    idGame + ", " +
+                    "'" + usr + "', " +
+                    "'" + nomJugador1 + "', " +
+                    "'" + nomJugador2 + "', " +
+                    "'" + nomJugador3 + "', " +
+                    "'" + nomJugador4 + "', " +
+                    ptosSet1Eq1 + ", " +
+                    ptosSet2Eq1 + ", " +
+                    ptosSet3Eq1 + ", " +
+                    ptosSet1Eq2 + ", " +
+                    ptosSet2Eq2 + ", " +
+                    ptosSet3Eq2 + ", " +
+                    equipoGanador +
+                    ");"
+            );
+        } else {
+            Toast.makeText(this, "No se pueden guardar los datos debido a un error en la app", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String userConnected(){
+        Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
+
+        if (c.moveToFirst()) {
+            int indexUser = c.getColumnIndex("User");
+            String user = c.getString(indexUser);
+            if (user != null || !user.isEmpty()){
+                c.close();
+                return user;
+            }
+        }
+
+        c.close();
+
+        return "";
+    }
+
+    private int getIdGame(){
+        int idGame = 0;
+
+        Cursor c = db.rawQuery("SELECT * FROM games", null);
+
+        if (c.getCount() == 0) {
+            c.close();
+            return ++idGame;
+        } else if (c.moveToLast()) {
+            int indexId = c.getColumnIndex("IdGame");
+            int id = c.getInt(indexId);
+            c.close();
+            return ++id;
+        }
+        c.close();
+
+        return idGame;
     }
 }

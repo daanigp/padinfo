@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FFF"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableLayout
+            android:layout_width="369dp"
+            android:layout_height="137dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="38dp">
+
+                <TextView
+                    android:id="@+id/txtNombreJugadoresEq1"
+                    android:layout_width="193dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nombre"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/txtPuntosSet1Eq1"
+                    android:layout_width="58dp"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/txtPuntosSet2Eq1"
+                    android:layout_width="58dp"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/txtPuntosSet3Eq1"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="54dp">
+
+                <TextView
+                    android:id="@+id/txtNombreJugadoresEq2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="nombre 2"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/txtPuntosSet1Eq2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/txtPuntosSet2Eq2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/txtPuntosSet3Eq2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center" />
+            </TableRow>
+        </TableLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
