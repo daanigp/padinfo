@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Padinfo"
         tools:targetApi="31">
         <activity
-            android:name=".ActivityPartido"
+            android:name=".ActivityCrear_EditarPartido"
             android:exported="false" />
         <activity
             android:name=".ActivityListPartidos"

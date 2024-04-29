@@ -1,12 +1,18 @@
 package com.daanigp.padinfo;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,9 +23,13 @@ import java.util.ArrayList;
 
 public class ActivityListPartidos extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
+    public static int CREATE_GAME = 3;
+    public static int EDIT_GAME = 4;
     SQLiteDatabase db;
     Button btnAddGame, btnVolver;
     ArrayList<Partido> partidos;
+    ListView lista;
+    PartidoAdapter gameAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,17 +64,18 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
         partidos = getPartidosFromDB();
 
-        ListView lista = (ListView) findViewById(R.id.listaPartidos);
-        PartidoAdapter adapter = new PartidoAdapter(this, R.layout.item_partido, partidos);
+        lista = (ListView) findViewById(R.id.listaPartidos);
+        gameAdapter = new PartidoAdapter(this, R.layout.item_partido, partidos);
 
-        lista.setAdapter(adapter);
+        lista.setAdapter(gameAdapter);
         lista.setOnItemClickListener(this);
 
+        registerForContextMenu(lista);
         btnAddGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentAddGame = new Intent(ActivityListPartidos.this, ActivityPartido.class);
-                startActivity(intentAddGame);
+                Intent intentAddGame = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
+                startActivityForResult(intentAddGame, CREATE_GAME);
             }
         });
 
@@ -81,6 +92,53 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, "HAS PULSADO SOBRE EL PARTIDO -> " + partidos.get(position).getIdGame(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getMenuInflater().inflate(R.menu.menu_contextual_partidos, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Partido partido = (Partido) lista.getItemAtPosition(info.position);
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.itemEditar:
+                Toast.makeText(getApplicationContext(), "EDITAR -> " + partido.getIdGame(), Toast.LENGTH_SHORT).show();
+                Intent intentEditarPartido = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
+                intentEditarPartido.putExtra("idGame", partido.getIdGame());
+                startActivityForResult(intentEditarPartido, EDIT_GAME);
+                break;
+            case R.id.itemEliminar:
+                showPopupMenu(partido);
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREATE_GAME) {
+            if (resultCode == RESULT_OK) {
+                //partidos.clear();
+                //partidos = getPartidosFromDB();
+                gameAdapter.notifyDataSetChanged();
+            }
+        } else if (requestCode == EDIT_GAME) {
+            if (resultCode == RESULT_OK) {
+                partidos.clear();
+                partidos = getPartidosFromDB();
+                gameAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private ArrayList<Partido> getPartidosFromDB(){
@@ -134,5 +192,47 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         c.close();
 
         return "";
+    }
+
+    private void showPopupMenu(Partido p) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar Partido");
+        builder.setMessage("¿Estás seguro de eliminar el partido?");
+
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (deleteGame(p)) {
+                    partidos.remove(p);
+                    gameAdapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Partido eliminado.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el partido.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private boolean deleteGame(Partido p){
+        Cursor c = db.rawQuery("SELECT * FROM games WHERE IdGame = " + p.getIdGame() + ";", null);
+
+        if (c.getCount() != 0) {
+            db.execSQL("DELETE FROM games WHERE IdGame = " + p.getIdGame() + ";");
+            c.close();
+            return true;
+        }
+
+        c.close();
+
+        return false;
     }
 }
