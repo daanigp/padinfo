@@ -20,10 +20,12 @@
 
     <ListView
         android:id="@+id/rankMascList"
-        android:layout_width="412dp"
-        android:layout_height="548dp"
-        android:layout_marginTop="68dp"
+        android:layout_width="397dp"
+        android:layout_height="545dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVolverRanking" />
+        app:layout_constraintTop_toBottomOf="@+id/btnVolverRanking"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

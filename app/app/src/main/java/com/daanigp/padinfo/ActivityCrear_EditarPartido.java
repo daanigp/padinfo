@@ -335,9 +335,9 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             return true;
         } else if (ptos1 < 6 && ptos2 == 6) {
             return true;
-        } else if (ptos1 == 7 && ptos2 == 6) {
+        } else if (ptos1 == 7 && ptos2 >= 5) {
             return true;
-        } else if (ptos1 == 6 && ptos2 == 7) {
+        } else if (ptos1 >= 5 && ptos2 == 7) {
             return true;
         } else {
             Toast.makeText(ActivityCrear_EditarPartido.this, "No se puede guardar el " + set +".", Toast.LENGTH_SHORT).show();
