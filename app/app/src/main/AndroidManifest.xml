@@ -6,14 +6,43 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/padinfo_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Padinfo"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityCrear_EditarPartido"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityListPartidos"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRegistroUsuarios"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityInicioSesion"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityPerfilUsuario"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityEditarUsuario"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRankingFemenino"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRankingMasculino"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRanking"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityListTorneos"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_Inicio"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

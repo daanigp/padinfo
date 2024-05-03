@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityRanking">
+
+    <Button
+        android:id="@+id/btnRankMasc"
+        android:layout_width="131dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="56dp"
+        android:scrollbarSize="20dp"
+        android:text="@string/rankMasc"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRankFem" />
+
+    <Button
+        android:id="@+id/btnRankFem"
+        android:layout_width="134dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="63dp"
+        android:scrollbarSize="20dp"
+        android:text="@string/rankFem"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnVolverMenu" />
+
+    <Button
+        android:id="@+id/btnVolverMenu"
+        android:layout_width="122dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="64dp"
+        android:scrollbarSize="20dp"
+        android:text="@string/volver"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

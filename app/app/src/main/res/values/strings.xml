@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">padinfo</string>
+    <string name="info">AQUÍ VA LA INFO DE LA APP</string>
+    <string name="torneos2023">Listado de Torneos 2023</string>
+    <string name="top5">TOP 5 Jugadores/as</string>
+    <string name="perfil">Perfil</string>
+    <string name="editUsuario">Editar Usuario</string>
+    <string name="registrarPartidos">Registrar Partidos</string>
+    <string name="iniciarSesion">INICIAR SESIÓN</string>
+    <string name="inicioSesionMenu">Iniciar Sesión</string>
+    <string name="registroUsuario">REGISTRARSE</string>
+    <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="salir">Salir</string>
+    <string name="volver">VOLVER</string>
+    <string name="editar">EDITAR</string>
+    <string name="eliminar">ELIMINAR</string>
+    <string name="cancelar">CANCELAR</string>
+    <string name="guardar">GUARDAR</string>
+    <string name="rankFem">Ranking Femenino</string>
+    <string name="rankMasc">Ranking Masculino</string>
+    <string name="usuario">Usuario:</string>
+    <string name="contrasenya">Contraseña:</string>
+    <string name="nombre">Nombre:</string>
+    <string name="apellidos">Apellidos:</string>
+    <string name="email">Email:</string>
+    <string name="newPartido">AGREGAR PARTIDO</string>
+    <string name="eq1">EQUIPO 1</string>
+    <string name="eq2">EQUIPO 2</string>
+    <string name="puntosEq1">PUNTOS EQUIPO 1</string>
+    <string name="puntosEq2">PUNTOS EQUIPO 2</string>
+    <string name="set1">SET 1</string>
+    <string name="set2">SET 2</string>
+    <string name="set3">SET 3</string>
+    <string name="nomJugEq1">Nombre jugadores equipo 1</string>
+    <string name="nomJugEq2">Nombre jugadores equipo 2</string>
+    <string name="numeroCero">0</string>
 </resources>
