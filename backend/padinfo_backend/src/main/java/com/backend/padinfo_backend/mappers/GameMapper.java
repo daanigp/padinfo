@@ -1,7 +1,7 @@
 package com.backend.padinfo_backend.mappers;
 
-import com.backend.padinfo_backend.dto.userInfo.UserDTO;
-import com.backend.padinfo_backend.model.entity.UserInfo;
+import com.backend.padinfo_backend.dto.game.GameDTO;
+import com.backend.padinfo_backend.model.entity.Game;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class UserInfoMapper {
+public class GameMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public UserDTO toDTO(UserInfo userInfo) {
-        return modelMapper.map(userInfo, UserDTO.class);
+    public GameDTO toDTO(Game game) {
+        return modelMapper.map(game, GameDTO.class);
     }
 
-    public List<UserDTO> toDTO(List<UserInfo> usersInfo) {
-        return usersInfo.stream().map(this::toDTO).collect(Collectors.toList());
+    public List<GameDTO> toDTO(List<Game> games) {
+        return games.stream().map(this::toDTO).collect(Collectors.toList());
     }
 }
