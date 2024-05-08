@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,8 +106,25 @@ public class PadinfoController {
         return new ResponseEntity<>(gameDTOs, HttpStatus.OK);
     }
 
-    // 1
-    @GetMapping("/getUserInfoByUserANDPassword")
+    // 13
+    @GetMapping("/getUserInfoByUserId")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "UserInfo by id",
+                    content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "404", description = "No hay ningun usuario con ese id",
+                    content = @Content(schema = @Schema(implementation = Response.class)))
+
+    })
+    public ResponseEntity<UserDTO> getUserInfoByUserID(@RequestParam long id) {
+        UserInfo userInfo = userInfoService.findById(id);
+
+        UserDTO userDTO = userInfoMapper.toDTO(userInfo);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    // 13
+    @GetMapping("/getUserInfoByUser")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by user",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),
