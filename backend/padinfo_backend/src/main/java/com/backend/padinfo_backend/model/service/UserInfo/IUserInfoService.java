@@ -11,4 +11,5 @@ public interface IUserInfoService {
     UserInfo updateUserInfo(long id, UserInfo newUserInfo);
     void deleteUserInfo(long id);
 
+    UserInfo selectUserInfoByUsername(String user);
 }

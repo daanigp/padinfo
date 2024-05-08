@@ -1,0 +1,15 @@
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" version="2.1">
+    <!-- <![CDATA[ ... ]]> se utiliza para permitir los carácteres especiales como '<','>','&', etc. puedan ser utilizados dentro del XML sin ser interpretados
+         como parte del marcado XML -->
+    <!-- Seleccionar el usuario con username = 'x' y password = 'y' -->
+    <named-query name="UserInfo.selectUserInfoByUsername">
+        <query>
+            SELECT u
+            FROM UserInfo u
+            WHERE u.user = ?1
+        </query>
+    </named-query>
+
+
+
+</entity-mappings>

@@ -54,4 +54,9 @@ public class UserInfoService implements IUserInfoService{
             throw new UserInfoDeleteException(id, ex);
         }
     }
+
+    @Override
+    public UserInfo selectUserInfoByUsername(String user) {
+        return userInfoRepository.selectUserInfoByUsername(user);
+    }
 }

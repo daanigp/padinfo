@@ -25,7 +25,7 @@ public class UserInfo {
     @Column
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String user;
 
     @Column(nullable = false)
