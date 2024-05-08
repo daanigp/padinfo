@@ -44,8 +44,6 @@ public class UserInfo {
     private String imageURL;
 
     @Column(nullable = false, name = "is_connected")
-    //@Min(value = 0)
-    //@Max(value = 1)
     private Integer isConnected;
 
     @JsonIgnoreProperties("userInfo")

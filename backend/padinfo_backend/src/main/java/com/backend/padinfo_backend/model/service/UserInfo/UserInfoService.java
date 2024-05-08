@@ -31,6 +31,7 @@ public class UserInfoService implements IUserInfoService{
 
     @Override
     public UserInfo createUserInfo(UserInfo user) {
+        user.setIsConnected(0);
         return userInfoRepository.save(user);
     }
 

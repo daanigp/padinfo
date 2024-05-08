@@ -3,6 +3,7 @@ package com.backend.padinfo_backend.controllers;
 import com.backend.padinfo_backend.dto.game.GameDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
+import com.backend.padinfo_backend.dto.userInfo.CreateUserDTO;
 import com.backend.padinfo_backend.dto.userInfo.UserDTO;
 import com.backend.padinfo_backend.exceptions.Response;
 import com.backend.padinfo_backend.mappers.GameMapper;
@@ -22,6 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -121,6 +123,16 @@ public class PadinfoController {
         UserDTO userDTO = userInfoMapper.toDTO(userInfo);
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    // 2
+    @PostMapping("/usuario/registerNewUser")
+    public ResponseEntity<UserInfo> createUser(@Valid @RequestBody CreateUserDTO userDTO) {
+        UserInfo userInfo = userInfoMapper.fromDTO(userDTO);
+
+        UserInfo newUser = userInfoService.createUserInfo(userInfo);
+
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     // 13
