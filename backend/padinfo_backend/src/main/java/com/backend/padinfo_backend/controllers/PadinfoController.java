@@ -147,6 +147,14 @@ public class PadinfoController {
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
+    // 4
+    @PutMapping("/usuarios/updateIsConnected/{id}")
+    public ResponseEntity<Response> updateIsConnected(@PathVariable long id) {
+        userInfoService.updateIsConnected(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("IsConnected actualizado correctamente"), HttpStatus.OK);
+    }
+
     // 13
     @GetMapping("/getUserInfoByUser")
     @ApiResponses(value = {
@@ -163,4 +171,6 @@ public class PadinfoController {
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
+
+
 }

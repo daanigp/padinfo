@@ -64,4 +64,19 @@ public class UserInfoService implements IUserInfoService{
     public UserInfo selectUserInfoByUsername(String user) {
         return userInfoRepository.selectUserInfoByUsername(user);
     }
+
+    @Override
+    public void updateIsConnected(Long idUser) {
+        UserInfo userInfo = userInfoRepository.findById(idUser).orElseThrow(
+                () -> new UserInfoNotFoundException("No hay usuarios con ese id -> " + idUser)
+        );
+
+        if (userInfo.getIsConnected() == 0) {
+            userInfo.setIsConnected(1);
+        } else {
+            userInfo.setIsConnected(0);
+        }
+
+        userInfoRepository.save(userInfo);
+    }
 }

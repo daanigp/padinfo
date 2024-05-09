@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Hidden
 @Repository
 public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
-    // 1. Obtener el UserInfo segun nombre de usuario
+    // 13. Obtener el UserInfo segun nombre de usuario
     UserInfo selectUserInfoByUsername(String user);
 }

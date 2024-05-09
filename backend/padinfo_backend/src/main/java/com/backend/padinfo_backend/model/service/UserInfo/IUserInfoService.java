@@ -12,4 +12,7 @@ public interface IUserInfoService {
     void deleteUserInfo(long id);
 
     UserInfo selectUserInfoByUsername(String user);
+
+    // 4. Actualizar isConnected
+    void updateIsConnected(Long idUser);
 }
