@@ -175,6 +175,14 @@ public class PadinfoController {
         return new ResponseEntity<>(playerDTOs, HttpStatus.OK);
     }
 
+    // 8
+    @GetMapping("/games/getMaxIdGame")
+    public ResponseEntity<Long> getMaximmumIdGame() {
+        Long idGame = gameService.getMaxGameId();
+
+        return new ResponseEntity<>(idGame, HttpStatus.OK);
+    }
+
     // 13
     @GetMapping("/getUserInfoByUser")
     @ApiResponses(value = {

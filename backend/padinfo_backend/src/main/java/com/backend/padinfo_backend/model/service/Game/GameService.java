@@ -54,4 +54,9 @@ public class GameService implements IGameService{
             throw new GameDeleteException(id, ex);
         }
     }
+
+    @Override
+    public Long getMaxGameId() {
+        return gameRepository.getMaxGameId();
+    }
 }

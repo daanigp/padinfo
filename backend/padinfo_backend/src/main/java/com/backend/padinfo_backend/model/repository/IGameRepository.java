@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Hidden
 @Repository
 public interface IGameRepository extends CrudRepository<Game, Long> {
+    // 8
+    Long getMaxGameId();
 }

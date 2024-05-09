@@ -10,4 +10,6 @@ public interface IGameService {
     Game createGame(Game game);
     Game updateGame(long id, Game newGame);
     void deleteGame(long id);
+
+    Long getMaxGameId();
 }
