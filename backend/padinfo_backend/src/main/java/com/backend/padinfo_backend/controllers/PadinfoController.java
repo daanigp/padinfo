@@ -4,6 +4,7 @@ import com.backend.padinfo_backend.dto.game.GameDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
 import com.backend.padinfo_backend.dto.userInfo.CreateUserDTO;
+import com.backend.padinfo_backend.dto.userInfo.UpdateUserInfoDTO;
 import com.backend.padinfo_backend.dto.userInfo.UserDTO;
 import com.backend.padinfo_backend.exceptions.Response;
 import com.backend.padinfo_backend.mappers.GameMapper;
@@ -133,6 +134,17 @@ public class PadinfoController {
         UserInfo newUser = userInfoService.createUserInfo(userInfo);
 
         return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
+    // 3
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<?> updateUserInfo(@PathVariable long id, @Valid @RequestBody UpdateUserInfoDTO newUserInfoDTO) {
+        UserInfo userInfo = null;
+
+        UserInfo newUserInfo = userInfoMapper.fromDTO(newUserInfoDTO);
+        userInfo = userInfoService.updateUserInfo(id, newUserInfo);
+
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
     // 13

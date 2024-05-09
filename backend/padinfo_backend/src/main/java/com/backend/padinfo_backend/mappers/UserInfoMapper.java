@@ -1,6 +1,7 @@
 package com.backend.padinfo_backend.mappers;
 
 import com.backend.padinfo_backend.dto.userInfo.CreateUserDTO;
+import com.backend.padinfo_backend.dto.userInfo.UpdateUserInfoDTO;
 import com.backend.padinfo_backend.dto.userInfo.UserDTO;
 import com.backend.padinfo_backend.model.entity.UserInfo;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,10 @@ public class UserInfoMapper {
 
     public UserInfo fromDTO(CreateUserDTO userDTO) {
         return modelMapper.map(userDTO, UserInfo.class);
+    }
+
+    public UserInfo fromDTO(UpdateUserInfoDTO userInfoDTO) {
+        return modelMapper.map(userInfoDTO, UserInfo.class);
     }
 
     public List<UserDTO> toDTO(List<UserInfo> usersInfo) {

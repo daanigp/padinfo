@@ -32,6 +32,7 @@ public class UserInfoService implements IUserInfoService{
     @Override
     public UserInfo createUserInfo(UserInfo user) {
         user.setIsConnected(0);
+        user.setImageURL("R.drawable.imgperfil_basic");
         return userInfoRepository.save(user);
     }
 
@@ -43,6 +44,9 @@ public class UserInfoService implements IUserInfoService{
         );
 
         newUserInfo.setId(user.getId());
+        newUserInfo.setIsConnected(user.getIsConnected());
+        newUserInfo.setUser(user.getUser());
+        newUserInfo.setPassword(user.getPassword());
 
         return userInfoRepository.save(newUserInfo);
     }
