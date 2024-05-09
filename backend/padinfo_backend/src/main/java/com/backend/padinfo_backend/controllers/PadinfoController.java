@@ -72,7 +72,7 @@ public class PadinfoController {
     /*
         ENDPOINTS
      */
-
+    // 6
     @GetMapping("/tournaments")
     public ResponseEntity<List<TournamentDTO>> getTournaments(){
         List<Tournament> tournaments = tournamentService.findAll();
@@ -163,6 +163,16 @@ public class PadinfoController {
         UserDTO userDTO = userInfoMapper.toDTO(userInfo);
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    // 7
+    @GetMapping("/players/{gender}")
+    public ResponseEntity<List<PlayerDTO>> getPlayersByGender(@PathVariable String gender) {
+        List<Player> players = playerService.getPlayersByGender(gender);
+
+        List<PlayerDTO> playerDTOs = playerMapper.toDTO(players);
+
+        return new ResponseEntity<>(playerDTOs, HttpStatus.OK);
     }
 
     // 13

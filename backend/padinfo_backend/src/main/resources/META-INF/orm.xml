@@ -9,6 +9,14 @@
             WHERE u.isConnected = 1
         </query>
     </named-query>
+    <!-- 7.- Obtener los jugadores según su género -->
+    <named-query name="Player.getPlayersByGender">
+        <query>
+            SELECT p
+            FROM Player p
+            WHERE p.gender = ?1
+        </query>
+    </named-query>
     <!-- 13.- Seleccionar el usuario con username = 'x' -->
     <named-query name="UserInfo.selectUserInfoByUsername">
         <query>
