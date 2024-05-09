@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 @Hidden
 @Repository
 public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
+
+    // 5. Obtener el usuario conectado
+    UserInfo selectUserIsConnected();
+
     // 13. Obtener el UserInfo segun nombre de usuario
     UserInfo selectUserInfoByUsername(String user);
+
+
 }

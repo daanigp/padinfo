@@ -1,7 +1,15 @@
 <entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" version="2.1">
     <!-- <![CDATA[ ... ]]> se utiliza para permitir los carácteres especiales como '<','>','&', etc. puedan ser utilizados dentro del XML sin ser interpretados
          como parte del marcado XML -->
-    <!-- Seleccionar el usuario con username = 'x' y password = 'y' -->
+    <!-- 5.- Buscar el usuario que este conectado -->
+    <named-query name="UserInfo.selectUserIsConnected">
+        <query>
+            SELECT u
+            FROM UserInfo u
+            WHERE u.isConnected = 1
+        </query>
+    </named-query>
+    <!-- 13.- Seleccionar el usuario con username = 'x' -->
     <named-query name="UserInfo.selectUserInfoByUsername">
         <query>
             SELECT u
@@ -9,6 +17,7 @@
             WHERE u.user = ?1
         </query>
     </named-query>
+
 
 
 

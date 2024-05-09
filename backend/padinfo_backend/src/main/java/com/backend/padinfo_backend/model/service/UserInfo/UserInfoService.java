@@ -61,11 +61,6 @@ public class UserInfoService implements IUserInfoService{
     }
 
     @Override
-    public UserInfo selectUserInfoByUsername(String user) {
-        return userInfoRepository.selectUserInfoByUsername(user);
-    }
-
-    @Override
     public void updateIsConnected(Long idUser) {
         UserInfo userInfo = userInfoRepository.findById(idUser).orElseThrow(
                 () -> new UserInfoNotFoundException("No hay usuarios con ese id -> " + idUser)
@@ -78,5 +73,15 @@ public class UserInfoService implements IUserInfoService{
         }
 
         userInfoRepository.save(userInfo);
+    }
+
+    @Override
+    public UserInfo selectUserIsConnected() {
+        return userInfoRepository.selectUserIsConnected();
+    }
+
+    @Override
+    public UserInfo selectUserInfoByUsername(String user) {
+        return userInfoRepository.selectUserInfoByUsername(user);
     }
 }

@@ -11,8 +11,9 @@ public interface IUserInfoService {
     UserInfo updateUserInfo(long id, UserInfo newUserInfo);
     void deleteUserInfo(long id);
 
-    UserInfo selectUserInfoByUsername(String user);
-
     // 4. Actualizar isConnected
     void updateIsConnected(Long idUser);
+    UserInfo selectUserIsConnected();
+    UserInfo selectUserInfoByUsername(String user);
+
 }

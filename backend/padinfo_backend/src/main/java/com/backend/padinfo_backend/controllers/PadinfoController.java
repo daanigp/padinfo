@@ -155,6 +155,16 @@ public class PadinfoController {
         return new ResponseEntity<>(Response.noErrorResponse("IsConnected actualizado correctamente"), HttpStatus.OK);
     }
 
+    // 5
+    @GetMapping("/usuario/isConnected")
+    public ResponseEntity<UserDTO> getUserConnected() {
+        UserInfo userInfo = userInfoService.selectUserIsConnected();
+
+        UserDTO userDTO = userInfoMapper.toDTO(userInfo);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
     // 13
     @GetMapping("/getUserInfoByUser")
     @ApiResponses(value = {
