@@ -206,6 +206,17 @@ public class PadinfoController {
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
+    // 11
+    @GetMapping("/games/user/{id}")
+    public ResponseEntity<List<GameDTO>> getGamesByUserId(@PathVariable long id) {
+
+        List<Game> games = gameService.getGamesByUserId(id);
+
+        List<GameDTO> gamesDTO = gameMapper.toDTO(games);
+
+        return new ResponseEntity<>(gamesDTO, HttpStatus.OK);
+    }
+
     // 13
     @GetMapping("/getUserInfoByUser")
     @ApiResponses(value = {

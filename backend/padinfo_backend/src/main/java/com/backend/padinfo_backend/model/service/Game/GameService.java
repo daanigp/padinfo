@@ -2,8 +2,11 @@ package com.backend.padinfo_backend.model.service.Game;
 
 import com.backend.padinfo_backend.exceptions.game.GameDeleteException;
 import com.backend.padinfo_backend.exceptions.game.GameNotFoundException;
+import com.backend.padinfo_backend.exceptions.userInfo.UserInfoNotFoundException;
 import com.backend.padinfo_backend.model.entity.Game;
+import com.backend.padinfo_backend.model.entity.UserInfo;
 import com.backend.padinfo_backend.model.repository.IGameRepository;
+import com.backend.padinfo_backend.model.repository.IUserInfoRepository;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,9 @@ public class GameService implements IGameService{
 
     @Autowired
     private IGameRepository gameRepository;
+
+    @Autowired
+    private IUserInfoRepository userInfoRepository;
 
     @Override
     public List<Game> findAll() {
@@ -59,5 +65,10 @@ public class GameService implements IGameService{
     @Override
     public Long getMaxGameId() {
         return gameRepository.getMaxGameId();
+    }
+
+    @Override
+    public List<Game> getGamesByUserId(Long userId) {
+        return (List<Game>) gameRepository.getGamesByUserId(userId);
     }
 }

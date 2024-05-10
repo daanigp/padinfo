@@ -12,4 +12,5 @@ public interface IGameService {
     void deleteGame(long id);
 
     Long getMaxGameId();
+    List<Game> getGamesByUserId(Long userId);
 }

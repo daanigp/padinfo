@@ -24,6 +24,14 @@
             FROM Game g
         </query>
     </named-query>
+    <!-- 9.- Obtener los partidos del idUsuario x -->
+    <named-query name="Game.getGamesByUserId">
+        <query>
+            SELECT g
+            FROM Game g
+            WHERE g.userInfo.id = ?1
+        </query>
+    </named-query>
     <!-- 13.- Seleccionar el usuario con username = 'x' -->
     <named-query name="UserInfo.selectUserInfoByUsername">
         <query>
