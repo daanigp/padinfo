@@ -47,6 +47,6 @@ public class UserInfo {
     private Integer isConnected;
 
     @JsonIgnoreProperties("userInfo")
-    @OneToMany(mappedBy = "userInfo")
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
     private List<Game> games;
 }

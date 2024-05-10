@@ -217,6 +217,14 @@ public class PadinfoController {
         return new ResponseEntity<>(gamesDTO, HttpStatus.OK);
     }
 
+    // 12
+    @DeleteMapping("/games/deleteGame/{id}")
+    public ResponseEntity<Response> deleteGameById(@PathVariable Long id) {
+        gameService.deleteGame(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("Partido eliminado correctamente."), HttpStatus.OK);
+    }
+
     // 13
     @GetMapping("/getUserInfoByUser")
     @ApiResponses(value = {
