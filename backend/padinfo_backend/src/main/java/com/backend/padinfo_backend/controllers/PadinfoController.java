@@ -2,6 +2,7 @@ package com.backend.padinfo_backend.controllers;
 
 import com.backend.padinfo_backend.dto.game.CreateGameDTO;
 import com.backend.padinfo_backend.dto.game.GameDTO;
+import com.backend.padinfo_backend.dto.game.UpdateGameDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
 import com.backend.padinfo_backend.dto.userInfo.CreateUserDTO;
@@ -185,13 +186,24 @@ public class PadinfoController {
     }
 
     // 9
-    @PostMapping("/usuario/createNewGame")
+    @PostMapping("/games/createNewGame")
     public ResponseEntity<Game> createGame(@Valid @RequestBody CreateGameDTO gameDTO) {
         Game game = gameMapper.fromDTO(gameDTO);
 
         Game newGame = gameService.createGame(game);
 
         return new ResponseEntity<>(newGame, HttpStatus.OK);
+    }
+
+    // 10
+    @PutMapping("/games/updateGame/{id}")
+    public ResponseEntity<?> updateGame(@PathVariable long id, @Valid @RequestBody UpdateGameDTO newGameDTO) {
+        Game game = null;
+
+        Game newGame = gameMapper.fromDTO(newGameDTO);
+        game = gameService.updateGame(id, newGame);
+
+        return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     // 13

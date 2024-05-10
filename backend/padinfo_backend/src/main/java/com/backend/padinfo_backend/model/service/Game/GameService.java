@@ -42,6 +42,7 @@ public class GameService implements IGameService{
         );
 
         newGame.setId(game.getId());
+        newGame.setUserInfo(game.getUserInfo());
 
         return gameRepository.save(newGame);
     }

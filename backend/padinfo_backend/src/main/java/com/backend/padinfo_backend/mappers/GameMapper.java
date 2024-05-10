@@ -2,6 +2,7 @@ package com.backend.padinfo_backend.mappers;
 
 import com.backend.padinfo_backend.dto.game.CreateGameDTO;
 import com.backend.padinfo_backend.dto.game.GameDTO;
+import com.backend.padinfo_backend.dto.game.UpdateGameDTO;
 import com.backend.padinfo_backend.model.entity.Game;
 import com.backend.padinfo_backend.model.entity.UserInfo;
 import com.backend.padinfo_backend.model.service.UserInfo.IUserInfoService;
@@ -34,6 +35,10 @@ public class GameMapper {
             mapper.map(src -> user, Game::setUserInfo);
         });
 
+        return modelMapper.map(gameDTO, Game.class);
+    }
+
+    public Game fromDTO(UpdateGameDTO gameDTO) {
         return modelMapper.map(gameDTO, Game.class);
     }
 
