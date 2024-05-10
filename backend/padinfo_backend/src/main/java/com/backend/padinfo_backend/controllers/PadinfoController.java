@@ -1,5 +1,6 @@
 package com.backend.padinfo_backend.controllers;
 
+import com.backend.padinfo_backend.dto.game.CreateGameDTO;
 import com.backend.padinfo_backend.dto.game.GameDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
@@ -181,6 +182,16 @@ public class PadinfoController {
         Long idGame = gameService.getMaxGameId();
 
         return new ResponseEntity<>(idGame, HttpStatus.OK);
+    }
+
+    // 9
+    @PostMapping("/usuario/createNewGame")
+    public ResponseEntity<Game> createGame(@Valid @RequestBody CreateGameDTO gameDTO) {
+        Game game = gameMapper.fromDTO(gameDTO);
+
+        Game newGame = gameService.createGame(game);
+
+        return new ResponseEntity<>(newGame, HttpStatus.OK);
     }
 
     // 13
