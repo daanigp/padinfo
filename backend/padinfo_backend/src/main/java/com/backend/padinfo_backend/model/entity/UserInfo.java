@@ -25,7 +25,7 @@ public class UserInfo {
     @Column
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String user;
 
     @Column(nullable = false)
@@ -44,11 +44,9 @@ public class UserInfo {
     private String imageURL;
 
     @Column(nullable = false, name = "is_connected")
-    //@Min(value = 0)
-    //@Max(value = 1)
     private Integer isConnected;
 
     @JsonIgnoreProperties("userInfo")
-    @OneToMany(mappedBy = "userInfo")
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
     private List<Game> games;
 }

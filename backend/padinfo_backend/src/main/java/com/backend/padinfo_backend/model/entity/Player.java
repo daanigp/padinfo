@@ -34,6 +34,6 @@ public class Player {
     @Column(name = "image_url")
     private String imageURL;
 
-    @Column()
+    @Column
     private String gender;
 }

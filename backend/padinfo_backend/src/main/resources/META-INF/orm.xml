@@ -1,0 +1,47 @@
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" version="2.1">
+    <!-- <![CDATA[ ... ]]> se utiliza para permitir los carácteres especiales como '<','>','&', etc. puedan ser utilizados dentro del XML sin ser interpretados
+         como parte del marcado XML -->
+    <!-- 5.- Buscar el usuario que este conectado -->
+    <named-query name="UserInfo.selectUserIsConnected">
+        <query>
+            SELECT u
+            FROM UserInfo u
+            WHERE u.isConnected = 1
+        </query>
+    </named-query>
+    <!-- 7.- Obtener los jugadores según su género -->
+    <named-query name="Player.getPlayersByGender">
+        <query>
+            SELECT p
+            FROM Player p
+            WHERE p.gender = ?1
+        </query>
+    </named-query>
+    <!-- 8.- Obtener el idGame más alto -->
+    <named-query name="Game.getMaxGameId">
+        <query>
+            SELECT MAX(g.id) as maxIdGame
+            FROM Game g
+        </query>
+    </named-query>
+    <!-- 9.- Obtener los partidos del idUsuario x -->
+    <named-query name="Game.getGamesByUserId">
+        <query>
+            SELECT g
+            FROM Game g
+            WHERE g.userInfo.id = ?1
+        </query>
+    </named-query>
+    <!-- 13.- Seleccionar el usuario con username = 'x' -->
+    <named-query name="UserInfo.selectUserInfoByUsername">
+        <query>
+            SELECT u
+            FROM UserInfo u
+            WHERE u.user = ?1
+        </query>
+    </named-query>
+
+
+
+
+</entity-mappings>

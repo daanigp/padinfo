@@ -31,6 +31,8 @@ public class UserInfoService implements IUserInfoService{
 
     @Override
     public UserInfo createUserInfo(UserInfo user) {
+        user.setIsConnected(0);
+        user.setImageURL("R.drawable.imgperfil_basic");
         return userInfoRepository.save(user);
     }
 
@@ -42,6 +44,9 @@ public class UserInfoService implements IUserInfoService{
         );
 
         newUserInfo.setId(user.getId());
+        newUserInfo.setIsConnected(user.getIsConnected());
+        newUserInfo.setUser(user.getUser());
+        newUserInfo.setPassword(user.getPassword());
 
         return userInfoRepository.save(newUserInfo);
     }
@@ -53,5 +58,30 @@ public class UserInfoService implements IUserInfoService{
         } catch (Exception ex) {
             throw new UserInfoDeleteException(id, ex);
         }
+    }
+
+    @Override
+    public void updateIsConnected(Long idUser) {
+        UserInfo userInfo = userInfoRepository.findById(idUser).orElseThrow(
+                () -> new UserInfoNotFoundException("No hay usuarios con ese id -> " + idUser)
+        );
+
+        if (userInfo.getIsConnected() == 0) {
+            userInfo.setIsConnected(1);
+        } else {
+            userInfo.setIsConnected(0);
+        }
+
+        userInfoRepository.save(userInfo);
+    }
+
+    @Override
+    public UserInfo selectUserIsConnected() {
+        return userInfoRepository.selectUserIsConnected();
+    }
+
+    @Override
+    public UserInfo selectUserInfoByUsername(String user) {
+        return userInfoRepository.selectUserInfoByUsername(user);
     }
 }

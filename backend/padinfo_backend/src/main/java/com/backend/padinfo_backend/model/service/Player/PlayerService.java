@@ -54,4 +54,9 @@ public class PlayerService implements IPlayerService {
             throw new PlayerDeleteException(id, ex);
         }
     }
+
+    @Override
+    public List<Player> getPlayersByGender(String gender) {
+        return playerRepository.getPlayersByGender(gender);
+    }
 }

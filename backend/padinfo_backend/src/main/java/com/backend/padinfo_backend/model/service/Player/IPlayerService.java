@@ -10,4 +10,6 @@ public interface IPlayerService {
     Player createPlayer(Player player);
     Player updatePlayer(long id, Player newPlayer);
     void deletePlayer(long id);
+
+    List<Player> getPlayersByGender(String gender);
 }
