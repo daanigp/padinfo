@@ -219,7 +219,7 @@ public class PadinfoController {
 
     // 12
     @DeleteMapping("/games/deleteGame/{id}")
-    public ResponseEntity<Response> deleteGameById(@PathVariable Long id) {
+    public ResponseEntity<Response> deleteGameById(@PathVariable long id) {
         gameService.deleteGame(id);
 
         return new ResponseEntity<>(Response.noErrorResponse("Partido eliminado correctamente."), HttpStatus.OK);
@@ -242,5 +242,13 @@ public class PadinfoController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
+
+    // 14
+    @DeleteMapping("/users/deleteUser/{id}")
+    public ResponseEntity<Response> deleteUserById(@PathVariable long id) {
+        userInfoService.deleteUserInfo(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("Usuario eliminado correctamente"), HttpStatus.OK);
+    }
 
 }
