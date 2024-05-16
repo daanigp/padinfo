@@ -1,18 +1,16 @@
 package com.backend.padinfo_backend.model.entity;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Hidden
-@Getter
 @Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tournament")
-public class Tournament {
+@Table(name = "rol")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -20,10 +18,4 @@ public class Tournament {
 
     @Column
     private String name;
-
-    @Column
-    private String city;
-
-    @Column(name = "image_url")
-    private String imageURL;
 }

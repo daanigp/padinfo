@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Hidden
 @Repository
 public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
+
+    Optional<UserInfo> findByUsername(String username);
 
     // 5. Obtener el usuario conectado
     UserInfo selectUserIsConnected();
