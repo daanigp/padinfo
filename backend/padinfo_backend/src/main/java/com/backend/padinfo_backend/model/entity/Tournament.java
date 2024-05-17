@@ -18,12 +18,12 @@ public class Tournament {
     @Column
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String city;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String imageURL;
 }

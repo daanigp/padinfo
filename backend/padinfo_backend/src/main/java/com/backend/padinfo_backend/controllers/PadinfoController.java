@@ -3,7 +3,9 @@ package com.backend.padinfo_backend.controllers;
 import com.backend.padinfo_backend.dto.game.CreateGameDTO;
 import com.backend.padinfo_backend.dto.game.GameDTO;
 import com.backend.padinfo_backend.dto.game.UpdateGameDTO;
+import com.backend.padinfo_backend.dto.player.CreateUpdatePlayerDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
+import com.backend.padinfo_backend.dto.tournament.CreateUpdateTournamentDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
 import com.backend.padinfo_backend.dto.userInfo.Authentication.CreateUserDTO;
 import com.backend.padinfo_backend.dto.userInfo.UpdateUserInfoDTO;
@@ -248,6 +250,64 @@ public class PadinfoController {
         userInfoService.deleteUserInfo(id);
 
         return new ResponseEntity<>(Response.noErrorResponse("Usuario eliminado correctamente"), HttpStatus.OK);
+    }
+
+    // 15
+    @PostMapping("/tournaments/createTournament")
+    public ResponseEntity<Tournament> createTournament(@Valid @RequestBody CreateUpdateTournamentDTO tournamentDTO) {
+        Tournament tournament = tournamentMapper.fromDTO(tournamentDTO);
+
+        Tournament newTournament = tournamentService.createTournament(tournament);
+
+        return new ResponseEntity<>(newTournament, HttpStatus.OK);
+    }
+
+    // 16
+    @PutMapping("/tournaments/updateTournament/{id}")
+    public ResponseEntity<?> updateTournament(@PathVariable long id, @Valid @RequestBody CreateUpdateTournamentDTO newTournamentDTO){
+        Tournament tournament = null;
+
+        Tournament newTournament = tournamentMapper.fromDTO(newTournamentDTO);
+        tournament = tournamentService.updateTournament(id, newTournament);
+
+        return new ResponseEntity<>(tournament, HttpStatus.OK);
+    }
+
+    // 17
+    @DeleteMapping("/tournaments/deleteTournament/{id}")
+    public ResponseEntity<Response> deleteTournamentById(@PathVariable long id) {
+        tournamentService.deleteTournament(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("Torneo eliminado correctamente."), HttpStatus.OK);
+    }
+
+    // 18
+    @PostMapping("/players/createPlayer")
+    public ResponseEntity<Player> createPlayer(@Valid @RequestBody CreateUpdatePlayerDTO playerDTO) {
+        Player player = playerMapper.fromDTO(playerDTO);
+
+        Player newPlayer = playerService.createPlayer(player);
+
+        return new ResponseEntity<>(newPlayer, HttpStatus.OK);
+    }
+
+    // 19
+    @PutMapping("/players/updatePlayer/{id}")
+    public ResponseEntity<?> updatePlayer(@PathVariable long id, @Valid @RequestBody CreateUpdatePlayerDTO newPlayerDTO) {
+        Player player = null;
+
+        Player newPlayer = playerMapper.fromDTO(newPlayerDTO);
+        player = playerService.updatePlayer(id, newPlayer);
+
+        return new ResponseEntity<>(player, HttpStatus.OK);
+    }
+
+    // 20
+    @DeleteMapping("/players/deletePlayer/{id}")
+    public ResponseEntity<Response> deletePlayerById(@PathVariable long id) {
+        playerService.deletePlayer(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("Jugador eliminado correctamente."), HttpStatus.OK);
     }
 
 }

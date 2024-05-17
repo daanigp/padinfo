@@ -18,18 +18,18 @@ public class Player {
     @Column
     private Long id;
 
-    @Column(name = "ranking_position")
+    @Column(name = "ranking_position", nullable = false)
     private Integer rankingPosition;
 
-    @Column
+    @Column(nullable = false)
     private String points;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String imageURL;
 
-    @Column
+    @Column(nullable = false)
     private String gender;
 }
