@@ -33,7 +33,10 @@ public class AuthenticationService implements  IAuthenticationService{
     public UserInfo signup(UserInfo newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         newUser.setIsConnected(0);
-        newUser.setImageURL("R.drawable.imgperfil_basic");
+
+        if (newUser.getImageURL() == null || newUser.getImageURL().isBlank()) {
+            newUser.setImageURL("R.drawable.imgperfil_basic");
+        }
 
         return userInfoRepository.save(newUser);
     }

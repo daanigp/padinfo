@@ -5,6 +5,7 @@ import com.backend.padinfo_backend.model.repository.IPlayerRepository;
 import com.backend.padinfo_backend.model.repository.IRoleRepository;
 import com.backend.padinfo_backend.model.repository.ITournamentRepository;
 import com.backend.padinfo_backend.model.repository.IUserInfoRepository;
+import com.backend.padinfo_backend.model.service.Authentication.IAuthenticationService;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -41,7 +42,7 @@ public class PadinfoBackendApplication {
 	}
 
 	@Bean
-	public DataInitializer dataInitializer(ITournamentRepository tournamentRepository, IPlayerRepository playerRepository, IRoleRepository roleRepository, IUserInfoRepository userInfoRepository){
-		return new DataInitializer(tournamentRepository, playerRepository, roleRepository, userInfoRepository);
+	public DataInitializer dataInitializer(ITournamentRepository tournamentRepository, IPlayerRepository playerRepository, IRoleRepository roleRepository, IUserInfoRepository userInfoRepository, IAuthenticationService authenticationService){
+		return new DataInitializer(tournamentRepository, playerRepository, roleRepository, userInfoRepository, authenticationService);
 	}
 }

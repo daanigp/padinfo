@@ -9,6 +9,7 @@ import com.backend.padinfo_backend.model.repository.IPlayerRepository;
 import com.backend.padinfo_backend.model.repository.IRoleRepository;
 import com.backend.padinfo_backend.model.repository.ITournamentRepository;
 import com.backend.padinfo_backend.model.repository.IUserInfoRepository;
+import com.backend.padinfo_backend.model.service.Authentication.IAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,16 +30,20 @@ public class DataInitializer {
     @Autowired
     private IPlayerRepository playerRepository;
 
+    @Autowired
+    private IAuthenticationService authenticationService;
+
     private Role rAdmin;
     private Role rUser;
     private Role rGuest;
 
 
-    public DataInitializer(ITournamentRepository tournamentRepository, IPlayerRepository playerRepository, IRoleRepository roleRepository, IUserInfoRepository userInfoRepository) {
+    public DataInitializer(ITournamentRepository tournamentRepository, IPlayerRepository playerRepository, IRoleRepository roleRepository, IUserInfoRepository userInfoRepository, IAuthenticationService authenticationService) {
         this.tournamentRepository = tournamentRepository;
         this.playerRepository = playerRepository;
         this.roleRepository = roleRepository;
         this.userInfoRepository = userInfoRepository;
+        this.authenticationService = authenticationService;
         initData();
     }
 
@@ -321,10 +326,9 @@ public class DataInitializer {
                 .lastname("Garcia")
                 .email("dan1@gmail.com")
                 .imageURL("R.drawable.danieh")
-                .isConnected(0)
                 .roles(List.of(rAdmin, rUser, rGuest))
                 .build();
 
-        userInfoRepository.save(u1);
+        authenticationService.signup(u1);
     }
 }
