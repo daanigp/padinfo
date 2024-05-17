@@ -111,7 +111,7 @@ public class PadinfoController {
     }
 
     // 13
-    @GetMapping("/getUserInfoByUserId")
+    @GetMapping("/user/info/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by id",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),
@@ -119,7 +119,7 @@ public class PadinfoController {
                     content = @Content(schema = @Schema(implementation = Response.class)))
 
     })
-    public ResponseEntity<UserDTO> getUserInfoByUserID(@RequestParam long id) {
+    public ResponseEntity<UserDTO> getUserInfoByUserID(@PathVariable long id) {
         UserInfo userInfo = userInfoService.findById(id);
 
         UserDTO userDTO = userInfoMapper.toDTO(userInfo);
@@ -128,7 +128,7 @@ public class PadinfoController {
     }
 
     // 2
-    @PostMapping("/usuario/registerNewUser")
+    @PostMapping("/signup/newUser")
     public ResponseEntity<UserInfo> createUser(@Valid @RequestBody CreateUserDTO userDTO) {
         UserInfo userInfo = userInfoMapper.fromDTO(userDTO);
 
@@ -138,7 +138,7 @@ public class PadinfoController {
     }
 
     // 3
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/user/updateInfo/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable long id, @Valid @RequestBody UpdateUserInfoDTO newUserInfoDTO) {
         UserInfo userInfo = null;
 
@@ -149,7 +149,7 @@ public class PadinfoController {
     }
 
     // 4
-    @PutMapping("/usuarios/updateIsConnected/{id}")
+    @PutMapping("/user/updateIsConnected/{id}")
     public ResponseEntity<Response> updateIsConnected(@PathVariable long id) {
         userInfoService.updateIsConnected(id);
 
@@ -157,7 +157,7 @@ public class PadinfoController {
     }
 
     // 5
-    @GetMapping("/usuario/isConnected")
+    @GetMapping("/user/isConnected")
     public ResponseEntity<UserDTO> getUserConnected() {
         UserInfo userInfo = userInfoService.selectUserIsConnected();
 
@@ -225,7 +225,7 @@ public class PadinfoController {
     }
 
     // 13
-    @GetMapping("/getUserInfoByUser")
+    @GetMapping("/user/userInfo")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by user",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),

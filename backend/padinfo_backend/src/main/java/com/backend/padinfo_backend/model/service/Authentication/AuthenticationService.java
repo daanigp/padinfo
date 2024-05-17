@@ -3,6 +3,7 @@ package com.backend.padinfo_backend.model.service.Authentication;
 import com.backend.padinfo_backend.exceptions.userInfo.UserInfoNotFoundException;
 import com.backend.padinfo_backend.model.entity.UserInfo;
 import com.backend.padinfo_backend.model.repository.IUserInfoRepository;
+import com.backend.padinfo_backend.model.service.UserInfo.IUserInfoService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,9 @@ public class AuthenticationService implements  IAuthenticationService{
 
     @Autowired
     private IUserInfoRepository userInfoRepository;
+
+    @Autowired
+    private IUserInfoService userInfoService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,8 +59,7 @@ public class AuthenticationService implements  IAuthenticationService{
                 () -> new UserInfoNotFoundException("Usuario no encontrado con nombre: " + user.getUsername())
         );
 
-
-        logedUser.setIsConnected(1);
+        userInfoService.updateIsConnected(logedUser.getId());
 
         /*return userInfoRepository.findById(user.getId()).orElseThrow(
                 () -> new UserInfoNotFoundException(user.getId())
