@@ -113,7 +113,7 @@ public class PadinfoController {
     }
 
     // 13
-    @GetMapping("/user/info/{id}")
+    @GetMapping("/users/info/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by id",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),
@@ -140,7 +140,7 @@ public class PadinfoController {
     }
 
     // 3
-    @PutMapping("/user/updateInfo/{id}")
+    @PutMapping("/users/updateInfo/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable long id, @Valid @RequestBody UpdateUserInfoDTO newUserInfoDTO) {
         UserInfo userInfo = null;
 
@@ -151,7 +151,7 @@ public class PadinfoController {
     }
 
     // 4
-    @PutMapping("/user/updateIsConnected/{id}")
+    @PutMapping("/users/updateIsConnected/{id}")
     public ResponseEntity<Response> updateIsConnected(@PathVariable long id) {
         userInfoService.updateIsConnected(id);
 
@@ -159,7 +159,7 @@ public class PadinfoController {
     }
 
     // 5
-    @GetMapping("/user/isConnected")
+    @GetMapping("/users/isConnected")
     public ResponseEntity<UserDTO> getUserConnected() {
         UserInfo userInfo = userInfoService.selectUserIsConnected();
 
@@ -227,11 +227,11 @@ public class PadinfoController {
     }
 
     // 13
-    @GetMapping("/user/userInfo")
+    @GetMapping("/users/userInfoByName")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by user",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "404", description = "No hay ningun usuario con ese usuario",
+            @ApiResponse(responseCode = "404", description = "No hay ningun usuario con ese nombre usuario",
                     content = @Content(schema = @Schema(implementation = Response.class)))
 
     })

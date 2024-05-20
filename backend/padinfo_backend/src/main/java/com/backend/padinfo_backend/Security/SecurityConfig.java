@@ -83,10 +83,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/tournaments").hasAnyRole(ERole.USER.name(), ERole.GUEST.name())
-                                .requestMatchers(HttpMethod.POST, "/api/players").hasRole(ERole.ADMIN.name())
-                                //.requestMatchers(HttpMethod.POST, "/api/books/**").hasRole(ERole.ADMIN.name())
-                                //.requestMatchers(HttpMethod.POST, "/api/books/**").hasAnyRole(ERole.GUEST.name(), ERole.USER.name())
+                                .requestMatchers(HttpMethod.GET, "/api/tournaments").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
+                                .requestMatchers(HttpMethod.GET, "/api/players").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
+                                .requestMatchers("/api/games/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
+                                .requestMatchers("/api/games").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
+                                .requestMatchers("/api/users/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
+                                .requestMatchers("/api/users").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
+                                .requestMatchers("/api/players/**").hasRole(ERole.ADMIN.name())
+                                .requestMatchers("/api/tournaments/**").hasRole(ERole.ADMIN.name())
                                 .anyRequest().authenticated()
                 );
 
