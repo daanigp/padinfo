@@ -37,26 +37,38 @@ public class UpdateGameDTO implements Serializable {
     @Schema(description = "Nombre del jugador 4")
     private String namePlayer4;
 
+    @Min(value = 0, message = "El valor mínimo debe ser 1")
+    @Max(value = 7, message = "El valor máximo debe ser 7")
     @Schema(description = "Puntos del set 1 - Equipo 1")
     private Integer set1PointsT1;
 
+    @Min(value = 0, message = "El valor mínimo debe ser 1")
+    @Max(value = 7, message = "El valor máximo debe ser 7")
     @Schema(description = "Puntos del set 2 - Equipo 1")
     private Integer set2PointsT1;
 
+    @Min(value = 0, message = "El valor mínimo debe ser 1")
+    @Max(value = 7, message = "El valor máximo debe ser 7")
     @Schema(description = "Puntos del set 3 - Equipo 1")
     private Integer set3PointsT1;
 
+    @Min(value = 0, message = "El valor mínimo debe ser 1")
+    @Max(value = 7, message = "El valor máximo debe ser 7")
     @Schema(description = "Puntos del set 1 - Equipo 2")
     private Integer set1PointsT2;
 
+    @Min(value = 0, message = "El valor mínimo debe ser 1")
+    @Max(value = 7, message = "El valor máximo debe ser 7")
     @Schema(description = "Puntos del set 2 - Equipo 2")
     private Integer set2PointsT2;
 
+    @Min(value = 0, message = "El valor mínimo debe ser 1")
+    @Max(value = 7, message = "El valor máximo debe ser 7")
     @Schema(description = "Puntos del set 3 - Equipo 2")
     private Integer set3PointsT2;
 
-    @Min(value = 1)
-    @Max(value = 2)
+    @Min(value = 1, message = "El valor mínimo debe ser 1")
+    @Max(value = 2, message = "El valor mínimo debe ser 2")
     @Schema(description = "Equipo que ha ganado el partido (1 o 2)")
     private Integer winnerTeam;
 }

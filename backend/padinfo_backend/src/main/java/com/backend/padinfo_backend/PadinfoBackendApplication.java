@@ -1,5 +1,11 @@
 package com.backend.padinfo_backend;
 
+import com.backend.padinfo_backend.initialData.DataInitializer;
+import com.backend.padinfo_backend.model.repository.IPlayerRepository;
+import com.backend.padinfo_backend.model.repository.IRoleRepository;
+import com.backend.padinfo_backend.model.repository.ITournamentRepository;
+import com.backend.padinfo_backend.model.repository.IUserInfoRepository;
+import com.backend.padinfo_backend.model.service.Authentication.IAuthenticationService;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -33,5 +39,10 @@ public class PadinfoBackendApplication {
 								.email("danielgarciapascual23@gmail.com")
 								.url("https://github.com/daanigp/padinfo"))
 						.version("1.0"));
+	}
+
+	@Bean
+	public DataInitializer dataInitializer(ITournamentRepository tournamentRepository, IPlayerRepository playerRepository, IRoleRepository roleRepository, IUserInfoRepository userInfoRepository, IAuthenticationService authenticationService){
+		return new DataInitializer(tournamentRepository, playerRepository, roleRepository, userInfoRepository, authenticationService);
 	}
 }

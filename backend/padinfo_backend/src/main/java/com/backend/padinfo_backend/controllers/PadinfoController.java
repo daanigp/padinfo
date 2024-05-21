@@ -3,9 +3,11 @@ package com.backend.padinfo_backend.controllers;
 import com.backend.padinfo_backend.dto.game.CreateGameDTO;
 import com.backend.padinfo_backend.dto.game.GameDTO;
 import com.backend.padinfo_backend.dto.game.UpdateGameDTO;
+import com.backend.padinfo_backend.dto.player.CreateUpdatePlayerDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
+import com.backend.padinfo_backend.dto.tournament.CreateUpdateTournamentDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
-import com.backend.padinfo_backend.dto.userInfo.CreateUserDTO;
+import com.backend.padinfo_backend.dto.userInfo.Authentication.CreateUserDTO;
 import com.backend.padinfo_backend.dto.userInfo.UpdateUserInfoDTO;
 import com.backend.padinfo_backend.dto.userInfo.UserDTO;
 import com.backend.padinfo_backend.exceptions.Response;
@@ -27,7 +29,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,7 +113,7 @@ public class PadinfoController {
     }
 
     // 13
-    @GetMapping("/getUserInfoByUserId")
+    @GetMapping("/users/info/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by id",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),
@@ -120,7 +121,7 @@ public class PadinfoController {
                     content = @Content(schema = @Schema(implementation = Response.class)))
 
     })
-    public ResponseEntity<UserDTO> getUserInfoByUserID(@RequestParam long id) {
+    public ResponseEntity<UserDTO> getUserInfoByUserID(@PathVariable long id) {
         UserInfo userInfo = userInfoService.findById(id);
 
         UserDTO userDTO = userInfoMapper.toDTO(userInfo);
@@ -129,7 +130,7 @@ public class PadinfoController {
     }
 
     // 2
-    @PostMapping("/usuario/registerNewUser")
+    @PostMapping("/signup/newUser")
     public ResponseEntity<UserInfo> createUser(@Valid @RequestBody CreateUserDTO userDTO) {
         UserInfo userInfo = userInfoMapper.fromDTO(userDTO);
 
@@ -139,7 +140,7 @@ public class PadinfoController {
     }
 
     // 3
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/users/updateInfo/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable long id, @Valid @RequestBody UpdateUserInfoDTO newUserInfoDTO) {
         UserInfo userInfo = null;
 
@@ -150,7 +151,7 @@ public class PadinfoController {
     }
 
     // 4
-    @PutMapping("/usuarios/updateIsConnected/{id}")
+    @PutMapping("/users/updateIsConnected/{id}")
     public ResponseEntity<Response> updateIsConnected(@PathVariable long id) {
         userInfoService.updateIsConnected(id);
 
@@ -158,7 +159,7 @@ public class PadinfoController {
     }
 
     // 5
-    @GetMapping("/usuario/isConnected")
+    @GetMapping("/users/isConnected")
     public ResponseEntity<UserDTO> getUserConnected() {
         UserInfo userInfo = userInfoService.selectUserIsConnected();
 
@@ -226,11 +227,11 @@ public class PadinfoController {
     }
 
     // 13
-    @GetMapping("/getUserInfoByUser")
+    @GetMapping("/users/userInfoByName")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by user",
                     content = @Content(schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "404", description = "No hay ningun usuario con ese usuario",
+            @ApiResponse(responseCode = "404", description = "No hay ningun usuario con ese nombre usuario",
                     content = @Content(schema = @Schema(implementation = Response.class)))
 
     })
@@ -249,6 +250,64 @@ public class PadinfoController {
         userInfoService.deleteUserInfo(id);
 
         return new ResponseEntity<>(Response.noErrorResponse("Usuario eliminado correctamente"), HttpStatus.OK);
+    }
+
+    // 15
+    @PostMapping("/tournaments/createTournament")
+    public ResponseEntity<Tournament> createTournament(@Valid @RequestBody CreateUpdateTournamentDTO tournamentDTO) {
+        Tournament tournament = tournamentMapper.fromDTO(tournamentDTO);
+
+        Tournament newTournament = tournamentService.createTournament(tournament);
+
+        return new ResponseEntity<>(newTournament, HttpStatus.OK);
+    }
+
+    // 16
+    @PutMapping("/tournaments/updateTournament/{id}")
+    public ResponseEntity<?> updateTournament(@PathVariable long id, @Valid @RequestBody CreateUpdateTournamentDTO newTournamentDTO){
+        Tournament tournament = null;
+
+        Tournament newTournament = tournamentMapper.fromDTO(newTournamentDTO);
+        tournament = tournamentService.updateTournament(id, newTournament);
+
+        return new ResponseEntity<>(tournament, HttpStatus.OK);
+    }
+
+    // 17
+    @DeleteMapping("/tournaments/deleteTournament/{id}")
+    public ResponseEntity<Response> deleteTournamentById(@PathVariable long id) {
+        tournamentService.deleteTournament(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("Torneo eliminado correctamente."), HttpStatus.OK);
+    }
+
+    // 18
+    @PostMapping("/players/createPlayer")
+    public ResponseEntity<Player> createPlayer(@Valid @RequestBody CreateUpdatePlayerDTO playerDTO) {
+        Player player = playerMapper.fromDTO(playerDTO);
+
+        Player newPlayer = playerService.createPlayer(player);
+
+        return new ResponseEntity<>(newPlayer, HttpStatus.OK);
+    }
+
+    // 19
+    @PutMapping("/players/updatePlayer/{id}")
+    public ResponseEntity<?> updatePlayer(@PathVariable long id, @Valid @RequestBody CreateUpdatePlayerDTO newPlayerDTO) {
+        Player player = null;
+
+        Player newPlayer = playerMapper.fromDTO(newPlayerDTO);
+        player = playerService.updatePlayer(id, newPlayer);
+
+        return new ResponseEntity<>(player, HttpStatus.OK);
+    }
+
+    // 20
+    @DeleteMapping("/players/deletePlayer/{id}")
+    public ResponseEntity<Response> deletePlayerById(@PathVariable long id) {
+        playerService.deletePlayer(id);
+
+        return new ResponseEntity<>(Response.noErrorResponse("Jugador eliminado correctamente."), HttpStatus.OK);
     }
 
 }

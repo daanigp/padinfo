@@ -1,5 +1,6 @@
 package com.backend.padinfo_backend.mappers;
 
+import com.backend.padinfo_backend.dto.tournament.CreateUpdateTournamentDTO;
 import com.backend.padinfo_backend.dto.tournament.TournamentDTO;
 import com.backend.padinfo_backend.model.entity.Tournament;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,10 @@ public class TournamentMapper {
 
     public TournamentDTO toDTO(Tournament tournament) {
         return modelMapper.map(tournament, TournamentDTO.class);
+    }
+
+    public Tournament fromDTO(CreateUpdateTournamentDTO tournamentDTO) {
+        return modelMapper.map(tournamentDTO, Tournament.class);
     }
 
     public List<TournamentDTO> toDTO(List<Tournament> tournaments) {
