@@ -29,6 +29,8 @@ public class Activity_Inicio extends AppCompatActivity {
     TextView txtInfoApp, txtInfoApp_webs;
     boolean usuarioRegistrado;
     String username;
+
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +42,22 @@ public class Activity_Inicio extends AppCompatActivity {
         db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
 
-        if (userIsConnected()) {
+        /*if (userIsConnected()) {
             usuarioRegistrado = true;
         } else {
             usuarioRegistrado = false;
+        }*/
+
+        Intent i = getIntent();
+        token = token = "Bearer " + i.getStringExtra("token");
+
+        switch (roles()) {
+            case 1:
+                usuarioRegistrado = true;
+                break;
+            default:
+                usuarioRegistrado = false;
+                break;
         }
 
         String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
@@ -152,6 +166,7 @@ public class Activity_Inicio extends AppCompatActivity {
             case R.id.itemListado:
                 Toast.makeText(getApplicationContext(), "Listado torneos", Toast.LENGTH_SHORT).show();
                 Intent intentListadoTorneos = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
+                intentListadoTorneos.putExtra("token", token);
                 startActivity(intentListadoTorneos);
                 return true;
             case R.id.itemTop5:
@@ -192,6 +207,7 @@ public class Activity_Inicio extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == USER_LOGIN) {
             if (resultCode == RESULT_OK) {
+                token = data.getStringExtra("token");
                 usuarioRegistrado = true;
                 invalidateOptionsMenu();
             }
@@ -212,6 +228,10 @@ public class Activity_Inicio extends AppCompatActivity {
         }
 
         return connected;
+    }
+
+    private int roles(){
+        return 1;
     }
 
     private void putUserDisconnected(){

@@ -14,6 +14,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.Security.Entity.Login;
+import com.daanigp.padinfo.Security.Entity.Token;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class ActivityInicioSesion extends AppCompatActivity {
 
     SQLiteDatabase db;
@@ -41,7 +51,9 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 String user, pwd;
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
-                signIn(user, pwd);
+                //signIn(user, pwd);
+
+                login(user, pwd);
             }
         });
 
@@ -91,6 +103,44 @@ public class ActivityInicioSesion extends AppCompatActivity {
             setResult(RESULT_OK, intentAppInicio);
             finish();
         }
+    }
+
+    private void login(String user, String pwd) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.18.4:8080/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ISecurityPadinfo_API securityPadinfoApi = retrofit.create(ISecurityPadinfo_API.class);
+
+        Login loginUser = new Login(user, pwd);
+
+        Call<Token> call = securityPadinfoApi.loginUser( new Login(user, pwd) );
+        call.enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    txtUsuario.setText("");
+                    txtPassword.setText("");
+                    return;
+                }
+
+                String token = response.body().getToken();
+
+                Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
+                intentAppInicio.putExtra("token", token);
+                //setResult(RESULT_OK, intentAppInicio);
+                startActivity(intentAppInicio);
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                txtUsuario.setText("");
+                txtPassword.setText("");
+                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

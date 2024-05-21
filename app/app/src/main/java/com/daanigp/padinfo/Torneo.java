@@ -1,40 +1,50 @@
 package com.daanigp.padinfo;
 
 public class Torneo {
-    private String nombre;
-    private String ciudad;
-    private int imagen;
+    private Long id;
+    private String name;
+    private String city;
+    private int imageURL;
 
     public Torneo() {
     }
 
-    public Torneo(String nombre, String ciudad, int imagen) {
-        this.nombre = nombre;
-        this.ciudad = ciudad;
-        this.imagen = imagen;
+    public Torneo(Long id, String name, String city, int imageURL) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.imageURL = imageURL;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Long getId() {
+        return id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getCiudad() {
-        return ciudad;
+    public String getName() {
+        return name;
     }
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getImagen() {
-        return imagen;
+    public String getCity() {
+        return city;
     }
 
-    public void setImagen(int imagen) {
-        this.imagen = imagen;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(int imageURL) {
+        this.imageURL = imageURL;
     }
 }
