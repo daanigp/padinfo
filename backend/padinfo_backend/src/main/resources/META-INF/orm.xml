@@ -37,7 +37,7 @@
         <query>
             SELECT u
             FROM UserInfo u
-            WHERE u.user = ?1
+            WHERE u.username = ?1
         </query>
     </named-query>
 

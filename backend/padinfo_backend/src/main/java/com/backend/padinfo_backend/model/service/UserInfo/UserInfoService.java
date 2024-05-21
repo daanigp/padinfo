@@ -2,13 +2,17 @@ package com.backend.padinfo_backend.model.service.UserInfo;
 
 import com.backend.padinfo_backend.exceptions.userInfo.UserInfoDeleteException;
 import com.backend.padinfo_backend.exceptions.userInfo.UserInfoNotFoundException;
+import com.backend.padinfo_backend.model.entity.Role;
 import com.backend.padinfo_backend.model.entity.UserInfo;
+import com.backend.padinfo_backend.model.repository.IRoleRepository;
 import com.backend.padinfo_backend.model.repository.IUserInfoRepository;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Hidden
 @Service
@@ -16,6 +20,9 @@ public class UserInfoService implements IUserInfoService{
 
     @Autowired
     private IUserInfoRepository userInfoRepository;
+
+    @Autowired
+    private IRoleRepository roleRepository;
 
     @Override
     public List<UserInfo> findAll() {
@@ -45,7 +52,7 @@ public class UserInfoService implements IUserInfoService{
 
         newUserInfo.setId(user.getId());
         newUserInfo.setIsConnected(user.getIsConnected());
-        newUserInfo.setUser(user.getUser());
+        newUserInfo.setUsername(user.getUsername());
         newUserInfo.setPassword(user.getPassword());
 
         return userInfoRepository.save(newUserInfo);
@@ -58,6 +65,26 @@ public class UserInfoService implements IUserInfoService{
         } catch (Exception ex) {
             throw new UserInfoDeleteException(id, ex);
         }
+    }
+
+    @Override
+    public Optional<UserInfo> findByUsername(String username) {
+        return userInfoRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserInfo addUser(UserInfo user, List<Long> rolIds) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        user.setRoles((List<Role>) roleRepository.findAllById(rolIds));
+
+        return userInfoRepository.save(user);
+    }
+
+    @Override
+    public void remove(UserInfo user) {
+        userInfoRepository.delete(user);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.backend.padinfo_backend.mappers;
 
+import com.backend.padinfo_backend.dto.player.CreateUpdatePlayerDTO;
 import com.backend.padinfo_backend.dto.player.PlayerDTO;
 import com.backend.padinfo_backend.model.entity.Player;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,10 @@ public class PlayerMapper {
 
     public PlayerDTO toDTO(Player player) {
         return modelMapper.map(player, PlayerDTO.class);
+    }
+
+    public Player fromDTO(CreateUpdatePlayerDTO playerDTO) {
+        return modelMapper.map(playerDTO, Player.class);
     }
 
     public List<PlayerDTO> toDTO(List<Player> players) {

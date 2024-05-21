@@ -1,39 +1,35 @@
 package com.backend.padinfo_backend.model.entity;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Hidden
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "player")
 public class Player {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column(name = "ranking_position")
+    @Column(name = "ranking_position", nullable = false)
     private Integer rankingPosition;
 
-    @Column
+    @Column(nullable = false)
     private String points;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String imageURL;
 
-    @Column
+    @Column(nullable = false)
     private String gender;
 }

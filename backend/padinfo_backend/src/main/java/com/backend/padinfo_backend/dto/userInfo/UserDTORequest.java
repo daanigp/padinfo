@@ -5,16 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO implements Serializable {
-    private Long id;
+public class UserDTORequest implements Serializable {
     private String username;
     private String password;
-    private String name;
-    private String lastname;
-    private String email;
-    private String imageURL;
+    private List<Long> rolIds;
 }
