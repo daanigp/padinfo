@@ -1,13 +1,13 @@
 package com.daanigp.padinfo.Entity.Security;
 
-public class Login {
+public class LoginUser {
     private String username;
     private String password;
 
-    public Login() {
+    public LoginUser() {
     }
 
-    public Login(String username, String password) {
+    public LoginUser(String username, String password) {
         this.username = username;
         this.password = password;
     }

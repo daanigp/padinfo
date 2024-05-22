@@ -1,4 +1,4 @@
-package com.daanigp.padinfo.Security.Entity;
+package com.daanigp.padinfo.Entity.Security;
 
 public class Token {
     private String token;

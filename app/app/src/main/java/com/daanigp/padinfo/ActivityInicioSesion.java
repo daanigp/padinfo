@@ -16,16 +16,11 @@ import android.widget.Toast;
 
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
-import com.daanigp.padinfo.Security.Entity.Login;
-import com.daanigp.padinfo.Security.Entity.Token;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.daanigp.padinfo.Entity.Security.LoginUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityInicioSesion extends AppCompatActivity {
 
@@ -122,7 +117,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
         ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
 
-        Call<String> call = securityPadinfoApi.loginUser( new Login("dani", "1234") );
+        Call<String> call = securityPadinfoApi.loginUser( new LoginUser("dani", "1234") );
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
