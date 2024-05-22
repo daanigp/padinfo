@@ -33,9 +33,13 @@ public class TorneoAdapter extends ArrayAdapter<Torneo> {
         TextView txtCiudad = fila.findViewById(R.id.txtCiudad);
         ImageView imgTorneo = fila.findViewById(R.id.imgTorneo);
 
-        txtNombreTorneo.setText(torneos2023.get(position).getNombre());
-        txtCiudad.setText(torneos2023.get(position).getCiudad());
-        imgTorneo.setImageResource(torneos2023.get(position).getImagen());
+        Torneo torneo = torneos2023.get(position);
+        txtNombreTorneo.setText(torneo.getName());
+        txtCiudad.setText(torneo.getCity());
+
+        int imageResourceId = getContext().getResources().getIdentifier(torneo.getImageURL(), "drawable", getContext().getPackageName());
+        imgTorneo.setImageResource(imageResourceId);
+        //imgTorneo.setImageResource(torneos2023.get(position).getImageURL());
 
         return fila;
     }

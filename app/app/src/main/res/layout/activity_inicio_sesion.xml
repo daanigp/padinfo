@@ -7,11 +7,11 @@
     tools:context=".ActivityInicioSesion">
 
     <Button
-        android:id="@+id/btnVolverInicio"
+        android:id="@+id/btnInicioInvitado"
         android:layout_width="221dp"
         android:layout_height="55dp"
         android:layout_marginTop="24dp"
-        android:text="@string/volver"
+        android:text="@string/inicioUsuarioInvitado"
         android:textSize="18dp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"

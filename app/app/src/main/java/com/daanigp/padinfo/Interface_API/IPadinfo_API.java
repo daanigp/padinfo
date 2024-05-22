@@ -11,4 +11,6 @@ import retrofit2.http.Header;
 public interface IPadinfo_API {
     @GET("tournaments")
     Call<List<Torneo>> getTournaments(@Header("Authorization") String token);
+
+    
 }

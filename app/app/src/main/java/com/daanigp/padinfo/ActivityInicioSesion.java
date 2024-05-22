@@ -15,8 +15,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 import com.daanigp.padinfo.Security.Entity.Login;
 import com.daanigp.padinfo.Security.Entity.Token;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ActivityInicioSesion extends AppCompatActivity {
 
     SQLiteDatabase db;
-    Button btnInicioSesion, btnRegistrarse, btnVolver;
+    Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
 
@@ -38,7 +41,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
         btnInicioSesion = (Button) findViewById(R.id.btnIniciarSesion);
         btnRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
-        btnVolver = (Button) findViewById(R.id.btnVolverInicio);
+        btnInicioInvitado = (Button) findViewById(R.id.btnInicioInvitado);
         txtUsuario = (EditText) findViewById(R.id.editTxtUsuario);
         txtPassword = (EditText) findViewById(R.id.editTxtContrasenya);
         imgApp = (ImageView) findViewById(R.id.imgApp);
@@ -68,10 +71,10 @@ public class ActivityInicioSesion extends AppCompatActivity {
             }
         });
 
-        btnVolver.setOnClickListener(new View.OnClickListener() {
+        btnInicioInvitado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Toast.makeText(ActivityInicioSesion.this, "INICIO DE SESIÓN COMO INVITADO", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -106,27 +109,31 @@ public class ActivityInicioSesion extends AppCompatActivity {
     }
 
     private void login(String user, String pwd) {
+        /*Gson gson = new GsonBuilder()
+                .setLenient()  // Permitir JSON mal formado, si es necesario
+                .create();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.18.4:8080/api/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://7145-2-142-11-49.ngrok-free.app/auth/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        ISecurityPadinfo_API securityPadinfoApi = retrofit.create(ISecurityPadinfo_API.class);
+        ISecurityPadinfo_API securityPadinfoApi = retrofit.create(ISecurityPadinfo_API.class);*/
 
-        Login loginUser = new Login(user, pwd);
+        ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
 
-        Call<Token> call = securityPadinfoApi.loginUser( new Login(user, pwd) );
-        call.enqueue(new Callback<Token>() {
+        Call<String> call = securityPadinfoApi.loginUser( new Login("dani", "1234") );
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Token> call, Response<Token> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityInicioSesion.this, "1-Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     txtUsuario.setText("");
                     txtPassword.setText("");
                     return;
                 }
 
-                String token = response.body().getToken();
+                String token = response.body();
 
                 Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
                 intentAppInicio.putExtra("token", token);
@@ -135,10 +142,11 @@ public class ActivityInicioSesion extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Token> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 txtUsuario.setText("");
                 txtPassword.setText("");
-                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityInicioSesion.this, "2- Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
     }

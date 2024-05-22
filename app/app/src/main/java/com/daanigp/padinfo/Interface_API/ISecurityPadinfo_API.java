@@ -10,6 +10,6 @@ import retrofit2.http.POST;
 public interface ISecurityPadinfo_API {
 
     @POST("login")
-    Call<Token> loginUser(@Body Login loginUser);
+    Call<String> loginUser(@Body Login loginUser);
 
 }

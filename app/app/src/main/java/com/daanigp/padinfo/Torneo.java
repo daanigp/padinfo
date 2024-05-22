@@ -4,12 +4,12 @@ public class Torneo {
     private Long id;
     private String name;
     private String city;
-    private int imageURL;
+    private String imageURL;
 
     public Torneo() {
     }
 
-    public Torneo(Long id, String name, String city, int imageURL) {
+    public Torneo(Long id, String name, String city, String imageURL) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -40,11 +40,11 @@ public class Torneo {
         this.city = city;
     }
 
-    public int getImageURL() {
+    public String getImageURL() {
         return imageURL;
     }
 
-    public void setImageURL(int imageURL) {
+    public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
 }
