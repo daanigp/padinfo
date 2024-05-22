@@ -20,5 +20,7 @@ public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
     // 13. Obtener el UserInfo segun nombre de usuario
     UserInfo selectUserInfoByUsername(String user);
 
+    // Obtener si existe un usuario con username x
+    boolean existsByUsername(String username);
 
 }

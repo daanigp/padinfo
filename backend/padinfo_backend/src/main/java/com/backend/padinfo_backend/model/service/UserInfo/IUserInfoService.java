@@ -23,4 +23,6 @@ public interface IUserInfoService {
     UserInfo selectUserIsConnected();
     UserInfo selectUserInfoByUsername(String user);
 
+    boolean existsByUsername(String username);
+
 }

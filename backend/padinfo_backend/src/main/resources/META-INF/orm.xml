@@ -1,6 +1,4 @@
 <entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" version="2.1">
-    <!-- <![CDATA[ ... ]]> se utiliza para permitir los carácteres especiales como '<','>','&', etc. puedan ser utilizados dentro del XML sin ser interpretados
-         como parte del marcado XML -->
     <!-- 5.- Buscar el usuario que este conectado -->
     <named-query name="UserInfo.selectUserIsConnected">
         <query>
@@ -41,7 +39,10 @@
         </query>
     </named-query>
 
-
+    <!-- Comprobar si existe un nombre de usuario -->
+    <named-query name="UserInfo.existsByUsername">
+        <query>SELECT CASE WHEN COUNT(u.id) > 0 THEN TRUE ELSE FALSE END FROM UserInfo u WHERE u.username = ?1</query>
+    </named-query>
 
 
 </entity-mappings>

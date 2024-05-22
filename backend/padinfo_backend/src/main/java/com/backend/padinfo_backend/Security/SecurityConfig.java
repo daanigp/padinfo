@@ -83,6 +83,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "api/users/checkUser").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/tournaments").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers(HttpMethod.GET, "/api/players").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers("/api/games/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
@@ -104,7 +105,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://192.168.207.201:8080"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
         configuration.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
 

@@ -111,4 +111,13 @@ public class UserInfoService implements IUserInfoService{
     public UserInfo selectUserInfoByUsername(String user) {
         return userInfoRepository.selectUserInfoByUsername(user);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        if (userInfoRepository.existsByUsername(username)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

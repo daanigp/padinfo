@@ -310,4 +310,17 @@ public class PadinfoController {
         return new ResponseEntity<>(Response.noErrorResponse("Jugador eliminado correctamente."), HttpStatus.OK);
     }
 
+    @GetMapping("/users/checkUser")
+    public ResponseEntity<Response> checkUserExists(@RequestParam String username) {
+        String message;
+
+        if (userInfoService.existsByUsername(username)) {
+            message = "El usuario '" + username + "' ya existe.";
+        } else {
+            message = "El usuario '" + username + "' no existe.";
+        }
+
+        return new ResponseEntity<>(Response.noErrorResponse(message), HttpStatus.OK);
+    }
+
 }
