@@ -75,10 +75,6 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
             }
         });
 
-        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS userinfo(User VARCHAR, Name VARCHAR, Lastname VARCHAR, Email VARCHAR);");
-
     }
 
     private void register(String user, String pwd, String name, String lastName, String email){
@@ -130,6 +126,14 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
                     Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
+            finish();
+        } else {
+            txtUsuario.setText("");
+            txtPassword.setText("");
+            txtName.setText("");
+            txtLastName.setText("");
+            txtEmail.setText("");
         }
     }
 
