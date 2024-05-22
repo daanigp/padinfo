@@ -3,22 +3,22 @@ package com.daanigp.padinfo.Entity.Respone;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Response {
+public class ResponseEntity {
     private int code;
     private String messege;
     private Map<String, String> errors;
 
-    public Response() {
+    public ResponseEntity() {
     }
 
-    private Response(int errorCode, String errorMessage)
+    private ResponseEntity(int errorCode, String errorMessage)
     {
         this.code = errorCode;
         this.messege = errorMessage;
         this.errors = new HashMap<>();
     }
 
-    private Response(int errorCode, String errorMessage, Map<String, String> errors)
+    private ResponseEntity(int errorCode, String errorMessage, Map<String, String> errors)
     {
         this.code = errorCode;
         this.messege = errorMessage;

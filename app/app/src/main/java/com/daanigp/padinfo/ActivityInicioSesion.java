@@ -3,20 +3,28 @@ package com.daanigp.padinfo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Entity.Security.CreateUser;
+import com.daanigp.padinfo.Entity.UserEntity;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 import com.daanigp.padinfo.Entity.Security.LoginUser;
+
+import java.util.Collections;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,7 +32,7 @@ import retrofit2.Response;
 
 public class ActivityInicioSesion extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    private static final String TAG = "ActivityInicioSesion";
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
@@ -49,8 +57,8 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 String user, pwd;
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
-                //signIn(user, pwd);
-
+                user = "dani";
+                pwd = "1234";
                 login(user, pwd);
             }
         });
@@ -70,59 +78,35 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ActivityInicioSesion.this, "INICIO DE SESIÓN COMO INVITADO", Toast.LENGTH_SHORT).show();
+                txtUsuario.setText("");
+                txtPassword.setText("");
+                CreateUser createUser = new CreateUser();
+                int num = randomNum(10000);
+                createUser.setUsername("guest" + num);
+                createUser.setPassword("1234");
+                createUser.setEmail("guest" + num + "@gmail.com");
+                createUser.setName("Guest");
+                createUser.setLastname("" + num);
+                createUser.setRolIds(Collections.singletonList(3L));
+                signUpGuest(createUser);
             }
         });
-
-        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
     }
 
-    private void signIn(String user, String pwd){
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE User = '" + user + "' AND Password = '" + pwd + "'", null);
-        if (c.getCount() == 0) {
-            Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-            txtUsuario.setText("");
-            txtPassword.setText("");
-            c.close();
-        } else {
-            //Valores a actualizar
-            ContentValues valores = new ContentValues();
-            valores.put("Isconnected", 1);
-
-            // Definir la cláusula where para identificar el usuario a actualizar
-            String whereClause = "User = ?";
-            String[] whereArgs = { user };
-            db.update("users", valores, whereClause, whereArgs);
-
-            Toast.makeText(getApplicationContext(), "Usuario logueado correctamente", Toast.LENGTH_SHORT).show();
-
-            Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
-            intentAppInicio.putExtra("username", user);
-            setResult(RESULT_OK, intentAppInicio);
-            finish();
-        }
+    private int randomNum(int num1) {
+        Random rnd = new Random();
+        return rnd.nextInt(num1) + 1;
     }
 
     private void login(String user, String pwd) {
-        /*Gson gson = new GsonBuilder()
-                .setLenient()  // Permitir JSON mal formado, si es necesario
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://7145-2-142-11-49.ngrok-free.app/auth/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        ISecurityPadinfo_API securityPadinfoApi = retrofit.create(ISecurityPadinfo_API.class);*/
-
         ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
 
-        Call<String> call = securityPadinfoApi.loginUser( new LoginUser("dani", "1234") );
+        Call<String> call = securityPadinfoApi.loginUser( new LoginUser(user, pwd) );
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(ActivityInicioSesion.this, "1-Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityInicioSesion.this, "1-Código error (login): " + response.code(), Toast.LENGTH_SHORT).show();
                     txtUsuario.setText("");
                     txtPassword.setText("");
                     return;
@@ -130,21 +114,116 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
                 String token = response.body();
 
-                Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
-                intentAppInicio.putExtra("token", token);
-                //setResult(RESULT_OK, intentAppInicio);
-                startActivity(intentAppInicio);
+                if (token != null) {
+                    getIdUser(user);
+
+                    Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
+                    intentAppInicio.putExtra("token", token);
+                    startActivity(intentAppInicio);
+                } else {
+                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 txtUsuario.setText("");
                 txtPassword.setText("");
-                Toast.makeText(ActivityInicioSesion.this, "2- Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
+                Toast.makeText(ActivityInicioSesion.this, "2- Código error (login): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error en la llamada Retrofit - (login)", t);
             }
         });
     }
 
+    private void getIdUser(String username) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<UserEntity> call = padinfoApi.getUserByUsername(username);
+
+        call.enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getIdUser) -> response");
+                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                UserEntity user = response.body();
+
+                if (user != null) {
+                   long id = user.getId();
+
+                    putUserIsConnected(id);
+                } else {
+                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void signUpGuest(CreateUser createUser) {
+        ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
+        Call<ResponseEntity> call = securityPadinfoApi.registerUser(createUser);
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    Log.v(TAG, "No va (signupGUEST) -> response");
+                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res != null && res.getMessege().equalsIgnoreCase("Usuario registrado correctamente")) {
+                    login(createUser.getUsername(), createUser.getPassword());
+                } else {
+                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (signupGUEST)", t);
+                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void putUserIsConnected(long id) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(ActivityInicioSesion.this, "1-Código error - (putUserIsConnected): " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
+                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (signup)", t);
+                Toast.makeText(ActivityInicioSesion.this, "2- Código error - (putUserIsConnected): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
 
 }

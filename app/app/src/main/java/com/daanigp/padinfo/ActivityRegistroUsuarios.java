@@ -2,11 +2,7 @@ package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.daanigp.padinfo.Entity.Respone.Response;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
@@ -22,13 +18,12 @@ import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 
 import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ActivityRegistroUsuarios extends AppCompatActivity {
-    private static final String TAG = "MyActivity";
+    private static final String TAG = "ActivityRegistroUsuarios";
     ImageView imgApp;
     Button btnCancelar, btnRegistrar;
     EditText txtUsuario, txtPassword, txtName, txtLastName, txtEmail;
@@ -80,23 +75,28 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
         if (!exists) {
             ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
 
-            Call<Response> call = securityPadinfoApi.registerUser(createUser);
+            Call<ResponseEntity> call = securityPadinfoApi.registerUser(createUser);
 
-            call.enqueue(new Callback<Response>() {
+            call.enqueue(new Callback<ResponseEntity>() {
                 @Override
-                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                public void onResponse(Call<ResponseEntity> call, retrofit2.Response<ResponseEntity> response) {
                     if (!response.isSuccessful()) {
                         Log.v(TAG, "No va (signup) -> response");
                         Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    Response res = response.body();
-                    Toast.makeText(ActivityRegistroUsuarios.this, res.getMessege(), Toast.LENGTH_SHORT).show();
+                    ResponseEntity res = response.body();
+
+                    if (res != null && res.getMessege().equalsIgnoreCase("Usuario registrado correctamente")) {
+                        Toast.makeText(ActivityRegistroUsuarios.this, res.getMessege(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityRegistroUsuarios.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<Response> call, Throwable t) {
+                public void onFailure(Call<ResponseEntity> call, Throwable t) {
                     Log.e(TAG, "Error en la llamada Retrofit - (signup)", t);
                     Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -116,18 +116,18 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
 
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
 
-        Call<Response> call = padinfoApi.checkUserExistsByUsername(username);
+        Call<ResponseEntity> call = padinfoApi.checkUserExistsByUsername(username);
 
-        call.enqueue(new Callback<Response>() {
+        call.enqueue(new Callback<ResponseEntity>() {
             @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+            public void onResponse(Call<ResponseEntity> call, retrofit2.Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (userExists) -> response");
                     Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Response res = response.body();
+                ResponseEntity res = response.body();
 
                 if (res.getMessege().equalsIgnoreCase("No existe")) {
                     exists = false;
@@ -137,7 +137,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Response> call, Throwable t) {
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (userExists)", t);
                 Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }

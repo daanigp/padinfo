@@ -1,6 +1,6 @@
 package com.daanigp.padinfo.Interface_API;
 
-import com.daanigp.padinfo.Entity.Respone.Response;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
 import com.daanigp.padinfo.Entity.Security.LoginUser;
 
@@ -14,5 +14,5 @@ public interface ISecurityPadinfo_API {
     Call<String> loginUser(@Body LoginUser loginUser);
 
     @POST("signup")
-    Call<Response> registerUser(@Body CreateUser createUser);
+    Call<ResponseEntity> registerUser(@Body CreateUser createUser);
 }

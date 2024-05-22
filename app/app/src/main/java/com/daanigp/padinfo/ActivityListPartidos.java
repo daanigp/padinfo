@@ -181,7 +181,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
 
         if (c.moveToFirst()) {
-            int indexUser = c.getColumnIndex("User");
+            int indexUser = c.getColumnIndex("UserEntity");
             String user = c.getString(indexUser);
             if (user != null || !user.isEmpty()){
                 c.close();

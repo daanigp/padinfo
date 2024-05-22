@@ -105,7 +105,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
 
         String user = null;
         if (c.moveToFirst()) {
-            int index = c.getColumnIndex("User");
+            int index = c.getColumnIndex("UserEntity");
             user = c.getString(index);
         }
 
@@ -127,7 +127,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
             valores.put("Email", email);
 
             // Definir la cláusula where para identificar el usuario a actualizar
-            String whereClause = "User = ?";
+            String whereClause = "UserEntity = ?";
             String[] whereArgs = { user };
             db.update("userinfo", valores, whereClause, whereArgs);
 

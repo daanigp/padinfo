@@ -110,7 +110,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
 
         String user = null;
         if (c.moveToFirst()) {
-            int index = c.getColumnIndex("User");
+            int index = c.getColumnIndex("UserEntity");
             user = c.getString(index);
         }
 

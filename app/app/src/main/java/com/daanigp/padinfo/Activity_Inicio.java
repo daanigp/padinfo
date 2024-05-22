@@ -219,7 +219,7 @@ public class Activity_Inicio extends AppCompatActivity {
         Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
 
         if (c.moveToFirst()) {
-            int indexUser = c.getColumnIndex("User");
+            int indexUser = c.getColumnIndex("UserEntity");
             String user = c.getString(indexUser);
             if (user != null || !user.isEmpty()){
                 Toast.makeText(getApplicationContext(), "Bienvenido de nuevo, " + user + "!", Toast.LENGTH_SHORT).show();
@@ -238,7 +238,7 @@ public class Activity_Inicio extends AppCompatActivity {
         Cursor c = db.rawQuery("SELECT User FROM users WHERE Isconnected = 1", null);
 
         if (c.moveToFirst()) {
-            int index = c.getColumnIndex("User");
+            int index = c.getColumnIndex("UserEntity");
             String user = c.getString(index);
 
             //Comprobasr que recibimos un String válido
@@ -248,7 +248,7 @@ public class Activity_Inicio extends AppCompatActivity {
                 valores.put("Isconnected", 0);
 
                 // Definir la cláusula where para identificar el usuario a actualizar
-                String whereClause = "User = ?";
+                String whereClause = "UserEntity = ?";
                 String[] whereArgs = { user };
                 db.update("users", valores, whereClause, whereArgs);
 
