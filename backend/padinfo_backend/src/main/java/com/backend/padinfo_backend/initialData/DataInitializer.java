@@ -70,145 +70,145 @@ public class DataInitializer {
     private void saveTournamentData() {
         Tournament t1 = Tournament.builder()
                 .city("Abu Dhabi")
-                .imageURL("R.drawable.wpt_abudhabi")
+                .imageURL("wpt_abudhabi")
                 .name("Modon Abu Dhabi Master 2023")
                 .build();
 
         Tournament t2 = Tournament.builder()
                 .city("La Rioja")
-                .imageURL("R.drawable.wpt_larioja_open")
+                .imageURL("wpt_larioja_open")
                 .name("La Rioja Open 1000")
                 .build();
 
         Tournament t3 = Tournament.builder()
                 .city("Santiago de Chile")
-                .imageURL("R.drawable.wpt_chile_open")
+                .imageURL("wpt_chile_open")
                 .name("BTG Pactual Chile Padel Open 1000")
                 .build();
 
         Tournament t4 = Tournament.builder()
                 .city("Asunción")
-                .imageURL("R.drawable.wpt_paraguay_open")
+                .imageURL("wpt_paraguay_open")
                 .name("Paraguay Padel Open 1000")
                 .build();
 
         Tournament t5 = Tournament.builder()
                 .city("Reus")
-                .imageURL("R.drawable.wpt_reus_open")
+                .imageURL("wpt_reus_open")
                 .name("Tau Cerámica Reus Costa Daurada Open 500")
                 .build();
 
         Tournament t6 = Tournament.builder()
                 .city("Granada")
-                .imageURL("R.drawable.wpt_granada_open")
+                .imageURL("wpt_granada_open")
                 .name("Cervezas Victoria Granada Open")
                 .build();
 
         Tournament t7 = Tournament.builder()
                 .city("Bruselas")
-                .imageURL("R.drawable.wpt_bruselas_open")
+                .imageURL("wpt_bruselas_open")
                 .name("Circus Brussels Padel Open 2023")
                 .build();
 
         Tournament t8 = Tournament.builder()
                 .city("Alicante")
-                .imageURL("R.drawable.wpt_alicante_open")
+                .imageURL("wpt_alicante_open")
                 .name("Tau Cerámica Alicante Open 500")
                 .build();
 
         Tournament t9 = Tournament.builder()
                 .city("Vigo")
-                .imageURL("R.drawable.wpt_vigo_open")
+                .imageURL("wpt_vigo_open")
                 .name("Estrella Damm Vigo Open 2023")
                 .build();
 
         Tournament t10 = Tournament.builder()
                 .city("Hillerød")
-                .imageURL("R.drawable.wpt_hillerod_open")
+                .imageURL("wpt_hillerod_open")
                 .name("Cupra Danish Padel Open 2023")
                 .build();
 
         Tournament t11 = Tournament.builder()
                 .city("Vienna")
-                .imageURL("R.drawable.wpt_vienna_open")
+                .imageURL("wpt_vienna_open")
                 .name("Boss Vienna Padel Open 2023")
                 .build();
 
         Tournament t12 = Tournament.builder()
                 .city("Marbella")
-                .imageURL("R.drawable.wpt_marbella_master")
+                .imageURL("wpt_marbella_master")
                 .name("Cervezas Victoria Marbella Master 2023")
                 .build();
 
         Tournament t13 = Tournament.builder()
                 .city("Toulouse")
-                .imageURL("R.drawable.wpt_toulouse_open")
+                .imageURL("wpt_toulouse_open")
                 .name("Human French Padel Open 2023")
                 .build();
 
         Tournament t14 = Tournament.builder()
                 .city("Valladolid")
-                .imageURL("R.drawable.wpt_valladolid_master")
+                .imageURL("wpt_valladolid_master")
                 .name("Barceló Valladolid Master 2023")
                 .build();
 
         Tournament t15 = Tournament.builder()
                 .city("Valencia")
-                .imageURL("R.drawable.wpt_valencia_open")
+                .imageURL("wpt_valencia_open")
                 .name("Adeslas València Open 2023")
                 .build();
 
         Tournament t16 = Tournament.builder()
                 .city("Málaga")
-                .imageURL("R.drawable.wpt_malaga_open")
+                .imageURL("wpt_malaga_open")
                 .name("Cervezas Victoria Málaga Open 2023")
                 .build();
 
         Tournament t17 = Tournament.builder()
                 .city("Nokia")
-                .imageURL("R.drawable.wpt_nokia_open")
+                .imageURL("wpt_nokia_open")
                 .name("Aare Invest Finland Padel Open 2023")
                 .build();
 
         Tournament t18 = Tournament.builder()
                 .city("Madrid")
-                .imageURL("R.drawable.wpt_madrid_masters")
+                .imageURL("wpt_madrid_masters")
                 .name("Sixt Comunidad de Madrid Master 2023")
                 .build();
 
         Tournament t19 = Tournament.builder()
                 .city("Düsseldorf")
-                .imageURL("R.drawable.wpt_dusseldorf_open")
+                .imageURL("wpt_dusseldorf_open")
                 .name("Boss German Padel Open 2023")
                 .build();
 
         Tournament t20 = Tournament.builder()
                 .city("Amsterdam")
-                .imageURL("R.drawable.wpt_amsterdam_open")
+                .imageURL("wpt_amsterdam_open")
                 .name("Decathlon Amsterdam Open 2023")
                 .build();
 
         Tournament t21 = Tournament.builder()
                 .city("Menorca")
-                .imageURL("R.drawable.wpt_menorca_open")
+                .imageURL("wpt_menorca_open")
                 .name("Estrella Damm Menorca Open 2023")
                 .build();
 
         Tournament t22 = Tournament.builder()
                 .city("Malmö")
-                .imageURL("R.drawable.wpt_malmo_open")
+                .imageURL("wpt_malmo_open")
                 .name("Areco Malmö Padel Open 2023")
                 .build();
 
         Tournament t23 = Tournament.builder()
                 .city("Ciudad de México")
-                .imageURL("R.drawable.wpt_ciudaddemexico_open")
+                .imageURL("wpt_ciudaddemexico_open")
                 .name("Skechers Mexico Padel Open 2023")
                 .build();
 
         Tournament t24 = Tournament.builder()
                 .city("Barcelona")
-                .imageURL("R.drawable.wpt_barcelona_masters_final")
+                .imageURL("wpt_barcelona_masters_final")
                 .name("Boss Barcelona Master Final 2023")
                 .build();
 
@@ -218,7 +218,7 @@ public class DataInitializer {
     private void savePlayerData() {
         Player p1 = Player.builder()
                 .gender("masc")
-                .imageURL("R.drawable.arturo_coello")
+                .imageURL("arturo_coello")
                 .name("Arturo Coello")
                 .points("17.745 puntos")
                 .rankingPosition(1)
@@ -226,7 +226,7 @@ public class DataInitializer {
 
         Player p2 = Player.builder()
                 .gender("masc")
-                .imageURL("R.drawable.agustin_tapia")
+                .imageURL("agustin_tapia")
                 .name("Agustín Tapia")
                 .points("17.745 puntos")
                 .rankingPosition(1)
@@ -234,7 +234,7 @@ public class DataInitializer {
 
         Player p3 = Player.builder()
                 .gender("masc")
-                .imageURL("R.drawable.franco_stupaczuk")
+                .imageURL("franco_stupaczuk")
                 .name("Franco Stupaczuk")
                 .points("15.410 puntos")
                 .rankingPosition(3)
@@ -242,7 +242,7 @@ public class DataInitializer {
 
         Player p4 = Player.builder()
                 .gender("masc")
-                .imageURL("R.drawable.martin_di_nenno")
+                .imageURL("martin_di_nenno")
                 .name("Martin Di Nenno")
                 .points("15.410 puntos")
                 .rankingPosition(3)
@@ -250,7 +250,7 @@ public class DataInitializer {
 
         Player p5 = Player.builder()
                 .gender("masc")
-                .imageURL("R.drawable.ale_galan")
+                .imageURL("ale_galan")
                 .name("Ale Galán")
                 .points("10.510 puntos")
                 .rankingPosition(5)
@@ -258,7 +258,7 @@ public class DataInitializer {
 
         Player p6 = Player.builder()
                 .gender("fem")
-                .imageURL("R.drawable.paula_josemaria")
+                .imageURL("paula_josemaria")
                 .name("Paula Josemaría")
                 .points("19.220 puntos")
                 .rankingPosition(1)
@@ -266,7 +266,7 @@ public class DataInitializer {
 
         Player p7 = Player.builder()
                 .gender("fem")
-                .imageURL("R.drawable.ariana_sanchez")
+                .imageURL("ariana_sanchez")
                 .name("Ariana Sánchez")
                 .points("19.220 puntos")
                 .rankingPosition(1)
@@ -274,7 +274,7 @@ public class DataInitializer {
 
         Player p8 = Player.builder()
                 .gender("fem")
-                .imageURL("R.drawable.gemma_tiray")
+                .imageURL("gemma_tiray")
                 .name("Gemma Triay")
                 .points("14.890 puntos")
                 .rankingPosition(3)
@@ -282,7 +282,7 @@ public class DataInitializer {
 
         Player p9 = Player.builder()
                 .gender("fem")
-                .imageURL("R.drawable.bea_gonzalez")
+                .imageURL("bea_gonzalez")
                 .name("Bea González")
                 .points("13.680 puntos")
                 .rankingPosition(4)
@@ -290,7 +290,7 @@ public class DataInitializer {
 
         Player p10 = Player.builder()
                 .gender("fem")
-                .imageURL("R.drawable.delfi_brea")
+                .imageURL("delfi_brea")
                 .name("Delfi Brea")
                 .points("13.360 puntos")
                 .rankingPosition(5)
@@ -325,7 +325,7 @@ public class DataInitializer {
                 .name("Daniel")
                 .lastname("Garcia")
                 .email("dan1@gmail.com")
-                .imageURL("R.drawable.danieh")
+                .imageURL("danieh")
                 .roles(List.of(rAdmin, rUser, rGuest))
                 .build();
 
