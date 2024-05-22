@@ -29,7 +29,6 @@ import retrofit2.Callback;
 
 public class ActivityRegistroUsuarios extends AppCompatActivity {
     private static final String TAG = "MyActivity";
-    SQLiteDatabase db, db2;
     ImageView imgApp;
     Button btnCancelar, btnRegistrar;
     EditText txtUsuario, txtPassword, txtName, txtLastName, txtEmail;
@@ -69,35 +68,11 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
                 name = txtName.getText().toString();
                 lastName = txtLastName.getText().toString();
                 email = txtEmail.getText().toString();
-                //register(user, pwd, name, lastName, email);
                 CreateUser createUser = new CreateUser(user, pwd, name, lastName, email, Collections.singletonList(2L));
                 signup(user, createUser);
             }
         });
 
-    }
-
-    private void register(String user, String pwd, String name, String lastName, String email){
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE User = '" + user + "' AND Password = '" + pwd + "'", null);
-        if (c.getCount() == 0){
-            saveUserInfo(user, name, lastName, email);
-            db.execSQL("INSERT INTO users VALUES('" + user + "', '" + pwd + "', 0);");
-            c.close();
-            Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(), "Ya existe un usuario con ese nombre y contraseña (" + user + ", " + pwd + ")", Toast.LENGTH_SHORT).show();
-            c.close();
-            txtUsuario.setText("");
-            txtPassword.setText("");
-            txtName.setText("");
-            txtLastName.setText("");
-            txtEmail.setText("");
-        }
-    }
-
-    private void saveUserInfo(String user, String name, String lastName, String email){
-        db.execSQL("INSERT INTO userinfo VALUES('" + user + "', '" + name + "', '" + lastName + "', '" + email + "');");
     }
 
     private void signup(String user, CreateUser createUser) {
