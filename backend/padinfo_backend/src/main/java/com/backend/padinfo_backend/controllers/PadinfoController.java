@@ -315,9 +315,9 @@ public class PadinfoController {
         String message;
 
         if (userInfoService.existsByUsername(username)) {
-            message = "El usuario '" + username + "' ya existe.";
+            message = "Existe";
         } else {
-            message = "El usuario '" + username + "' no existe.";
+            message = "No existe";
         }
 
         return new ResponseEntity<>(Response.noErrorResponse(message), HttpStatus.OK);
