@@ -34,6 +34,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_torneos);
+
         tournamnets = new ArrayList<>();
 
         Intent intent = getIntent();
@@ -80,17 +81,21 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
                 List<Torneo> tournamentsApi = response.body();
 
-                for(Torneo t: tournamentsApi) {
-                    Torneo tor = new Torneo();
-                    tor.setId(t.getId());
-                    tor.setName(t.getName());
-                    tor.setCity(t.getCity());
-                    tor.setImageURL((t.getImageURL()));
-                    tournamnets.add(tor);
-                }
+                if (tournamentsApi != null) {
+                    for (Torneo t : tournamentsApi) {
+                        Torneo tor = new Torneo();
+                        tor.setId(t.getId());
+                        tor.setName(t.getName());
+                        tor.setCity(t.getCity());
+                        tor.setImageURL((t.getImageURL()));
+                        tournamnets.add(tor);
+                    }
 
-                // Notificar al adapter que los datos han cambiado
-                adapter.notifyDataSetChanged();
+                    // Notificar al adapter que los datos han cambiado
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ActivityListTorneos.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

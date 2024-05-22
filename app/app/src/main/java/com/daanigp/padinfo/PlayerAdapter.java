@@ -13,12 +13,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class RankingAdapter extends ArrayAdapter<RankingPlayers> {
+public class PlayerAdapter extends ArrayAdapter<Player> {
 
     private int mResource;
-    private ArrayList<RankingPlayers> rankingPlayers;
+    private ArrayList<Player> rankingPlayers;
 
-    public RankingAdapter(@NonNull Context context, int resource, @NonNull ArrayList<RankingPlayers> objects) {
+    public PlayerAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Player> objects) {
         super(context, resource, objects);
         mResource = resource;
         rankingPlayers = objects;
@@ -35,10 +35,14 @@ public class RankingAdapter extends ArrayAdapter<RankingPlayers> {
         TextView txtNombrePlayer = fila.findViewById(R.id.txtNombrePlayer);
         ImageView imgPlayer = fila.findViewById(R.id.imgPlayer);
 
-        txtNumeroRanking.setText(String.valueOf(rankingPlayers.get(position).getPosicion()));
-        txtPuntos.setText(rankingPlayers.get(position).getPuntos());
-        txtNombrePlayer.setText(rankingPlayers.get(position).getNombre());
-        imgPlayer.setImageResource(rankingPlayers.get(position).getImagen());
+        Player player = rankingPlayers.get(position);
+
+        txtNumeroRanking.setText(String.valueOf(player.getPosicion()));
+        txtPuntos.setText(player.getPuntos());
+        txtNombrePlayer.setText(player.getNombre());
+
+        int imageResourceId = getContext().getResources().getIdentifier(player.getImagen(), "drawable", getContext().getPackageName());
+        imgPlayer.setImageResource(imageResourceId);
 
         return fila;
     }
