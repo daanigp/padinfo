@@ -1,8 +1,8 @@
 package com.daanigp.padinfo.Entity;
 
-public class Partido {
-    private int idGame;
-    private String user;
+public class Game {
+    private int id;
+    private long userId;
     private String player1;
     private String player2;
     private String player3;
@@ -13,14 +13,14 @@ public class Partido {
     private int set1PointsT2;
     private int set2PointsT2;
     private int set3PointsT2;
-    private int equipoGanador;
+    private int winnerTeam;
 
-    public Partido() {
+    public Game() {
     }
 
-    public Partido(int idGame, String user, String player1, String player2, String player3, String player4, int set1PointsT1, int set2PointsT1, int set3PointsT1, int set1PointsT2, int set2PointsT2, int set3PointsT2, int equipoGanador) {
-        this.idGame = idGame;
-        this.user = user;
+    public Game(int id, long userId, String player1, String player2, String player3, String player4, int set1PointsT1, int set2PointsT1, int set3PointsT1, int set1PointsT2, int set2PointsT2, int set3PointsT2, int winnerTeam) {
+        this.id = id;
+        this.userId = userId;
         this.player1 = player1;
         this.player2 = player2;
         this.player3 = player3;
@@ -31,23 +31,23 @@ public class Partido {
         this.set1PointsT2 = set1PointsT2;
         this.set2PointsT2 = set2PointsT2;
         this.set3PointsT2 = set3PointsT2;
-        this.equipoGanador = equipoGanador;
+        this.winnerTeam = winnerTeam;
     }
 
-    public int getIdGame() {
-        return idGame;
+    public int getId() {
+        return id;
     }
 
-    public void setIdGame(int idGame) {
-        this.idGame = idGame;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getPlayer1() {
@@ -130,11 +130,11 @@ public class Partido {
         this.set3PointsT2 = set3PointsT2;
     }
 
-    public int getEquipoGanador() {
-        return equipoGanador;
+    public int getWinnerTeam() {
+        return winnerTeam;
     }
 
-    public void setEquipoGanador(int equipoGanador) {
-        this.equipoGanador = equipoGanador;
+    public void setWinnerTeam(int winnerTeam) {
+        this.winnerTeam = winnerTeam;
     }
 }

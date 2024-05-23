@@ -134,7 +134,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getIdUser) -> response");
+                    Log.v(TAG, "No va (saveChanges) -> response");
                     Toast.makeText(ActivityEditarUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -153,7 +153,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                Log.e(TAG, "Error en la llamada Retrofit - (saveChanges)", t);
                 Toast.makeText(ActivityEditarUsuario.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

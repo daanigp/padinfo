@@ -12,20 +12,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.daanigp.padinfo.Entity.Partido;
+import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.R;
 
 import java.util.ArrayList;
 
-public class PartidoAdapter extends ArrayAdapter<Partido> {
+public class PartidoAdapter extends ArrayAdapter<Game> {
 
     private int mResource;
-    private ArrayList<Partido> partidos;
+    private ArrayList<Game> games;
 
-    public PartidoAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Partido> objects) {
+    public PartidoAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Game> objects) {
         super(context, resource, objects);
         mResource = resource;
-        partidos = objects;
+        games = objects;
     }
 
     @NonNull
@@ -44,10 +44,10 @@ public class PartidoAdapter extends ArrayAdapter<Partido> {
         TextView txtSet3Eq2 = fila.findViewById(R.id.txtPuntosSet3Eq2);
 
         String nombreJugadoresEq1, nombreJugadoresEq2;
-        nombreJugadoresEq1 = partidos.get(position).getPlayer1() + "\n" + partidos.get(position).getPlayer2();
-        nombreJugadoresEq2 = partidos.get(position).getPlayer3() + "\n" + partidos.get(position).getPlayer4();
+        nombreJugadoresEq1 = games.get(position).getPlayer1() + "\n" + games.get(position).getPlayer2();
+        nombreJugadoresEq2 = games.get(position).getPlayer3() + "\n" + games.get(position).getPlayer4();
 
-        int equipoGanador = partidos.get(position).getEquipoGanador();
+        int equipoGanador = games.get(position).getEquipoGanador();
 
         if (equipoGanador == 1) {
             txtNombreJugadoresEq1.setTextColor(Color.argb(255, 0 ,255, 0));
@@ -55,19 +55,19 @@ public class PartidoAdapter extends ArrayAdapter<Partido> {
             txtNombreJugadoresEq2.setTextColor(Color.argb(255, 0 ,255, 0));
         }
 
-        if (partidos.get(position).getSet1PointsT1() > partidos.get(position).getSet1PointsT2()) {
+        if (games.get(position).getSet1PointsT1() > games.get(position).getSet1PointsT2()) {
             txtSet1Eq1.setTypeface(null, Typeface.BOLD);
         } else {
             txtSet1Eq2.setTypeface(null, Typeface.BOLD);
         }
 
-        if (partidos.get(position).getSet2PointsT1() > partidos.get(position).getSet2PointsT2()) {
+        if (games.get(position).getSet2PointsT1() > games.get(position).getSet2PointsT2()) {
             txtSet2Eq1.setTypeface(null, Typeface.BOLD);
         } else {
             txtSet2Eq2.setTypeface(null, Typeface.BOLD);
         }
 
-        if (partidos.get(position).getSet3PointsT1() > partidos.get(position).getSet3PointsT2()) {
+        if (games.get(position).getSet3PointsT1() > games.get(position).getSet3PointsT2()) {
             txtSet3Eq1.setTypeface(null, Typeface.BOLD);
         } else {
             txtSet3Eq2.setTypeface(null, Typeface.BOLD);
@@ -75,12 +75,12 @@ public class PartidoAdapter extends ArrayAdapter<Partido> {
 
         txtNombreJugadoresEq1.setText(nombreJugadoresEq1);
         txtNombreJugadoresEq2.setText(nombreJugadoresEq2);
-        txtSet1Eq1.setText(String.valueOf(partidos.get(position).getSet1PointsT1()));
-        txtSet2Eq1.setText(String.valueOf(partidos.get(position).getSet2PointsT1()));
-        txtSet3Eq1.setText(String.valueOf(partidos.get(position).getSet3PointsT1()));
-        txtSet1Eq2.setText(String.valueOf(partidos.get(position).getSet1PointsT2()));
-        txtSet2Eq2.setText(String.valueOf(partidos.get(position).getSet2PointsT2()));
-        txtSet3Eq2.setText(String.valueOf(partidos.get(position).getSet3PointsT2()));
+        txtSet1Eq1.setText(String.valueOf(games.get(position).getSet1PointsT1()));
+        txtSet2Eq1.setText(String.valueOf(games.get(position).getSet2PointsT1()));
+        txtSet3Eq1.setText(String.valueOf(games.get(position).getSet3PointsT1()));
+        txtSet1Eq2.setText(String.valueOf(games.get(position).getSet1PointsT2()));
+        txtSet2Eq2.setText(String.valueOf(games.get(position).getSet2PointsT2()));
+        txtSet3Eq2.setText(String.valueOf(games.get(position).getSet3PointsT2()));
 
         return fila;
     }

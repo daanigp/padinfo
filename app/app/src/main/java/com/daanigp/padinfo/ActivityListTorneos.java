@@ -68,7 +68,6 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
     private void getTournaments(){
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-
         Call<List<Torneo>> call = padinfoApi.getTournaments(token);
 
         call.enqueue(new Callback<List<Torneo>>() {
