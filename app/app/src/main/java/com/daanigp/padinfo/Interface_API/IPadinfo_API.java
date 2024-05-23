@@ -37,10 +37,22 @@ public interface IPadinfo_API {
     @GET("players")
     Call<List<Player>> getPlayers(@Header("Authorization") String token);
 
-    @GET("/players/{gender}")
+    @GET("players/{gender}")
     Call<List<Player>> getPlayersByGender(
-            @Header("Authorization") String token,
-            @Path("gender") String gender
+        @Header("Authorization") String token,
+        @Path("gender") String gender
+    );
+
+    @GET("users/info/{id}")
+    Call<UserEntity> getUserInfoByUserID(
+        @Header("Authorization") String token,
+        @Path("id") long id
+    );
+
+    @GET("users/getRoles/{id}")
+    Call<List<Long>> getRolesByUserId(
+        @Header("Authorization") String token,
+        @Path("id") long id
     );
 
 

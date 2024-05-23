@@ -157,12 +157,10 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 UserEntity user = response.body();
 
                 if (user != null) {
-                   long id = user.getId();
-                   List<Long> rolesId = user.getRolIds();
+                    long id = user.getId();
 
-                   // Save the userID and rolesID in SharedPreferences
+                    // Save the userID and in SharedPreferences
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUserID(id);
-                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveRolesId(rolesId);
 
                     putUserIsConnected(id);
                 } else {

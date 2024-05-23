@@ -16,23 +16,34 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Entity.UserEntity;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Activity_Inicio extends AppCompatActivity {
 
     public static int USER_LOGIN = 1;
+    private static final String TAG = "Activity_Inicio";
     SQLiteDatabase db;
     TextView txtInfoApp, txtInfoApp_webs;
     boolean usuarioRegistrado;
     String username;
+    ArrayList<Long> rolesId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +51,8 @@ public class Activity_Inicio extends AppCompatActivity {
 
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
         txtInfoApp_webs = (TextView) findViewById(R.id.txtInfoApp_webs);
+
+        rolesId = new ArrayList<>();
 
         db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
@@ -49,6 +62,8 @@ public class Activity_Inicio extends AppCompatActivity {
         } else {
             usuarioRegistrado = false;
         }*/
+
+        getRolesByUserId();
 
         selectTypeMenuByUserRole();
 
@@ -201,37 +216,56 @@ public class Activity_Inicio extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == USER_LOGIN) {
             if (resultCode == RESULT_OK) {
-                usuarioRegistrado = true;
+                getRolesByUserId();
+                selectTypeMenuByUserRole();
                 invalidateOptionsMenu();
             }
         }
     }
 
-    private void selectTypeMenuByUserRole() {
-        List<Long> rolesId = SharedPreferencesManager.getInstance(Activity_Inicio.this).getRolesId();
+    private void getRolesByUserId() {
+        String token = SharedPreferencesManager.getInstance(Activity_Inicio.this).getToken();
+        long userId = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
 
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<List<Long>> call = padinfoApi.getRolesByUserId(token, userId);
+
+        call.enqueue(new Callback<List<Long>>() {
+            @Override
+            public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getIdUser) -> response");
+                    Toast.makeText(Activity_Inicio.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                List<Long> rolIdAPI = response.body();
+
+                if (rolIdAPI != null) {
+                    // Save the rolesID and in SharedPreferences
+                    SharedPreferencesManager.getInstance(Activity_Inicio.this).saveRolesId(rolIdAPI);
+
+                    rolesId = (ArrayList<Long>) rolIdAPI;
+                } else {
+                    Toast.makeText(Activity_Inicio.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Long>> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                Toast.makeText(Activity_Inicio.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void selectTypeMenuByUserRole() {
         if (!rolesId.isEmpty() && rolesId.contains(1L) || rolesId.contains(2L)) {
             usuarioRegistrado = true;
         } else {
             usuarioRegistrado = false;
         }
-    }
-
-
-    private boolean userIsConnected(){
-        boolean connected = false;
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
-
-        if (c.moveToFirst()) {
-            int indexUser = c.getColumnIndex("UserEntity");
-            String user = c.getString(indexUser);
-            if (user != null || !user.isEmpty()){
-                Toast.makeText(getApplicationContext(), "Bienvenido de nuevo, " + user + "!", Toast.LENGTH_SHORT).show();
-                connected = true;
-            }
-        }
-
-        return connected;
     }
 
 

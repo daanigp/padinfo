@@ -33,7 +33,6 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
     String token;
     PlayerAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
