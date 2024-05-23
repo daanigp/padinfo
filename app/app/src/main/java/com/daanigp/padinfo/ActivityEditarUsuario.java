@@ -8,18 +8,31 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Entity.UpdateUserInfo;
+import com.daanigp.padinfo.Entity.UserEntity;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ActivityEditarUsuario extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    private static final String TAG = "ActivityEditarUsuario";
     EditText txtNombre, txtApellidos, txtEmail;
     Button btnGuardar, btnCancelar;
     ImageView imgPerfilUsuario;
+    String token;
+    long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +46,10 @@ public class ActivityEditarUsuario extends AppCompatActivity {
         btnCancelar = (Button) findViewById(R.id.btnVolverM);
         imgPerfilUsuario = (ImageView) findViewById(R.id.imgPerfil);
 
-        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS userinfo(User VARCHAR, Name VARCHAR, Lastname VARCHAR, Email VARCHAR);");
-
         imgPerfilUsuario.setImageResource(R.drawable.icono_img);
+
+        userId = SharedPreferencesManager.getInstance(ActivityEditarUsuario.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityEditarUsuario.this).getToken();
 
         autocompleteUserInfo();
 
@@ -57,85 +69,93 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                 nombre = txtNombre.getText().toString();
                 apellidos = txtApellidos.getText().toString();
                 email = txtEmail.getText().toString();
-                saveChanges(nombre, apellidos, email);
+                if (isEmptyOrNull(nombre) || isEmptyOrNull(apellidos) || isEmptyOrNull(email)) {
+                    Toast.makeText(ActivityEditarUsuario.this, "Debes rellenar todos los datos", Toast.LENGTH_SHORT).show();
+                } else {
+                    UpdateUserInfo updateUser = new UpdateUserInfo();
+                    updateUser.setName(nombre);
+                    updateUser.setLastname(apellidos);
+                    updateUser.setEmail(email);
+                    updateUser.setImageURL(String.valueOf(R.drawable.icono_img));
+                    saveChanges(updateUser);
+                }
             }
         });
 
     }
 
-    private void autocompleteUserInfo(){
-        String user = getUserConnected();
+    private boolean isEmptyOrNull(String str){
+        return str == null || str.isEmpty();
+    }
+    private void autocompleteUserInfo() {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<UserEntity> call = padinfoApi.getUserInfoByUserID(token, userId);
 
-        Cursor c = db.rawQuery("SELECT * FROM userinfo WHERE User = '" + user + "'", null);
+        call.enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (autocompleteUserInfo) -> response");
+                    Toast.makeText(ActivityEditarUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        if (c.moveToFirst()){
-            String nombre, apellidos, email;
-            int indexNombre, indexApellidos, indexEmail;
+                UserEntity user = response.body();
 
-            indexNombre = c.getColumnIndex("Name");
-            indexApellidos = c.getColumnIndex("Lastname");
-            indexEmail = c.getColumnIndex("Email");
+                if (user != null) {
+                    txtNombre.setText(user.getName());
+                    txtApellidos.setText(user.getLastname());
+                    txtEmail.setText(user.getEmail());
+                } else {
+                    Toast.makeText(ActivityEditarUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    txtNombre.setText("vacío");
+                    txtApellidos.setText("vacío");
+                    txtEmail.setText("vacío");
+                }
 
-            nombre = c.getString(indexNombre);
-            apellidos = c.getString(indexApellidos);
-            email = c.getString(indexEmail);
-
-            if (!nombre.isEmpty() || nombre != null){
-                txtNombre.setText(nombre);
             }
 
-            if (!apellidos.isEmpty() || apellidos != null){
-                txtApellidos.setText(apellidos);
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (autocompleteUserInfo)", t);
+                Toast.makeText(ActivityEditarUsuario.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                txtNombre.setText("vacío");
+                txtApellidos.setText("vacío");
+                txtEmail.setText("vacío");
             }
-
-            if (!email.isEmpty() || email != null){
-                txtEmail.setText(email);
-            }
-        } else {
-            txtNombre.setText("vacío");
-            txtApellidos.setText("vacío");
-            txtEmail.setText("vacío");
-        }
-
-        c.close();
+        });
     }
 
-    private String getUserConnected() {
-        Cursor c = db.rawQuery("SELECT User FROM users WHERE Isconnected = 1", null);
+    private void saveChanges(UpdateUserInfo updateUser) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<UserEntity> call = padinfoApi.updateUserInfo(token, userId, updateUser);
 
-        String user = null;
-        if (c.moveToFirst()) {
-            int index = c.getColumnIndex("UserEntity");
-            user = c.getString(index);
-        }
+        call.enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getIdUser) -> response");
+                    Toast.makeText(ActivityEditarUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        c.close();
+                UserEntity userAPI = response.body();
 
-        return user;
-    }
+                if (userAPI != null) {
+                    Toast.makeText(ActivityEditarUsuario.this, "Has guardado los cambios.", Toast.LENGTH_SHORT).show();
 
-    private void saveChanges(String nombre, String apellidos, String email){
-        String user = getUserConnected();
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    Toast.makeText(ActivityEditarUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        Cursor c = db.rawQuery("SELECT * FROM userinfo WHERE User = '" + user + "'", null);
-
-        if (c.getCount() != 0) {
-            //Valores a actualizar
-            ContentValues valores = new ContentValues();
-            valores.put("Name", nombre);
-            valores.put("Lastname", apellidos);
-            valores.put("Email", email);
-
-            // Definir la cláusula where para identificar el usuario a actualizar
-            String whereClause = "UserEntity = ?";
-            String[] whereArgs = { user };
-            db.update("userinfo", valores, whereClause, whereArgs);
-
-            Toast.makeText(getApplicationContext(), "Has guardado los cambios.", Toast.LENGTH_SHORT).show();
-        }
-
-        c.close();
-        setResult(RESULT_OK);
-        finish();
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                Toast.makeText(ActivityEditarUsuario.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

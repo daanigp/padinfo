@@ -28,10 +28,12 @@ import retrofit2.Response;
 public class ActivityPerfilUsuario extends AppCompatActivity {
 
     private static int EDIT_USER = 2;
-    private static final String TAG = "ActivityInicioSesion";
+    private static final String TAG = "ActivityPerfilUsuario";
     TextView txtNombre, txtApellidos, txtEmail;
     Button btnVolver, btnEditar;
     ImageView imgPerfil;
+    String token;
+    long userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,9 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
         imgPerfil = (ImageView) findViewById(R.id.imgPerfil);
 
         imgPerfil.setImageResource(R.drawable.icono_img);
+
+        userId = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getToken();
 
         autocompleteUserInfo();
 
@@ -75,11 +80,8 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
     }
 
     private void autocompleteUserInfo() {
-        long id = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getUserId();
-        String token = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getToken();
-
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<UserEntity> call = padinfoApi.getUserInfoByUserID(token, id);
+        Call<UserEntity> call = padinfoApi.getUserInfoByUserID(token, userId);
 
         call.enqueue(new Callback<UserEntity>() {
             @Override

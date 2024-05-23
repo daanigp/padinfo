@@ -1,6 +1,7 @@
 package com.daanigp.padinfo.Interface_API;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Entity.UpdateUserInfo;
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Entity.Torneo;
@@ -8,6 +9,7 @@ import com.daanigp.padinfo.Entity.Torneo;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PUT;
@@ -54,6 +56,14 @@ public interface IPadinfo_API {
         @Header("Authorization") String token,
         @Path("id") long id
     );
+
+    @PUT("users/updateInfo/{id}")
+    Call<UserEntity> updateUserInfo(
+        @Header("Authorization") String token,
+        @Path("id") long id,
+        @Body UpdateUserInfo updateUserInfo
+    );
+
 
 
 }
