@@ -15,10 +15,7 @@ import com.backend.padinfo_backend.mappers.GameMapper;
 import com.backend.padinfo_backend.mappers.PlayerMapper;
 import com.backend.padinfo_backend.mappers.TournamentMapper;
 import com.backend.padinfo_backend.mappers.UserInfoMapper;
-import com.backend.padinfo_backend.model.entity.Game;
-import com.backend.padinfo_backend.model.entity.Player;
-import com.backend.padinfo_backend.model.entity.Tournament;
-import com.backend.padinfo_backend.model.entity.UserInfo;
+import com.backend.padinfo_backend.model.entity.*;
 import com.backend.padinfo_backend.model.service.Game.IGameService;
 import com.backend.padinfo_backend.model.service.Player.IPlayerService;
 import com.backend.padinfo_backend.model.service.Tournament.ITournamentService;
@@ -235,8 +232,8 @@ public class PadinfoController {
                     content = @Content(schema = @Schema(implementation = Response.class)))
 
     })
-    public ResponseEntity<UserDTO> getUserInfo(@RequestParam String user) {
-        UserInfo userInfo = userInfoService.selectUserInfoByUsername(user);
+    public ResponseEntity<UserDTO> getUserInfo(@RequestParam String username) {
+        UserInfo userInfo = userInfoService.selectUserInfoByUsername(username);
 
         UserDTO userDTO = userInfoMapper.toDTO(userInfo);
 
@@ -321,6 +318,18 @@ public class PadinfoController {
         }
 
         return new ResponseEntity<>(Response.noErrorResponse(message), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/getRoles/{id}")
+    public ResponseEntity<?> getUserRolesByUserId(@PathVariable long id) {
+        List<Role> roles = userInfoService.getRolesByUserId(id);
+
+        if (roles.isEmpty()) {
+            String message = "No hay roles asociados al id '" + id + "'";
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(roles, HttpStatus.OK);
+        }
     }
 
 }

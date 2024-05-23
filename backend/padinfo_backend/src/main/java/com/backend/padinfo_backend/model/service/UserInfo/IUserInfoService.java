@@ -1,5 +1,6 @@
 package com.backend.padinfo_backend.model.service.UserInfo;
 
+import com.backend.padinfo_backend.model.entity.Role;
 import com.backend.padinfo_backend.model.entity.UserInfo;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface IUserInfoService {
     UserInfo selectUserInfoByUsername(String user);
 
     boolean existsByUsername(String username);
+
+    List<Role> getRolesByUserId(Long id);
 
 }

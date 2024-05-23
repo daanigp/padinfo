@@ -120,4 +120,13 @@ public class UserInfoService implements IUserInfoService{
             return false;
         }
     }
+
+    @Override
+    public List<Role> getRolesByUserId(Long id) {
+        UserInfo userInfo = userInfoRepository.findById(id).orElseThrow(
+                () -> new UserInfoNotFoundException("No hay usuarios con ese id -> " + id)
+        );
+
+        return userInfoRepository.getRolesByUserId(id);
+    }
 }

@@ -44,5 +44,12 @@
         <query>SELECT CASE WHEN COUNT(u.id) > 0 THEN TRUE ELSE FALSE END FROM UserInfo u WHERE u.username = ?1</query>
     </named-query>
 
+    <named-query name="UserInfo.getRolesByUserId">
+        <query>
+            SELECT u.roles
+            FROM UserInfo u
+            WHERE u.id = ?1
+        </query>
+    </named-query>
 
 </entity-mappings>
