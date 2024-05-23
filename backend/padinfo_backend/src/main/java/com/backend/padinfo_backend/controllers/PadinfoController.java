@@ -155,6 +155,7 @@ public class PadinfoController {
         return new ResponseEntity<>(Response.noErrorResponse("IsConnected actualizado correctamente"), HttpStatus.OK);
     }
 
+
     // 5
     @GetMapping("/users/isConnected")
     public ResponseEntity<UserDTO> getUserConnected() {
@@ -220,7 +221,7 @@ public class PadinfoController {
     public ResponseEntity<Response> deleteGameById(@PathVariable long id) {
         gameService.deleteGame(id);
 
-        return new ResponseEntity<>(Response.noErrorResponse("Partido eliminado correctamente."), HttpStatus.OK);
+        return new ResponseEntity<>(Response.noErrorResponse("Borrado"), HttpStatus.OK);
     }
 
     // 13
