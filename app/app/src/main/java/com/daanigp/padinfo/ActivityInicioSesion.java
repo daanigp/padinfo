@@ -22,8 +22,10 @@ import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 import com.daanigp.padinfo.Entity.Security.LoginUser;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -115,6 +117,10 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 String token = response.body();
 
                 if (token != null) {
+                    // Save the token and username in SharedPreferences
+                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveToken(token);
+                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUsername(user);
+
                     getIdUser(user);
 
                     Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
@@ -152,6 +158,11 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
                 if (user != null) {
                    long id = user.getId();
+                   List<Long> rolesId = user.getRolIds();
+
+                   // Save the userID and rolesID in SharedPreferences
+                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUserID(id);
+                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveRolesId(rolesId);
 
                     putUserIsConnected(id);
                 } else {

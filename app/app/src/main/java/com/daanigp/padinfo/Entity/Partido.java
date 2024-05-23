@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Entity;
 
 public class Partido {
     private int idGame;

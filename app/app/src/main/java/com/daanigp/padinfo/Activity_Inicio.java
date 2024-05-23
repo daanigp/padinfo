@@ -22,6 +22,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+
+import java.util.List;
+
 public class Activity_Inicio extends AppCompatActivity {
 
     public static int USER_LOGIN = 1;
@@ -29,8 +33,6 @@ public class Activity_Inicio extends AppCompatActivity {
     TextView txtInfoApp, txtInfoApp_webs;
     boolean usuarioRegistrado;
     String username;
-
-    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +50,7 @@ public class Activity_Inicio extends AppCompatActivity {
             usuarioRegistrado = false;
         }*/
 
-        Intent i = getIntent();
-        token = token = "Bearer " + i.getStringExtra("token");
-
-        switch (roles()) {
-            case 1:
-                usuarioRegistrado = true;
-                break;
-            default:
-                usuarioRegistrado = false;
-                break;
-        }
+        selectTypeMenuByUserRole();
 
         String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
         premierPadel = "https://premierpadel.com/";
@@ -166,7 +158,6 @@ public class Activity_Inicio extends AppCompatActivity {
             case R.id.itemListado:
                 Toast.makeText(getApplicationContext(), "Listado torneos", Toast.LENGTH_SHORT).show();
                 Intent intentListadoTorneos = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
-                intentListadoTorneos.putExtra("token", token);
                 startActivity(intentListadoTorneos);
                 return true;
             case R.id.itemTop5:
@@ -184,6 +175,9 @@ public class Activity_Inicio extends AppCompatActivity {
                 usuarioRegistrado = false;
                 invalidateOptionsMenu();
                 putUserDisconnected();
+                SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
+                Intent intentInicioSes = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
+                startActivity(intentInicioSes);
                 return true;
             case R.id.itemInicioSesion:
                 Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
@@ -207,12 +201,22 @@ public class Activity_Inicio extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == USER_LOGIN) {
             if (resultCode == RESULT_OK) {
-                token = data.getStringExtra("token");
                 usuarioRegistrado = true;
                 invalidateOptionsMenu();
             }
         }
     }
+
+    private void selectTypeMenuByUserRole() {
+        List<Long> rolesId = SharedPreferencesManager.getInstance(Activity_Inicio.this).getRolesId();
+
+        if (!rolesId.isEmpty() && rolesId.contains(1L) || rolesId.contains(2L)) {
+            usuarioRegistrado = true;
+        } else {
+            usuarioRegistrado = false;
+        }
+    }
+
 
     private boolean userIsConnected(){
         boolean connected = false;
@@ -230,9 +234,6 @@ public class Activity_Inicio extends AppCompatActivity {
         return connected;
     }
 
-    private int roles(){
-        return 1;
-    }
 
     private void putUserDisconnected(){
         Cursor c = db.rawQuery("SELECT User FROM users WHERE Isconnected = 1", null);

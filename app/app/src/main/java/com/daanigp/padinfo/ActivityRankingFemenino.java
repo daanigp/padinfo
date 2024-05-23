@@ -11,8 +11,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Adapter.PlayerAdapter;
+import com.daanigp.padinfo.DataSource.RankingDataSource;
+import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,9 +40,7 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
         setContentView(R.layout.activity_ranking_femenino);
 
         players = new ArrayList<>();
-
-        Intent intent = getIntent();
-        token = intent.getStringExtra("token");
+        token = SharedPreferencesManager.getInstance(ActivityRankingFemenino.this).getToken();
 
         Log.v(TAG, "TOKEN -> " + token);
 

@@ -19,6 +19,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Adapter.PartidoAdapter;
+import com.daanigp.padinfo.Entity.Partido;
+
 import java.util.ArrayList;
 
 public class ActivityListPartidos extends AppCompatActivity implements AdapterView.OnItemClickListener {

@@ -2,8 +2,8 @@ package com.daanigp.padinfo.Interface_API;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.UserEntity;
-import com.daanigp.padinfo.Player;
-import com.daanigp.padinfo.Torneo;
+import com.daanigp.padinfo.Entity.Player;
+import com.daanigp.padinfo.Entity.Torneo;
 
 import java.util.List;
 

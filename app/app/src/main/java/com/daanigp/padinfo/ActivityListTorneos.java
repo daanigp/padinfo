@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Adapter.TorneoAdapter;
+import com.daanigp.padinfo.Entity.Torneo;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +23,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityListTorneos extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "ActivityListTorneos";
@@ -37,8 +38,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
         tournamnets = new ArrayList<>();
 
-        Intent intent = getIntent();
-        token = intent.getStringExtra("token");
+        token = SharedPreferencesManager.getInstance(ActivityListTorneos.this).getToken();
 
         Log.v(TAG, "TOKEN -> " + token);
 

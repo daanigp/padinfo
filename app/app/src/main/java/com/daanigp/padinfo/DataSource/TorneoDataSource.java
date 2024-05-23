@@ -1,4 +1,7 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.DataSource;
+
+import com.daanigp.padinfo.Entity.Torneo;
+import com.daanigp.padinfo.R;
 
 import java.util.ArrayList;
 

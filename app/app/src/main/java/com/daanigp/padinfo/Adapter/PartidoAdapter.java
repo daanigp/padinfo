@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.daanigp.padinfo.Entity.Partido;
+import com.daanigp.padinfo.R;
 
 import java.util.ArrayList;
 
