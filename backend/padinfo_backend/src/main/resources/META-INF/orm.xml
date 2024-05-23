@@ -46,8 +46,9 @@
 
     <named-query name="UserInfo.getRolesByUserId">
         <query>
-            SELECT u.roles
+            SELECT r.id
             FROM UserInfo u
+            JOIN u.roles r
             WHERE u.id = ?1
         </query>
     </named-query>

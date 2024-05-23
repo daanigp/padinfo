@@ -26,6 +26,6 @@ public interface IUserInfoService {
 
     boolean existsByUsername(String username);
 
-    List<Role> getRolesByUserId(Long id);
+    List<Long> getRolesByUserId(Long id);
 
 }

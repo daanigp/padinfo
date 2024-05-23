@@ -26,6 +26,6 @@ public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
     boolean existsByUsername(String username);
 
     // Obtener los roles de un usuario con id x
-    List<Role> getRolesByUserId(Long id);
+    List<Long> getRolesByUserId(Long id);
 
 }
