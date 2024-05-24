@@ -322,15 +322,10 @@ public class PadinfoController {
 
     // 22
     @GetMapping("/users/getRoles/{id}")
-    public ResponseEntity<?> getUserRolesByUserId(@PathVariable long id) {
+    public ResponseEntity<List<Long>> getUserRolesByUserId(@PathVariable long id) {
         List<Long> roles = userInfoService.getRolesByUserId(id);
 
-        if (roles.isEmpty()) {
-            String message = "No hay roles asociados al id '" + id + "'";
-            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(roles, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
     // 23
