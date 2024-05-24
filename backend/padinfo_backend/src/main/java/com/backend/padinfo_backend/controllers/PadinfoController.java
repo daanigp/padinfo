@@ -206,10 +206,10 @@ public class PadinfoController {
     }
 
     // 11
-    @GetMapping("/games/user/{id}")
-    public ResponseEntity<List<GameDTO>> getGamesByUserId(@PathVariable long id) {
+    @GetMapping("/games/user/{userId}")
+    public ResponseEntity<List<GameDTO>> getGamesByUserId(@PathVariable long userId) {
 
-        List<Game> games = gameService.getGamesByUserId(id);
+        List<Game> games = gameService.getGamesByUserId(userId);
 
         List<GameDTO> gamesDTO = gameMapper.toDTO(games);
 
@@ -308,6 +308,7 @@ public class PadinfoController {
         return new ResponseEntity<>(Response.noErrorResponse("Jugador eliminado correctamente."), HttpStatus.OK);
     }
 
+    // 21
     @GetMapping("/users/checkUser")
     public ResponseEntity<Response> checkUserExists(@RequestParam String username) {
         String message;
@@ -321,6 +322,7 @@ public class PadinfoController {
         return new ResponseEntity<>(Response.noErrorResponse(message), HttpStatus.OK);
     }
 
+    // 22
     @GetMapping("/users/getRoles/{id}")
     public ResponseEntity<?> getUserRolesByUserId(@PathVariable long id) {
         List<Long> roles = userInfoService.getRolesByUserId(id);
@@ -333,4 +335,13 @@ public class PadinfoController {
         }
     }
 
+    // 23
+    @GetMapping("/games/user/getGame/{id}")
+    public ResponseEntity<GameDTO> getGameById(@PathVariable long id) {
+        Game game = gameService.findById(id);
+
+        GameDTO gameDTO = gameMapper.toDTO(game);
+
+        return new ResponseEntity<>(gameDTO, HttpStatus.OK);
+    }
 }
