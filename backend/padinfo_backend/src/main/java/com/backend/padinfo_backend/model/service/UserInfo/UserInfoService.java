@@ -103,8 +103,9 @@ public class UserInfoService implements IUserInfoService{
     }
 
     @Override
-    public UserInfo selectUserIsConnected() {
-        return userInfoRepository.selectUserIsConnected();
+    public Integer selectUserIsConnectedByUserId(Long id)
+    {
+        return userInfoRepository.selectUserIsConnectedByUserId(id);
     }
 
     @Override

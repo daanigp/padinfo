@@ -17,7 +17,7 @@ public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
     Optional<UserInfo> findByUsername(String username);
 
     // 5. Obtener el usuario conectado
-    UserInfo selectUserIsConnected();
+    Integer selectUserIsConnectedByUserId(Long id);
 
     // 13. Obtener el UserInfo segun nombre de usuario
     UserInfo selectUserInfoByUsername(String user);

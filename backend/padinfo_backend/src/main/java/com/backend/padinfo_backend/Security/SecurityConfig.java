@@ -86,6 +86,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "api/users/checkUser").permitAll()
                                 .requestMatchers(HttpMethod.GET, "api/users/userInfoByName").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "api/users/updateIsConnected/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "api/users/isConnected/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/tournaments").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers(HttpMethod.GET, "/api/players").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers("/api/games/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())

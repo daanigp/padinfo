@@ -157,13 +157,11 @@ public class PadinfoController {
 
 
     // 5
-    @GetMapping("/users/isConnected")
-    public ResponseEntity<UserDTO> getUserConnected() {
-        UserInfo userInfo = userInfoService.selectUserIsConnected();
+    @GetMapping("/users/isConnected/{id}")
+    public ResponseEntity<Integer> getUserConnectivityByUserId(@PathVariable long id) {
+        int isConnected = userInfoService.selectUserIsConnectedByUserId(id);
 
-        UserDTO userDTO = userInfoMapper.toDTO(userInfo);
-
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        return new ResponseEntity<>(isConnected, HttpStatus.OK);
     }
 
     // 7
@@ -196,7 +194,7 @@ public class PadinfoController {
 
     // 10
     @PutMapping("/games/updateGame/{id}")
-    public ResponseEntity<?> updateGame(@PathVariable long id, @Valid @RequestBody UpdateGameDTO newGameDTO) {
+    public ResponseEntity<Game> updateGame(@PathVariable long id, @Valid @RequestBody UpdateGameDTO newGameDTO) {
         Game game = null;
 
         Game newGame = gameMapper.fromDTO(newGameDTO);
