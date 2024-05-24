@@ -62,7 +62,7 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE -> " + players.get(position).getNombre(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "HAS PULSADO SOBRE -> " + players.get(position).getName(), Toast.LENGTH_LONG).show();
     }
 
     private void getPlayers() {
@@ -81,24 +81,24 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
                 List<Player> playersAPI = response.body();
 
                 if (playersAPI != null) {
-                    playersAPI.sort(new Comparator<Player>() {
-                        @Override
-                        public int compare(Player p1, Player p2) {
-                            return Integer.compare(p1.getPosicion(), p2.getPosicion());
-                        }
-                    });
-
                     for(Player p: playersAPI) {
                         Player player = new Player();
                         player.setId(p.getId());
-                        player.setNombre(p.getNombre());
-                        player.setPuntos(p.getPuntos());
+                        player.setName(p.getName());
+                        player.setPoints(p.getPoints());
                         player.setGender(p.getGender());
-                        player.setPosicion(p.getPosicion());
-                        player.setImagenURL(p.getImagenURL());
+                        player.setRankingPosition(p.getRankingPosition());
+                        player.setImageURL(p.getImageURL());
 
                         players.add(player);
                     }
+
+                    players.sort(new Comparator<Player>() {
+                        @Override
+                        public int compare(Player p1, Player p2) {
+                            return Integer.compare(p1.getRankingPosition(), p2.getRankingPosition());
+                        }
+                    });
 
                     // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();

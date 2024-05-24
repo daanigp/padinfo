@@ -1,64 +1,31 @@
 package com.daanigp.padinfo.Entity;
 
 public class Player {
-    private int id;
-    private int posicion;
-    private String puntos;
-    private String nombre;
-    private String imagenURL;
-
+    private long id;
     private String gender;
+    private int rankingPosition;
+    private String points;
+    private String name;
+    private String imageURL;
 
     public Player() {
     }
 
-    public Player(int id, int posicion, String puntos, String nombre, String imagenURL, String gender) {
+    public Player(long id, String gender, int rankingPosition, String points, String name, String imageURL) {
         this.id = id;
-        this.posicion = posicion;
-        this.puntos = puntos;
-        this.nombre = nombre;
-        this.imagenURL = imagenURL;
         this.gender = gender;
+        this.rankingPosition = rankingPosition;
+        this.points = points;
+        this.name = name;
+        this.imageURL = imageURL;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public int getPosicion() {
-        return posicion;
-    }
-
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
-    }
-
-    public String getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(String puntos) {
-        this.puntos = puntos;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getImagenURL() {
-        return imagenURL;
-    }
-
-    public void setImagenURL(String imagenURL) {
-        this.imagenURL = imagenURL;
     }
 
     public String getGender() {
@@ -67,5 +34,37 @@ public class Player {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public int getRankingPosition() {
+        return rankingPosition;
+    }
+
+    public void setRankingPosition(int rankingPosition) {
+        this.rankingPosition = rankingPosition;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }

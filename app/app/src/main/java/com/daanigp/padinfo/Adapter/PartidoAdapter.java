@@ -47,7 +47,7 @@ public class PartidoAdapter extends ArrayAdapter<Game> {
         nombreJugadoresEq1 = games.get(position).getPlayer1() + "\n" + games.get(position).getPlayer2();
         nombreJugadoresEq2 = games.get(position).getPlayer3() + "\n" + games.get(position).getPlayer4();
 
-        int equipoGanador = games.get(position).getEquipoGanador();
+        int equipoGanador = games.get(position).getWinnerTeam();
 
         if (equipoGanador == 1) {
             txtNombreJugadoresEq1.setTextColor(Color.argb(255, 0 ,255, 0));

@@ -87,7 +87,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (autocompleteUserInfo) -> response");
+                    Log.v(TAG, "No va (autocompleteUserInfo) -> response" + response);
                     Toast.makeText(ActivityPerfilUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }

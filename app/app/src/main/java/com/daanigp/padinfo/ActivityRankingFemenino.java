@@ -17,6 +17,7 @@ import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,8 +43,6 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
         players = new ArrayList<>();
         token = SharedPreferencesManager.getInstance(ActivityRankingFemenino.this).getToken();
 
-        Log.v(TAG, "TOKEN -> " + token);
-
         getPlayers();
 
         ListView lista = (ListView) findViewById(R.id.rankFemList);
@@ -63,10 +62,12 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE -> " + RankingDataSource.rankingFem.get(position).getNombre(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "HAS PULSADO SOBRE -> " + RankingDataSource.rankingFem.get(position).getName(), Toast.LENGTH_LONG).show();
     }
 
     private void getPlayers() {
+        Log.v(TAG, "TOKEN -> " + token);
+
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<List<Player>> call = padinfoApi.getPlayersByGender(token, "fem");
 
@@ -79,27 +80,42 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
                     return;
                 }
 
+                Log.v(TAG, "JSON recibido: " + new Gson().toJson(response.body()));
+
                 List<Player> playersAPI = response.body();
 
                 if (playersAPI != null) {
-                    playersAPI.sort(new Comparator<Player>() {
+                   /* playersAPI.sort(new Comparator<Player>() {
                         @Override
                         public int compare(Player p1, Player p2) {
                             return Integer.compare(p1.getPosicion(), p2.getPosicion());
                         }
-                    });
+                    });*/
 
                     for (Player p: playersAPI) {
                         Player player = new Player();
                         player.setId(p.getId());
-                        player.setNombre(p.getNombre());
-                        player.setPuntos(p.getPuntos());
+                        player.setName(p.getName());
+                        player.setPoints(p.getPoints());
                         player.setGender(p.getGender());
-                        player.setPosicion(p.getPosicion());
-                        player.setImagenURL(p.getImagenURL());
+                        player.setRankingPosition(p.getRankingPosition());
+                        player.setImageURL(p.getImageURL());
+
+                        Log.v(TAG, "id -> " + p.getId());
+                        Log.v(TAG, "nombre -> " + p.getName());
+                        Log.v(TAG, "puntos -> " + p.getPoints());
+                        Log.v(TAG, "posicion -> " + p.getRankingPosition());
+                        Log.v(TAG, "IMAGEN URL -> " + p.getImageURL());
 
                         players.add(player);
                     }
+
+                    players.sort(new Comparator<Player>() {
+                        @Override
+                        public int compare(Player p1, Player p2) {
+                            return Integer.compare(p1.getRankingPosition(), p2.getRankingPosition());
+                        }
+                    });
 
                     // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
@@ -115,4 +131,61 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
             }
         });
     }
+
+    /*private void getPlayers3(){
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<List<Player>> call = padinfoApi.getPlayers(token);
+
+        call.enqueue(new Callback<List<Player>>() {
+            @Override
+            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getPlayersFEM) -> response");
+                    Toast.makeText(ActivityRankingFemenino.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                List<Player> playersAPI = response.body();
+
+                if (playersAPI != null) {
+                    for (Player p: playersAPI) {
+                        if (p.getGender().equalsIgnoreCase("fem")) {
+                            Player player = new Player();
+                            player.setId(p.getId());
+                            player.setNombre(p.getNombre());
+                            player.setPuntos(p.getPuntos());
+                            player.setGender(p.getGender());
+                            player.setPosicion(p.getPosicion());
+                            player.setImagenURL(p.getImagenURL());
+
+                            Log.v(TAG, "id -> " + p.getId());
+                            Log.v(TAG, "nombre -> " + p.getNombre());
+                            Log.v(TAG, "puntos -> " + p.getPuntos());
+                            Log.v(TAG, "posicion -> " + p.getPosicion());
+                            Log.v(TAG, "IMAGEN URL -> " + p.getImagenURL());
+
+                            players.add(player);
+                        }
+                    }
+
+                    players.sort(new Comparator<Player>() {
+                        @Override
+                        public int compare(Player p1, Player p2) {
+                            return Integer.compare(p1.getPosicion(), p2.getPosicion());
+                        }
+                    });
+                    // Notificar al adapter que los datos han cambiado
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ActivityRankingFemenino.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Player>> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getPlayersFEM)", t);
+                Toast.makeText(ActivityRankingFemenino.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }*/
 }

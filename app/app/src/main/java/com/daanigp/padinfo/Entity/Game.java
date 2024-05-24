@@ -3,10 +3,10 @@ package com.daanigp.padinfo.Entity;
 public class Game {
     private long id;
     private long userId;
-    private String player1;
-    private String player2;
-    private String player3;
-    private String player4;
+    private String namePlayer1;
+    private String namePlayer2;
+    private String namePlayer3;
+    private String namePlayer4;
     private int set1PointsT1;
     private int set2PointsT1;
     private int set3PointsT1;
@@ -18,13 +18,13 @@ public class Game {
     public Game() {
     }
 
-    public Game(long id, long userId, String player1, String player2, String player3, String player4, int set1PointsT1, int set2PointsT1, int set3PointsT1, int set1PointsT2, int set2PointsT2, int set3PointsT2, int winnerTeam) {
+    public Game(long id, long userId, String namePlayer1, String namePlayer2, String namePlayer3, String namePlayer4, int set1PointsT1, int set2PointsT1, int set3PointsT1, int set1PointsT2, int set2PointsT2, int set3PointsT2, int winnerTeam) {
         this.id = id;
         this.userId = userId;
-        this.player1 = player1;
-        this.player2 = player2;
-        this.player3 = player3;
-        this.player4 = player4;
+        this.namePlayer1 = namePlayer1;
+        this.namePlayer2 = namePlayer2;
+        this.namePlayer3 = namePlayer3;
+        this.namePlayer4 = namePlayer4;
         this.set1PointsT1 = set1PointsT1;
         this.set2PointsT1 = set2PointsT1;
         this.set3PointsT1 = set3PointsT1;
@@ -50,36 +50,36 @@ public class Game {
         this.userId = userId;
     }
 
-    public String getPlayer1() {
-        return player1;
+    public String getNamePlayer1() {
+        return namePlayer1;
     }
 
-    public void setPlayer1(String player1) {
-        this.player1 = player1;
+    public void setNamePlayer1(String namePlayer1) {
+        this.namePlayer1 = namePlayer1;
     }
 
-    public String getPlayer2() {
-        return player2;
+    public String getNamePlayer2() {
+        return namePlayer2;
     }
 
-    public void setPlayer2(String player2) {
-        this.player2 = player2;
+    public void setNamePlayer2(String namePlayer2) {
+        this.namePlayer2 = namePlayer2;
     }
 
-    public String getPlayer3() {
-        return player3;
+    public String getNamePlayer3() {
+        return namePlayer3;
     }
 
-    public void setPlayer3(String player3) {
-        this.player3 = player3;
+    public void setNamePlayer3(String namePlayer3) {
+        this.namePlayer3 = namePlayer3;
     }
 
-    public String getPlayer4() {
-        return player4;
+    public String getNamePlayer4() {
+        return namePlayer4;
     }
 
-    public void setPlayer4(String player4) {
-        this.player4 = player4;
+    public void setNamePlayer4(String namePlayer4) {
+        this.namePlayer4 = namePlayer4;
     }
 
     public int getSet1PointsT1() {

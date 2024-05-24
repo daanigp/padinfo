@@ -118,6 +118,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
                 if (token != null) {
                     // Save the token and username in SharedPreferences
+                    token = "Bearer " + token;
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveToken(token);
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUsername(user);
 

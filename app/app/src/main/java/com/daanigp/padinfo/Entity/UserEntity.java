@@ -3,7 +3,7 @@ package com.daanigp.padinfo.Entity;
 import java.util.List;
 
 public class UserEntity {
-    private Long id;
+    private long id;
     private String username;
     private String password;
     private String name;
@@ -16,7 +16,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String username, String password, String name, String lastname, String email, String imageURL, List<Long> rolIds) {
+    public UserEntity(long id, String username, String password, String name, String lastname, String email, String imageURL, List<Long> rolIds) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -27,11 +27,11 @@ public class UserEntity {
         this.rolIds = rolIds;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

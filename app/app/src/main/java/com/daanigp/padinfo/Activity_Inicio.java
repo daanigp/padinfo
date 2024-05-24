@@ -41,7 +41,7 @@ public class Activity_Inicio extends AppCompatActivity {
     public static int USER_LOGIN = 1;
     private static final String TAG = "Activity_Inicio";
     TextView txtInfoApp, txtInfoApp_webs;
-    boolean userGUEST;
+    boolean registredUser;
     String username;
     ArrayList<Long> rolesId;
     @Override
@@ -132,7 +132,7 @@ public class Activity_Inicio extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!userGUEST) {
+        if (!registredUser) {
             getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
@@ -210,6 +210,9 @@ public class Activity_Inicio extends AppCompatActivity {
         String token = SharedPreferencesManager.getInstance(Activity_Inicio.this).getToken();
         long userId = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
 
+        Log.v(TAG, "TOKEN -> " + token);
+        Log.v(TAG, "userId -> " + userId);
+
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<List<Long>> call = padinfoApi.getRolesByUserId(token, userId);
 
@@ -217,20 +220,19 @@ public class Activity_Inicio extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getIdUser) -> response");
+                    Log.v(TAG, "No va (getIdUser) -> response - getRolesByUserId - Activity_Inicio");
                     Toast.makeText(Activity_Inicio.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 List<Long> rolIdAPI = response.body();
 
-                if (rolIdAPI != null) {
+                if (rolIdAPI != null && !rolIdAPI.isEmpty()) {
                     // Save the rolesID and in SharedPreferences
                     SharedPreferencesManager.getInstance(Activity_Inicio.this).saveRolesId(rolIdAPI);
-
                     rolesId = (ArrayList<Long>) rolIdAPI;
                 } else {
-                    Toast.makeText(Activity_Inicio.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Inicio.this, "No hay roles asociados al id : " + userId, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -245,9 +247,9 @@ public class Activity_Inicio extends AppCompatActivity {
 
     private void selectTypeMenuByUserRole() {
         if (!rolesId.isEmpty() && (rolesId.contains(1L) || rolesId.contains(2L))) {
-            userGUEST = false;
+            registredUser = true;
         } else {
-            userGUEST = true;
+            registredUser = false;
         }
     }
 

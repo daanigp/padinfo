@@ -1,6 +1,7 @@
 package com.daanigp.padinfo.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.daanigp.padinfo.R;
 import java.util.ArrayList;
 
 public class PlayerAdapter extends ArrayAdapter<Player> {
+    private static final String TAG = "ActivityRankingFemenino";
 
     private int mResource;
     private ArrayList<Player> rankingPlayers;
@@ -40,11 +42,11 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 
         Player player = rankingPlayers.get(position);
 
-        txtNumeroRanking.setText(String.valueOf(player.getPosicion()));
-        txtPuntos.setText(player.getPuntos());
-        txtNombrePlayer.setText(player.getNombre());
+        txtNumeroRanking.setText(String.valueOf(player.getRankingPosition()));
+        txtPuntos.setText(player.getPoints());
+        txtNombrePlayer.setText(player.getName());
 
-        int imageResourceId = getContext().getResources().getIdentifier(player.getImagen(), "drawable", getContext().getPackageName());
+        int imageResourceId = getContext().getResources().getIdentifier(player.getImageURL(), "drawable", getContext().getPackageName());
         imgPlayer.setImageResource(imageResourceId);
 
         return fila;

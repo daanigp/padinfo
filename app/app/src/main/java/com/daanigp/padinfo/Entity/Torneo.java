@@ -1,7 +1,7 @@
 package com.daanigp.padinfo.Entity;
 
 public class Torneo {
-    private Long id;
+    private long id;
     private String name;
     private String city;
     private String imageURL;
@@ -9,18 +9,18 @@ public class Torneo {
     public Torneo() {
     }
 
-    public Torneo(Long id, String name, String city, String imageURL) {
+    public Torneo(long id, String name, String city, String imageURL) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.imageURL = imageURL;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

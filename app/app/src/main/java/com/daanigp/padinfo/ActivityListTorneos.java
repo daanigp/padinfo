@@ -74,6 +74,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             @Override
             public void onResponse(Call<List<Torneo>> call, Response<List<Torneo>> response) {
                 if(!response.isSuccessful()) {
+                    Log.e(TAG, "No va getTournaments - response" + response);
                     Toast.makeText(ActivityListTorneos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -99,7 +100,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
             @Override
             public void onFailure(Call<List<Torneo>> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit", t);
+                Log.e(TAG, "Error en la llamada Retrofit - getTournaments", t);
                 Toast.makeText(ActivityListTorneos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
