@@ -35,6 +35,9 @@ public interface IPadinfo_API {
     @GET("users/userInfoByName")
     Call<UserEntity> getUserByUsername(@Query("username") String username);
 
+    @GET("/users/isConnected/{id}")
+    Call<Integer> getUserConnectivityByUserId(@Path("id") long id);
+
     /*
         NEED TOKEN
      */
@@ -102,6 +105,7 @@ public interface IPadinfo_API {
         @Path("id") long id,
         @Body UpdateGame updateGame
     );
+
 
 
 

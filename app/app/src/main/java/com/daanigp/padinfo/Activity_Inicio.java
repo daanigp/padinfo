@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
@@ -39,9 +40,8 @@ public class Activity_Inicio extends AppCompatActivity {
 
     public static int USER_LOGIN = 1;
     private static final String TAG = "Activity_Inicio";
-    SQLiteDatabase db;
     TextView txtInfoApp, txtInfoApp_webs;
-    boolean usuarioRegistrado;
+    boolean userGUEST;
     String username;
     ArrayList<Long> rolesId;
     @Override
@@ -54,8 +54,6 @@ public class Activity_Inicio extends AppCompatActivity {
 
         rolesId = new ArrayList<>();
 
-        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(User VARCHAR, Password VARCHAR, Isconnected INTEGER);");
 
         /*if (userIsConnected()) {
             usuarioRegistrado = true;
@@ -130,28 +128,11 @@ public class Activity_Inicio extends AppCompatActivity {
         // Añadimos los spanneables al text view
         txtInfoApp_webs.setText(builder);
         txtInfoApp_webs.setMovementMethod(LinkMovementMethod.getInstance());
-
-        /*try {
-
-            URL urlPremierPadel = new URL(premierPadel);
-            URL urlRankingMasculino = new URL(rankingMasculino);
-            URL urlRankingFemenino = new URL(rankingFemenino);
-
-            txtInfoApp_webs.setText("Premier padel: " + urlPremierPadel);
-            txtInfoApp_webs.append("\nRanking masculino: " + urlRankingMasculino);
-            txtInfoApp_webs.append("\nRanking femenino: " + urlRankingFemenino);
-
-
-
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (usuarioRegistrado) {
+        if (!userGUEST) {
             getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
@@ -187,8 +168,8 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemCerrarSesion:
                 Toast.makeText(getApplicationContext(), "Cerrar Sessión", Toast.LENGTH_SHORT).show();
-                usuarioRegistrado = false;
-                invalidateOptionsMenu();
+                //usuarioRegistrado = false;
+                //invalidateOptionsMenu();
                 putUserDisconnected();
                 SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
                 Intent intentInicioSes = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
@@ -196,14 +177,16 @@ public class Activity_Inicio extends AppCompatActivity {
                 return true;
             case R.id.itemInicioSesion:
                 Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
+                SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
                 Intent intentInicioSesion = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
                 startActivityForResult(intentInicioSesion, USER_LOGIN);
                 return true;
             case R.id.itemSalir:
                 Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
-                usuarioRegistrado = false;
-                invalidateOptionsMenu();
+                //usuarioRegistrado = false;
+                //invalidateOptionsMenu();
                 putUserDisconnected();
+                SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
                 finishAffinity();
                 return true;
         }
@@ -261,39 +244,42 @@ public class Activity_Inicio extends AppCompatActivity {
     }
 
     private void selectTypeMenuByUserRole() {
-        if (!rolesId.isEmpty() && rolesId.contains(1L) || rolesId.contains(2L)) {
-            usuarioRegistrado = true;
+        if (!rolesId.isEmpty() && (rolesId.contains(1L) || rolesId.contains(2L))) {
+            userGUEST = false;
         } else {
-            usuarioRegistrado = false;
+            userGUEST = true;
         }
     }
 
+    private void putUserDisconnected() {
+        long id = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(Activity_Inicio.this, "1-Código error - (putUserDisconnected): " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-    private void putUserDisconnected(){
-        Cursor c = db.rawQuery("SELECT User FROM users WHERE Isconnected = 1", null);
+                ResponseEntity res = response.body();
 
-        if (c.moveToFirst()) {
-            int index = c.getColumnIndex("UserEntity");
-            String user = c.getString(index);
+                if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
+                    Toast.makeText(Activity_Inicio.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Activity_Inicio.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
 
-            //Comprobasr que recibimos un String válido
-            if (user != null || !user.isEmpty()) {
-                //Valores a actualizar
-                ContentValues valores = new ContentValues();
-                valores.put("Isconnected", 0);
-
-                // Definir la cláusula where para identificar el usuario a actualizar
-                String whereClause = "UserEntity = ?";
-                String[] whereArgs = { user };
-                db.update("users", valores, whereClause, whereArgs);
-
-                Toast.makeText(getApplicationContext(), "Usuario desconectado correctamente", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "NO se ha podido desconectar el usuario", Toast.LENGTH_SHORT).show();
             }
 
-            c.close();
-        }
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (putUserDisconnected)", t);
+                Toast.makeText(Activity_Inicio.this, "2- Código error - (putUserDisconnected): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
     }
 
 }

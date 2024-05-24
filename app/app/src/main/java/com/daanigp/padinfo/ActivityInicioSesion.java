@@ -38,7 +38,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
-
+    boolean isConnected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,9 +123,13 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
                     getIdUser(user);
 
-                    Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
-                    intentAppInicio.putExtra("token", token);
-                    startActivity(intentAppInicio);
+                    if (isConnected) {
+                        Toast.makeText(ActivityInicioSesion.this, "El usuario ya está logueado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
+                        intentAppInicio.putExtra("token", token);
+                        startActivity(intentAppInicio);
+                    }
                 } else {
                     Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
@@ -162,7 +166,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     // Save the userID and in SharedPreferences
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUserID(id);
 
-                    putUserIsConnected(id);
+                    checkUserConnectivity(id);
                 } else {
                     Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
@@ -207,7 +211,40 @@ public class ActivityInicioSesion extends AppCompatActivity {
         });
     }
 
-    private void putUserIsConnected(long id) {
+    private void checkUserConnectivity(long id) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Integer> call = padinfoApi.getUserConnectivityByUserId(id);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (checkUserConnectivity) -> response");
+                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Integer isConnectedAPI = response.body();
+
+                if (isConnectedAPI == null) {
+                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                } else if (isConnectedAPI == 0) {
+                    isConnected = false;
+                } else {
+                    isConnected = true;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (checkUserConnectivity)", t);
+                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /*private void putUserIsConnected(long id) {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
         call.enqueue(new Callback<ResponseEntity>() {
@@ -228,11 +265,11 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit - (signup)", t);
+                Log.e(TAG, "Error en la llamada Retrofit - (putUserIsConnected)", t);
                 Toast.makeText(ActivityInicioSesion.this, "2- Código error - (putUserIsConnected): " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
         });
-    }
+    }*/
 
 }
