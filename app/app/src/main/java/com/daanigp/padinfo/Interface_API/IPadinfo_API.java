@@ -1,7 +1,9 @@
 package com.daanigp.padinfo.Interface_API;
 
+import com.daanigp.padinfo.Entity.CreateGame;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Entity.UpdateGame;
 import com.daanigp.padinfo.Entity.UpdateUserInfo;
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Entity.Player;
@@ -14,6 +16,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -66,10 +69,10 @@ public interface IPadinfo_API {
         @Body UpdateUserInfo updateUserInfo
     );
 
-    @GET("games/user/{id}")
+    @GET("games/user/{userId}")
     Call<List<Game>> getGamesByUserId(
         @Header("Authorization") String token,
-        @Path("id") long id
+        @Path("userId") long userId
     );
 
     @DELETE("games/deleteGame/{id}")
@@ -77,6 +80,29 @@ public interface IPadinfo_API {
         @Header("Authorization") String token,
         @Path("id") long id
     );
+
+    @GET("games/user/getGame/{id}")
+    Call<Game> getGameByIdGame(
+        @Header("Authorization") String token,
+        @Path("id") long id
+    );
+
+    @GET("games/getMaxIdGame")
+    Call<Long> getMaximmumIdGame(@Header("Authorization") String token);
+
+    @POST("games/createNewGame")
+    Call<Game> createGame(
+        @Header("Authorization") String token,
+        @Body CreateGame createGame
+    );
+
+    @PUT("games/updateGame/{id}")
+    Call<Game> updateGame(
+        @Header("Authorization") String token,
+        @Path("id") long id,
+        @Body UpdateGame updateGame
+    );
+
 
 
 
