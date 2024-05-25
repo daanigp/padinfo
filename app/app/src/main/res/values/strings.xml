@@ -35,4 +35,6 @@
     <string name="nomJugEq1">Nombre jugadores equipo 1</string>
     <string name="nomJugEq2">Nombre jugadores equipo 2</string>
     <string name="numeroCero">0</string>
+    <string name="nombreTorneo">Nombre del torneo</string>
+    <string name="ciudadTorneo">Ciudad del torneo</string>
 </resources>

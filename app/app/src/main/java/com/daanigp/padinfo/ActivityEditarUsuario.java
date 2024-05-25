@@ -46,7 +46,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
         btnCancelar = (Button) findViewById(R.id.btnVolverM);
         imgPerfilUsuario = (ImageView) findViewById(R.id.imgPerfil);
 
-        imgPerfilUsuario.setImageResource(R.drawable.icono_img);
+       // imgPerfilUsuario.setImageResource(R.drawable.icono_img);
 
         userId = SharedPreferencesManager.getInstance(ActivityEditarUsuario.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityEditarUsuario.this).getToken();
@@ -76,7 +76,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                     updateUser.setName(nombre);
                     updateUser.setLastname(apellidos);
                     updateUser.setEmail(email);
-                    updateUser.setImageURL(String.valueOf(R.drawable.icono_img));
+                    updateUser.setImageURL(String.valueOf(R.drawable.imgperfil_basic));
                     saveChanges(updateUser);
                 }
             }

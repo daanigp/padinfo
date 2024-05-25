@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -90,7 +89,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.menu_contextual_partidos, menu);
+        getMenuInflater().inflate(R.menu.contextmenu_edit_delete, menu);
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 

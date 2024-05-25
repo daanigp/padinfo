@@ -1,6 +1,7 @@
 package com.daanigp.padinfo.Interface_API;
 
 import com.daanigp.padinfo.Entity.CreateGame;
+import com.daanigp.padinfo.Entity.CreateUpdateTournament;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.UpdateGame;
@@ -106,6 +107,24 @@ public interface IPadinfo_API {
         @Body UpdateGame updateGame
     );
 
+    @GET("/tournaments/info/{id}")
+    Call<Tournament> findTournamentById(
+        @Header("Authorization") String token,
+        @Path("id") long id
+    );
+
+    @POST("/tournaments/createTournament")
+    Call<Tournament> createTournament(
+        @Header("Authorization") String token,
+        @Body CreateUpdateTournament createUpdateTournament
+    );
+
+    @PUT("/tournaments/updateTournament/{id}")
+    Call<Tournament> updateTournament(
+        @Header("Authorization") String token,
+        @Path("id") long id,
+        @Body CreateUpdateTournament createUpdateTournament
+    );
 
 
 

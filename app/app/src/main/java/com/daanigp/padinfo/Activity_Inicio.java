@@ -132,7 +132,7 @@ public class Activity_Inicio extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!registredUser) {
+        if (registredUser) {
             getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
@@ -246,7 +246,7 @@ public class Activity_Inicio extends AppCompatActivity {
     }
 
     private void selectTypeMenuByUserRole() {
-        if (!rolesId.isEmpty() && (rolesId.contains(1L) || rolesId.contains(2L))) {
+        if (rolesId.size() > 0 && (rolesId.contains(1L) || rolesId.contains(2L))) {
             registredUser = true;
         } else {
             registredUser = false;

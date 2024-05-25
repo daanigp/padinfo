@@ -1,9 +1,14 @@
 package com.daanigp.padinfo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -11,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.TorneoAdapter;
+import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
@@ -25,10 +31,14 @@ import retrofit2.Response;
 
 public class ActivityListTorneos extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "ActivityListTorneos";
+    public static int EDIT_TOURNAMENT = 5;
+    public static int CREATE_TOURNAMENT = 6;
     Button btnVolver;
     ArrayList<Tournament> tournamnets;
     String token;
+    ListView lista;
     TorneoAdapter adapter;
+    boolean adminUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +49,19 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
         token = SharedPreferencesManager.getInstance(ActivityListTorneos.this).getToken();
 
+        chekUserType();
+
         Log.v(TAG, "TOKEN -> " + token);
 
         getTournaments();
 
-        ListView lista = (ListView) findViewById(R.id.listaTorneos);
+        lista = (ListView) findViewById(R.id.listaTorneos);
         adapter = new TorneoAdapter(this, R.layout.item_torneo, tournamnets);
 
         lista.setAdapter(adapter);
         lista.setOnItemClickListener(this);
+
+        registerForContextMenu(lista);
 
         btnVolver = (Button) findViewById(R.id.btnVolver);
         btnVolver.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +76,46 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, "HAS PULSADO SOBRE -> " + tournamnets.get(position).getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (adminUser) {
+            getMenuInflater().inflate(R.menu.contextmenu_edit_delete, menu);
+        }
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Tournament tournament = (Tournament) lista.getItemAtPosition(info.position);
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.itemEditar:
+                Toast.makeText(getApplicationContext(), "EDITAR -> " + tournament.getId(), Toast.LENGTH_SHORT).show();
+                Intent intentEditTournament = new Intent(ActivityListTorneos.this, ActivityEdit_CreateTournament.class);
+                intentEditTournament.putExtra("idGame", tournament.getId());
+                startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
+                break;
+            case R.id.itemEliminar:
+                //showPopupMenu(tournament);
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void chekUserType() {
+        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityListTorneos.this).getRolesId();
+
+        if (rolesId.size() > 0 && rolesId.contains(1L)) {
+            adminUser = true;
+        } else {
+            adminUser = false;
+        }
     }
 
 
