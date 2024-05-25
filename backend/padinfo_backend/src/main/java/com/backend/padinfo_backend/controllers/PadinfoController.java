@@ -337,4 +337,36 @@ public class PadinfoController {
 
         return new ResponseEntity<>(gameDTO, HttpStatus.OK);
     }
+
+    @GetMapping("/tournaments/info/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Torneo by id",
+                    content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "404", description = "No hay ningun torneo con ese id",
+                    content = @Content(schema = @Schema(implementation = Response.class)))
+
+    })
+    public ResponseEntity<TournamentDTO> getTournamentByID(@PathVariable long id) {
+        Tournament tournament = tournamentService.findById(id);
+
+        TournamentDTO tournamentDTO = tournamentMapper.toDTO(tournament);
+
+        return new ResponseEntity<>(tournamentDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/players/info/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Player by id",
+                    content = @Content(schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "404", description = "No hay ningun player con ese id",
+                    content = @Content(schema = @Schema(implementation = Response.class)))
+
+    })
+    public ResponseEntity<PlayerDTO> getPlayerByID(@PathVariable long id) {
+        Player player = playerService.findById(id);
+
+        PlayerDTO playerDTO = playerMapper.toDTO(player);
+
+        return new ResponseEntity<>(playerDTO, HttpStatus.OK);
+    }
 }
