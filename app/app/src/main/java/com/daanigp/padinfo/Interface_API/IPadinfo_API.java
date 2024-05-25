@@ -7,7 +7,7 @@ import com.daanigp.padinfo.Entity.UpdateGame;
 import com.daanigp.padinfo.Entity.UpdateUserInfo;
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Entity.Player;
-import com.daanigp.padinfo.Entity.Torneo;
+import com.daanigp.padinfo.Entity.Tournament;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface IPadinfo_API {
         NEED TOKEN
      */
     @GET("tournaments")
-    Call<List<Torneo>> getTournaments(@Header("Authorization") String token);
+    Call<List<Tournament>> getTournaments(@Header("Authorization") String token);
 
     @GET("players")
     Call<List<Player>> getPlayers(@Header("Authorization") String token);

@@ -1,15 +1,15 @@
 package com.daanigp.padinfo.Entity;
 
-public class Torneo {
+public class Tournament {
     private long id;
     private String name;
     private String city;
     private String imageURL;
 
-    public Torneo() {
+    public Tournament() {
     }
 
-    public Torneo(long id, String name, String city, String imageURL) {
+    public Tournament(long id, String name, String city, String imageURL) {
         this.id = id;
         this.name = name;
         this.city = city;

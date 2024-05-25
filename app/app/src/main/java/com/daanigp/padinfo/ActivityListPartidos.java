@@ -154,10 +154,10 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
                         Game game = new Game();
                         game.setId(g.getId());
                         game.setUserId(userId);
-                        game.setPlayer1(g.getPlayer1());
-                        game.setPlayer2(g.getPlayer2());
-                        game.setPlayer3(g.getPlayer3());
-                        game.setPlayer4(g.getPlayer4());
+                        game.setNamePlayer1(g.getNamePlayer1());
+                        game.setNamePlayer2(g.getNamePlayer2());
+                        game.setNamePlayer3(g.getNamePlayer3());
+                        game.setNamePlayer4(g.getNamePlayer4());
                         game.setSet1PointsT1(g.getSet1PointsT1());
                         game.setSet2PointsT1(g.getSet2PointsT1());
                         game.setSet3PointsT1(g.getSet3PointsT1());

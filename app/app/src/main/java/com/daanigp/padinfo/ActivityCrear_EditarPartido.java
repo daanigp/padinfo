@@ -460,10 +460,10 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 Game gameAPI = response.body();
 
                 if (gameAPI != null) {
-                    binding.editTxtNombreJug1P.setText(gameAPI.getPlayer1());
-                    binding.editTxtNombreJug2P.setText(gameAPI.getPlayer2());
-                    binding.editTxtNombreJug3P.setText(gameAPI.getPlayer3());
-                    binding.editTxtNombreJug4P.setText(gameAPI.getPlayer4());
+                    binding.editTxtNombreJug1P.setText(gameAPI.getNamePlayer1());
+                    binding.editTxtNombreJug2P.setText(gameAPI.getNamePlayer2());
+                    binding.editTxtNombreJug3P.setText(gameAPI.getNamePlayer3());
+                    binding.editTxtNombreJug4P.setText(gameAPI.getNamePlayer4());
                     binding.txtPtosSet1Eq1P.setText(String.valueOf(gameAPI.getSet1PointsT1()));
                     binding.txtPtosSet2Eq1P.setText(String.valueOf(gameAPI.getSet2PointsT1()));
                     binding.txtPtosSet3Eq1P.setText(String.valueOf(gameAPI.getSet3PointsT1()));

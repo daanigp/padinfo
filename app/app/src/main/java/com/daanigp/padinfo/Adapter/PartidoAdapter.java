@@ -44,8 +44,8 @@ public class PartidoAdapter extends ArrayAdapter<Game> {
         TextView txtSet3Eq2 = fila.findViewById(R.id.txtPuntosSet3Eq2);
 
         String nombreJugadoresEq1, nombreJugadoresEq2;
-        nombreJugadoresEq1 = games.get(position).getPlayer1() + "\n" + games.get(position).getPlayer2();
-        nombreJugadoresEq2 = games.get(position).getPlayer3() + "\n" + games.get(position).getPlayer4();
+        nombreJugadoresEq1 = games.get(position).getNamePlayer1() + "\n" + games.get(position).getNamePlayer2();
+        nombreJugadoresEq2 = games.get(position).getNamePlayer3() + "\n" + games.get(position).getNamePlayer4();
 
         int equipoGanador = games.get(position).getWinnerTeam();
 

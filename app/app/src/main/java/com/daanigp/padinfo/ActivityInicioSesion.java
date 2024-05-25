@@ -61,6 +61,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 pwd = txtPassword.getText().toString();
                 user = "dani";
                 pwd = "1234";
+                getIdUser(user);
                 login(user, pwd);
             }
         });
@@ -102,8 +103,8 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
     private void login(String user, String pwd) {
         ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
-
         Call<String> call = securityPadinfoApi.loginUser( new LoginUser(user, pwd) );
+
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -122,11 +123,11 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveToken(token);
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUsername(user);
 
-                    getIdUser(user);
-
                     if (isConnected) {
                         Toast.makeText(ActivityInicioSesion.this, "El usuario ya está logueado", Toast.LENGTH_SHORT).show();
                     } else {
+                        long id = SharedPreferencesManager.getInstance(ActivityInicioSesion.this).getUserId();
+                        putUserIsConnected(id);
                         Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
                         intentAppInicio.putExtra("token", token);
                         startActivity(intentAppInicio);
@@ -166,7 +167,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
 
                     // Save the userID and in SharedPreferences
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUserID(id);
-
+                    Log.v(TAG, "INICIO SESION - id -> " + id);
                     checkUserConnectivity(id);
                 } else {
                     Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
@@ -197,6 +198,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 ResponseEntity res = response.body();
 
                 if (res != null && res.getMessege().equalsIgnoreCase("Usuario registrado correctamente")) {
+                    getIdUser(createUser.getUsername());
                     login(createUser.getUsername(), createUser.getPassword());
                 } else {
                     Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
@@ -245,7 +247,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
         });
     }
 
-    /*private void putUserIsConnected(long id) {
+    private void putUserIsConnected(long id) {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
         call.enqueue(new Callback<ResponseEntity>() {
@@ -271,6 +273,6 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-    }*/
+    }
 
 }

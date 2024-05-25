@@ -46,7 +46,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
         btnEditar = (Button) findViewById(R.id.btnEditar);
         imgPerfil = (ImageView) findViewById(R.id.imgPerfil);
 
-        imgPerfil.setImageResource(R.drawable.icono_img);
+        //imgPerfil.setImageResource(R.drawable.imgperfil_basic);
 
         userId = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getToken();
@@ -98,6 +98,9 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
                     txtNombre.setText(user.getName());
                     txtApellidos.setText(user.getLastname());
                     txtEmail.setText(user.getEmail());
+
+                    int imageResourceId = ActivityPerfilUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityPerfilUsuario.this.getPackageName());
+                    imgPerfil.setImageResource(imageResourceId);
                 } else {
                     Toast.makeText(ActivityPerfilUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                     txtNombre.setText("vacío");

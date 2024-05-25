@@ -2,7 +2,6 @@ package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.TorneoAdapter;
-import com.daanigp.padinfo.Entity.Torneo;
+import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -27,7 +26,7 @@ import retrofit2.Response;
 public class ActivityListTorneos extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "ActivityListTorneos";
     Button btnVolver;
-    ArrayList<Torneo> tournamnets;
+    ArrayList<Tournament> tournamnets;
     String token;
     TorneoAdapter adapter;
 
@@ -68,22 +67,22 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
     private void getTournaments(){
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<List<Torneo>> call = padinfoApi.getTournaments(token);
+        Call<List<Tournament>> call = padinfoApi.getTournaments(token);
 
-        call.enqueue(new Callback<List<Torneo>>() {
+        call.enqueue(new Callback<List<Tournament>>() {
             @Override
-            public void onResponse(Call<List<Torneo>> call, Response<List<Torneo>> response) {
+            public void onResponse(Call<List<Tournament>> call, Response<List<Tournament>> response) {
                 if(!response.isSuccessful()) {
                     Log.e(TAG, "No va getTournaments - response" + response);
                     Toast.makeText(ActivityListTorneos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                List<Torneo> tournamentsApi = response.body();
+                List<Tournament> tournamentsApi = response.body();
 
                 if (tournamentsApi != null) {
-                    for (Torneo t : tournamentsApi) {
-                        Torneo tor = new Torneo();
+                    for (Tournament t : tournamentsApi) {
+                        Tournament tor = new Tournament();
                         tor.setId(t.getId());
                         tor.setName(t.getName());
                         tor.setCity(t.getCity());
@@ -99,7 +98,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onFailure(Call<List<Torneo>> call, Throwable t) {
+            public void onFailure(Call<List<Tournament>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - getTournaments", t);
                 Toast.makeText(ActivityListTorneos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }

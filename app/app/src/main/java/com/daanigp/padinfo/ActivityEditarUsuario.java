@@ -106,6 +106,9 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                     txtNombre.setText(user.getName());
                     txtApellidos.setText(user.getLastname());
                     txtEmail.setText(user.getEmail());
+
+                    int imageResourceId = ActivityEditarUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityEditarUsuario.this.getPackageName());
+                    imgPerfilUsuario.setImageResource(imageResourceId);
                 } else {
                     Toast.makeText(ActivityEditarUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                     txtNombre.setText("vacío");

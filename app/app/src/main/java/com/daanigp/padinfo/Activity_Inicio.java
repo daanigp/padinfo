@@ -152,7 +152,7 @@ public class Activity_Inicio extends AppCompatActivity {
                 startActivity(intentPerfilUsuario);
                 return true;
             case R.id.itemListado:
-                Toast.makeText(getApplicationContext(), "Listado torneos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Listado tournaments", Toast.LENGTH_SHORT).show();
                 Intent intentListadoTorneos = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
                 startActivity(intentListadoTorneos);
                 return true;
