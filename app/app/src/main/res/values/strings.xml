@@ -40,6 +40,9 @@
     <string name="genero">GÉNERO</string>
     <string name="crearTorneo">Añadir torneo</string>
     <string name="crearJugador">Añadir jugador/a</string>
+    <string name="rankPosicion">Posición en el ranking</string>
+    <string name="nombreJugador">Nombre del jugador/a</string>
+    <string name="puntos">Puntos del jugador/a</string>
 
     <string-array name="generos">
         <item>MASC</item>

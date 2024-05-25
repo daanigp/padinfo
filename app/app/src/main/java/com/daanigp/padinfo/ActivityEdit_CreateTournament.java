@@ -36,8 +36,8 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_create_tournament);
 
-        btnSave = (Button) findViewById(R.id.btnSaveT);
-        btnCancel = (Button) findViewById(R.id.btnCancelT);
+        btnSave = (Button) findViewById(R.id.btnSaveP);
+        btnCancel = (Button) findViewById(R.id.btnCancelP);
         txtNameT = (EditText) findViewById(R.id.editTxtTournamentName);
         txtCityT = (EditText) findViewById(R.id.editTextTournamentCity);
         imgTournament = (ImageView) findViewById(R.id.imgTournament);

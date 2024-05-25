@@ -101,7 +101,6 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 

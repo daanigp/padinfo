@@ -10,25 +10,28 @@
         android:id="@+id/btnRankMasc"
         android:layout_width="131dp"
         android:layout_height="65dp"
+        android:layout_marginTop="16dp"
         android:scrollbarSize="20dp"
         android:text="@string/rankMasc"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.942"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="29dp" />
+        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintStart_toEndOf="@+id/btnVolverMenu"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnRankFem"
         android:layout_width="134dp"
         android:layout_height="70dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="40dp"
         android:scrollbarSize="20dp"
         android:text="@string/rankFem"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.469"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="24dp" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewGeneroP"
+        app:layout_constraintTop_toBottomOf="@+id/btnRankMasc" />
 
     <Button
         android:id="@+id/btnVolverMenu"
@@ -44,21 +47,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinnerGender"
-        android:layout_width="127dp"
-        android:layout_height="38dp"
+        android:id="@+id/spinnerGenderP"
+        android:layout_width="155dp"
+        android:layout_height="50dp"
         android:entries="@array/generos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGenero" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewGeneroP" />
 
     <TextView
-        android:id="@+id/textViewGenero"
-        android:layout_width="127dp"
+        android:id="@+id/textViewGeneroP"
+        android:layout_width="155dp"
         android:layout_height="28dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:text="@string/genero"
         android:textAlignment="center"
         android:textSize="18dp"
@@ -67,12 +70,13 @@
         app:layout_constraintTop_toBottomOf="@+id/btnVolverMenu" />
 
     <ListView
+        android:id="@+id/listRanking"
         android:layout_width="393dp"
         android:layout_height="530dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerGender"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerGenderP"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

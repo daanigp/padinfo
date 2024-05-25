@@ -7,7 +7,7 @@
     tools:context=".ActivityEdit_CreateTournament">
 
     <Button
-        android:id="@+id/btnSaveT"
+        android:id="@+id/btnSaveP"
         android:layout_width="133dp"
         android:layout_height="55dp"
         android:layout_marginTop="125dp"
@@ -22,7 +22,7 @@
         app:cornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.966"
-        app:layout_constraintStart_toEndOf="@+id/btnCancelT"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelP"
         app:layout_constraintTop_toBottomOf="@+id/editTextTournamentCity" />
 
     <EditText
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgTournament" />
 
     <Button
-        android:id="@+id/btnCancelT"
+        android:id="@+id/btnCancelP"
         android:layout_width="133dp"
         android:layout_height="55dp"
         android:layout_marginStart="28dp"
