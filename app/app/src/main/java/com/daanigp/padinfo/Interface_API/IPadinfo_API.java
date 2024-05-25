@@ -1,6 +1,7 @@
 package com.daanigp.padinfo.Interface_API;
 
 import com.daanigp.padinfo.Entity.CreateGame;
+import com.daanigp.padinfo.Entity.CreateUpdatePlayer;
 import com.daanigp.padinfo.Entity.CreateUpdateTournament;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
@@ -131,6 +132,32 @@ public interface IPadinfo_API {
         @Header("Authorization") String token,
         @Path("id") long id
     );
+
+    @GET("/players/info/{id}")
+    Call<Player> findPlayerById(
+        @Header("Authorization") String token,
+        @Path("id") long id
+    );
+
+    @POST("/players/createPlayer")
+    Call<Player> createPlayer(
+        @Header("Authorization") String token,
+        @Body CreateUpdatePlayer createUpdatePlayer
+    );
+
+    @PUT("/players/updatePlayer/{id}")
+    Call<Tournament> updatePlayer(
+        @Header("Authorization") String token,
+        @Path("id") long id,
+        @Body CreateUpdatePlayer createUpdatePlayer
+    );
+
+    @DELETE("/players/deletePlayer/{id}")
+    Call<ResponseEntity> deletePlayer(
+        @Header("Authorization") String token,
+        @Path("id") long id
+    );
+
 
 
 

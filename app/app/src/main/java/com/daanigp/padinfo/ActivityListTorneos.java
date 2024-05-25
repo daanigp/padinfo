@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,6 +81,28 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, "HAS PULSADO SOBRE -> " + tournamnets.get(position).getName(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (adminUser) {
+            getMenuInflater().inflate(R.menu.dinamicmenu_create_tournament, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int opcionID = item.getItemId();
+
+        if (opcionID == R.id.itemCreateTournament)  {
+            Intent intentAddGame = new Intent(ActivityListTorneos.this, ActivityEdit_CreateTournament.class);
+            startActivityForResult(intentAddGame, CREATE_TOURNAMENT);
+            return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

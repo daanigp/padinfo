@@ -37,4 +37,12 @@
     <string name="numeroCero">0</string>
     <string name="nombreTorneo">Nombre del torneo</string>
     <string name="ciudadTorneo">Ciudad del torneo</string>
+    <string name="genero">GÉNERO</string>
+    <string name="crearTorneo">Añadir torneo</string>
+    <string name="crearJugador">Añadir jugador/a</string>
+
+    <string-array name="generos">
+        <item>MASC</item>
+        <item>FEM</item>
+    </string-array>
 </resources>
