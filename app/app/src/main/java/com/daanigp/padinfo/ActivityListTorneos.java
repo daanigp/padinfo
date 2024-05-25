@@ -1,8 +1,11 @@
 package com.daanigp.padinfo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.TorneoAdapter;
 import com.daanigp.padinfo.Entity.Game;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
@@ -101,11 +105,28 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
                 startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
                 break;
             case R.id.itemEliminar:
-                //showPopupMenu(tournament);
+                showPopupMenu(tournament);
                 break;
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == CREATE_TOURNAMENT) {
+            if (resultCode == RESULT_OK) {
+                tournamnets.clear();
+                getTournaments();
+            }
+        } else if (requestCode == EDIT_TOURNAMENT) {
+            if (resultCode == RESULT_OK) {
+                tournamnets.clear();
+                getTournaments();
+            }
+        }
     }
 
     private void chekUserType() {
@@ -117,7 +138,6 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             adminUser = false;
         }
     }
-
 
     private void getTournaments(){
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
@@ -154,6 +174,60 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             @Override
             public void onFailure(Call<List<Tournament>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - getTournaments", t);
+                Toast.makeText(ActivityListTorneos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showPopupMenu(Tournament tournament) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar torneo");
+        builder.setMessage("¿Estás seguro de eliminar el torneo?");
+
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteTournament(tournament);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void deleteTournament(Tournament tournament) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deleteTournamentById(token, tournament.getId());
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    Log.v(TAG, "No va (deleteTournament) -> response");
+                    Toast.makeText(ActivityListTorneos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res.getMessege().equalsIgnoreCase("Borrado")) {
+                    tournamnets.remove(tournament);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Torneo eliminado.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el torneo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (deleteTournament)", t);
                 Toast.makeText(ActivityListTorneos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

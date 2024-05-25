@@ -126,6 +126,12 @@ public interface IPadinfo_API {
         @Body CreateUpdateTournament createUpdateTournament
     );
 
+    @DELETE("/tournaments/deleteTournament/{id}")
+    Call<ResponseEntity> deleteTournamentById(
+        @Header("Authorization") String token,
+        @Path("id") long id
+    );
+
 
 
 

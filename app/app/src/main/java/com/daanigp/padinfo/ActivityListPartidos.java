@@ -121,9 +121,8 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
         if (requestCode == CREATE_GAME) {
             if (resultCode == RESULT_OK) {
-                //partidos.clear();
-                //partidos = getPartidosFromDB();
-                gameAdapter.notifyDataSetChanged();
+                games.clear();
+                getGames();
             }
         } else if (requestCode == EDIT_GAME) {
             if (resultCode == RESULT_OK) {
@@ -183,15 +182,15 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         });
     }
 
-    private void showPopupMenu(Game p) {
+    private void showPopupMenu(Game g) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Eliminar Game");
+        builder.setTitle("Eliminar partido");
         builder.setMessage("¿Estás seguro de eliminar el partido?");
 
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteGame(p);
+                deleteGame(g);
             }
         });
 
@@ -223,7 +222,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
                 if (res.getMessege().equalsIgnoreCase("Borrado")) {
                     games.remove(g);
                     gameAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Game eliminado.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Partido eliminado.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "No se ha podido eliminar el partido.", Toast.LENGTH_SHORT).show();
                 }
