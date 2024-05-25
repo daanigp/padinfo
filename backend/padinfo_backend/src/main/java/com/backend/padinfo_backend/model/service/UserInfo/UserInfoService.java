@@ -39,7 +39,7 @@ public class UserInfoService implements IUserInfoService{
     @Override
     public UserInfo createUserInfo(UserInfo user) {
         user.setIsConnected(0);
-        user.setImageURL("R.drawable.imgperfil_basic");
+        user.setImageURL("imgperfil_basic");
         return userInfoRepository.save(user);
     }
 

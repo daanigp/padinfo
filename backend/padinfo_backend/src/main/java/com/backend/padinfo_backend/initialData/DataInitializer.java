@@ -325,10 +325,46 @@ public class DataInitializer {
                 .name("Daniel")
                 .lastname("Garcia")
                 .email("dan1@gmail.com")
-                .imageURL("danieh")
+                .imageURL("admin_img")
                 .roles(List.of(rAdmin, rUser, rGuest))
                 .build();
 
         authenticationService.signup(u1);
+
+        UserInfo u2 = UserInfo.builder()
+                .username("pepe")
+                .password("1234")
+                .name("Pepe")
+                .lastname("López")
+                .email("pepe@gmail.com")
+                .imageURL("admin_img")
+                .roles(List.of(rAdmin, rUser, rGuest))
+                .build();
+
+        authenticationService.signup(u2);
+
+        UserInfo u3 = UserInfo.builder()
+                .username("pablo")
+                .password("1234")
+                .name("Pablo")
+                .lastname("Coves")
+                .email("pablo@gmail.com")
+                .imageURL("admin_img")
+                .roles(List.of(rAdmin, rUser, rGuest))
+                .build();
+
+        authenticationService.signup(u3);
+
+        UserInfo u4 = UserInfo.builder()
+                .username("maria")
+                .password("1234")
+                .name("María")
+                .lastname("Rodríguez")
+                .email("maria@gmail.com")
+                .imageURL("admin_img")
+                .roles(List.of(rAdmin, rUser, rGuest))
+                .build();
+
+        authenticationService.signup(u4);
     }
 }
