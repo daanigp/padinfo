@@ -146,7 +146,7 @@ public interface IPadinfo_API {
     );
 
     @PUT("/players/updatePlayer/{id}")
-    Call<Tournament> updatePlayer(
+    Call<Player> updatePlayer(
         @Header("Authorization") String token,
         @Path("id") long id,
         @Body CreateUpdatePlayer createUpdatePlayer

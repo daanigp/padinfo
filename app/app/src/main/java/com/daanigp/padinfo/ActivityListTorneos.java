@@ -123,7 +123,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             case R.id.itemEditar:
                 Toast.makeText(getApplicationContext(), "EDITAR -> " + tournament.getId(), Toast.LENGTH_SHORT).show();
                 Intent intentEditTournament = new Intent(ActivityListTorneos.this, ActivityEdit_CreateTournament.class);
-                intentEditTournament.putExtra("idGame", tournament.getId());
+                intentEditTournament.putExtra("idTournament", tournament.getId());
                 startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
                 break;
             case R.id.itemEliminar:

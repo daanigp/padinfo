@@ -104,7 +104,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
             case R.id.itemEditar:
                 Toast.makeText(getApplicationContext(), "EDITAR -> " + game.getId(), Toast.LENGTH_SHORT).show();
                 Intent intentEditarPartido = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
-                intentEditarPartido.putExtra("idGame", game.getId());
+                intentEditarPartido.putExtra("idPlayer", game.getId());
                 startActivityForResult(intentEditarPartido, EDIT_GAME);
                 break;
             case R.id.itemEliminar:

@@ -26,10 +26,9 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
     Button btnSave, btnCancel;
     EditText txtNameT, txtCityT;
     ImageView imgTournament;
-    String token;
-    long idTournament, userId;
+    String token, image;
+    long idTournament;
     boolean edit;
-    String image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "No has hehco ningún cambio.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No has guardado nada.", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -180,6 +179,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
                     Toast.makeText(ActivityEdit_CreateTournament.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                     txtNameT.setText("vacío");
                     txtCityT.setText("vacío");
+                    imgTournament.setImageResource(R.drawable.icono_img);
                 }
             }
 
@@ -189,6 +189,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
                 Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 txtNameT.setText("vacío");
                 txtCityT.setText("vacío");
+                imgTournament.setImageResource(R.drawable.icono_img);
             }
         });
     }

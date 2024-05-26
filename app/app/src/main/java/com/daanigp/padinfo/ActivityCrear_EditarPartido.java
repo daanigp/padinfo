@@ -298,7 +298,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityCrear_EditarPartido.this, "Has cancelado los cambios", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityCrear_EditarPartido.this, "No has guardado nada.", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_CANCELED);
                 finish();
             }
