@@ -153,7 +153,7 @@ public interface IPadinfo_API {
     );
 
     @DELETE("/players/deletePlayer/{id}")
-    Call<ResponseEntity> deletePlayer(
+    Call<ResponseEntity> deletePlayerById(
         @Header("Authorization") String token,
         @Path("id") long id
     );

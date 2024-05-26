@@ -1,8 +1,11 @@
 package com.daanigp.padinfo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
 import com.daanigp.padinfo.Entity.Player;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -124,7 +128,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         int opcionID = item.getItemId();
 
         if (opcionID == R.id.itemCreateTournament)  {
-            Intent intentAddGame = new Intent(ActivityRanking.this, .class);
+            Intent intentAddGame = new Intent(ActivityRanking.this, ActivityEdit_CreatePlayer.class);
             startActivityForResult(intentAddGame, CREATE_PLAYER);
             return true;
         }
@@ -151,8 +155,8 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         switch (id) {
             case R.id.itemEditar:
                 Toast.makeText(getApplicationContext(), "EDITAR -> " + player.getId(), Toast.LENGTH_SHORT).show();
-                Intent intentEditTournament = new Intent(ActivityRanking.this, .class);
-                intentEditTournament.putExtra("idGame", player.getId());
+                Intent intentEditTournament = new Intent(ActivityRanking.this, ActivityEdit_CreatePlayer.class);
+                intentEditTournament.putExtra("idPlayer", player.getId());
                 startActivityForResult(intentEditTournament, EDIT_PLAYER);
                 break;
             case R.id.itemEliminar:
@@ -161,6 +165,33 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == CREATE_PLAYER) {
+            if (resultCode == RESULT_OK) {
+                players.clear();
+                getPlayers(selectGender());
+            }
+        } else if (requestCode == EDIT_PLAYER) {
+            if (resultCode == RESULT_OK) {
+                players.clear();
+                getPlayers(selectGender());
+            }
+        }
+    }
+
+    private String selectGender() {
+        int posGender = spinner.getSelectedItemPosition();
+
+        if (posGender == 0) {
+            return "masc";
+        } else {
+            return "fem";
+        }
     }
 
     private void chekUserType() {
@@ -227,6 +258,60 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getPlayers)", t);
+                Toast.makeText(ActivityRanking.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showPopupMenu(Player player) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar jugador/a");
+        builder.setMessage("¿Estás seguro de eliminar el jugador/a?");
+
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deletePlayer(player);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void deletePlayer(Player player) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deletePlayerById(token, player.getId());
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    Log.v(TAG, "No va (deletePlayer) -> response");
+                    Toast.makeText(ActivityRanking.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res.getMessege().equalsIgnoreCase("Borrado")) {
+                    players.remove(player);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Jugador/a eliminado.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el jugador.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (deletePlayer)", t);
                 Toast.makeText(ActivityRanking.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
