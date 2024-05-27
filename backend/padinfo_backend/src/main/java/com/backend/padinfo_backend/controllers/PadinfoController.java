@@ -260,7 +260,7 @@ public class PadinfoController {
 
     // 16
     @PutMapping("/tournaments/updateTournament/{id}")
-    public ResponseEntity<?> updateTournament(@PathVariable long id, @Valid @RequestBody CreateUpdateTournamentDTO newTournamentDTO){
+    public ResponseEntity<Tournament> updateTournament(@PathVariable long id, @Valid @RequestBody CreateUpdateTournamentDTO newTournamentDTO){
         Tournament tournament = null;
 
         Tournament newTournament = tournamentMapper.fromDTO(newTournamentDTO);
@@ -274,7 +274,7 @@ public class PadinfoController {
     public ResponseEntity<Response> deleteTournamentById(@PathVariable long id) {
         tournamentService.deleteTournament(id);
 
-        return new ResponseEntity<>(Response.noErrorResponse("Torneo eliminado correctamente."), HttpStatus.OK);
+        return new ResponseEntity<>(Response.noErrorResponse("Borrado"), HttpStatus.OK);
     }
 
     // 18
@@ -289,7 +289,7 @@ public class PadinfoController {
 
     // 19
     @PutMapping("/players/updatePlayer/{id}")
-    public ResponseEntity<?> updatePlayer(@PathVariable long id, @Valid @RequestBody CreateUpdatePlayerDTO newPlayerDTO) {
+    public ResponseEntity<Player> updatePlayer(@PathVariable long id, @Valid @RequestBody CreateUpdatePlayerDTO newPlayerDTO) {
         Player player = null;
 
         Player newPlayer = playerMapper.fromDTO(newPlayerDTO);
@@ -303,7 +303,7 @@ public class PadinfoController {
     public ResponseEntity<Response> deletePlayerById(@PathVariable long id) {
         playerService.deletePlayer(id);
 
-        return new ResponseEntity<>(Response.noErrorResponse("Jugador eliminado correctamente."), HttpStatus.OK);
+        return new ResponseEntity<>(Response.noErrorResponse("Borrado"), HttpStatus.OK);
     }
 
     // 21
