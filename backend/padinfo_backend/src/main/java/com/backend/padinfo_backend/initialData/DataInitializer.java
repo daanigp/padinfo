@@ -320,7 +320,7 @@ public class DataInitializer {
 
     private void saveUserData() {
         UserInfo u1 = UserInfo.builder()
-                .username("dani")
+                .username("daniADMIN")
                 .password("1234")
                 .name("Daniel")
                 .lastname("Garcia")
@@ -332,7 +332,7 @@ public class DataInitializer {
         authenticationService.signup(u1);
 
         UserInfo u2 = UserInfo.builder()
-                .username("pepe")
+                .username("pepeADMIN")
                 .password("1234")
                 .name("Pepe")
                 .lastname("López")
@@ -344,7 +344,7 @@ public class DataInitializer {
         authenticationService.signup(u2);
 
         UserInfo u3 = UserInfo.builder()
-                .username("pablo")
+                .username("pabloADMIN")
                 .password("1234")
                 .name("Pablo")
                 .lastname("Coves")
@@ -356,7 +356,7 @@ public class DataInitializer {
         authenticationService.signup(u3);
 
         UserInfo u4 = UserInfo.builder()
-                .username("maria")
+                .username("mariaADMIN")
                 .password("1234")
                 .name("María")
                 .lastname("Rodríguez")
