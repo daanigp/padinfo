@@ -39,7 +39,7 @@ public class UserInfoService implements IUserInfoService{
     @Override
     public UserInfo createUserInfo(UserInfo user) {
         user.setIsConnected(0);
-        user.setImageURL("R.drawable.imgperfil_basic");
+        user.setImageURL("imgperfil_basic");
         return userInfoRepository.save(user);
     }
 
@@ -103,12 +103,31 @@ public class UserInfoService implements IUserInfoService{
     }
 
     @Override
-    public UserInfo selectUserIsConnected() {
-        return userInfoRepository.selectUserIsConnected();
+    public Integer selectUserIsConnectedByUserId(Long id)
+    {
+        return userInfoRepository.selectUserIsConnectedByUserId(id);
     }
 
     @Override
     public UserInfo selectUserInfoByUsername(String user) {
         return userInfoRepository.selectUserInfoByUsername(user);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        if (userInfoRepository.existsByUsername(username)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Long> getRolesByUserId(Long id) {
+        UserInfo userInfo = userInfoRepository.findById(id).orElseThrow(
+                () -> new UserInfoNotFoundException("No hay usuarios con ese id -> " + id)
+        );
+
+        return userInfoRepository.getRolesByUserId(id);
     }
 }

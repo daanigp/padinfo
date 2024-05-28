@@ -1,5 +1,6 @@
 package com.backend.padinfo_backend.model.service.UserInfo;
 
+import com.backend.padinfo_backend.model.entity.Role;
 import com.backend.padinfo_backend.model.entity.UserInfo;
 
 import java.util.List;
@@ -20,7 +21,11 @@ public interface IUserInfoService {
 
     // 4. Actualizar isConnected
     void updateIsConnected(Long idUser);
-    UserInfo selectUserIsConnected();
+    Integer selectUserIsConnectedByUserId(Long id);
     UserInfo selectUserInfoByUsername(String user);
+
+    boolean existsByUsername(String username);
+
+    List<Long> getRolesByUserId(Long id);
 
 }

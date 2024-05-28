@@ -5,12 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,53 +17,48 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Adapter.PartidoAdapter;
+import com.daanigp.padinfo.Entity.Game;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityListPartidos extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
+    private static final String TAG = "ActivityListPartidos";
     public static int CREATE_GAME = 3;
     public static int EDIT_GAME = 4;
-    SQLiteDatabase db;
     Button btnAddGame, btnVolver;
-    ArrayList<Partido> partidos;
+    ArrayList<Game> games;
     ListView lista;
     PartidoAdapter gameAdapter;
+    String token;
+    long userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_partidos);
 
+        games = new ArrayList<>();
+
         btnAddGame = (Button) findViewById(R.id.btnNewGame);
         btnVolver = (Button) findViewById(R.id.buttonVolver);
 
-        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(" +
-                "User VARCHAR, " +
-                "Password VARCHAR, " +
-                "Isconnected INTEGER" +
-                ");"
-        );
-        db.execSQL("CREATE TABLE IF NOT EXISTS games(" +
-                "IdGame INTEGER, " +
-                "User VARCHAR, " +
-                "Player1 VARCHAR, " +
-                "Player2 VARCHAR, " +
-                "Player3 VARCHAR, " +
-                "Player4 VARCHAR, " +
-                "Set1PointsT1 INTEGER, " +
-                "Set2PointsT1 INTEGER, " +
-                "Set3PointsT1 INTEGER, " +
-                "Set1PointsT2 INTEGER, " +
-                "Set2PointsT2 INTEGER, " +
-                "Set3PointsT2 INTEGER, " +
-                "EquipoGanador INTEGER" +
-                ");"
-        );
+        userId = SharedPreferencesManager.getInstance(ActivityListPartidos.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityListPartidos.this).getToken();
 
-        partidos = getPartidosFromDB();
+        getGames();
 
         lista = (ListView) findViewById(R.id.listaPartidos);
-        gameAdapter = new PartidoAdapter(this, R.layout.item_partido, partidos);
+        gameAdapter = new PartidoAdapter(this, R.layout.item_partido, games);
 
         lista.setAdapter(gameAdapter);
         lista.setOnItemClickListener(this);
@@ -91,31 +84,31 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE EL PARTIDO -> " + partidos.get(position).getIdGame(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "HAS PULSADO SOBRE EL PARTIDO -> " + games.get(position).getId(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.menu_contextual_partidos, menu);
+        getMenuInflater().inflate(R.menu.contextmenu_edit_delete, menu);
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Partido partido = (Partido) lista.getItemAtPosition(info.position);
+        Game game = (Game) lista.getItemAtPosition(info.position);
 
         int id = item.getItemId();
 
         switch (id) {
             case R.id.itemEditar:
-                Toast.makeText(getApplicationContext(), "EDITAR -> " + partido.getIdGame(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "EDITAR -> " + game.getId(), Toast.LENGTH_SHORT).show();
                 Intent intentEditarPartido = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
-                intentEditarPartido.putExtra("idGame", partido.getIdGame());
+                intentEditarPartido.putExtra("idGame", game.getId());
                 startActivityForResult(intentEditarPartido, EDIT_GAME);
                 break;
             case R.id.itemEliminar:
-                showPopupMenu(partido);
+                showPopupMenu(game);
                 break;
         }
 
@@ -128,87 +121,76 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
         if (requestCode == CREATE_GAME) {
             if (resultCode == RESULT_OK) {
-                //partidos.clear();
-                //partidos = getPartidosFromDB();
-                gameAdapter.notifyDataSetChanged();
+                games.clear();
+                getGames();
             }
         } else if (requestCode == EDIT_GAME) {
             if (resultCode == RESULT_OK) {
-                partidos.clear();
-                partidos = getPartidosFromDB();
-                gameAdapter.notifyDataSetChanged();
+                games.clear();
+                getGames();
             }
         }
     }
 
-    private ArrayList<Partido> getPartidosFromDB(){
-        String user = getUserConnected();
-        ArrayList<Partido> games = new ArrayList<>();
+    private void getGames() {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<List<Game>> call = padinfoApi.getGamesByUserId(token, userId);
 
-        if (!(user.equalsIgnoreCase("") || user.isEmpty())) {
-            Cursor c = db.rawQuery("SELECT * FROM games WHERE User = '" + user + "'", null);
-            if (c.getCount() > 0){
-                while(c.moveToNext()) {
-                    Partido p = new Partido();
-                    p.setIdGame(c.getInt(0));
-                    p.setUser(c.getString(1));
-                    p.setPlayer1(c.getString(2));
-                    p.setPlayer2(c.getString(3));
-                    p.setPlayer3(c.getString(4));
-                    p.setPlayer4(c.getString(5));
-                    p.setSet1PointsT1(c.getInt(6));
-                    p.setSet2PointsT1(c.getInt(7));
-                    p.setSet3PointsT1(c.getInt(8));
-                    p.setSet1PointsT2(c.getInt(9));
-                    p.setSet2PointsT2(c.getInt(10));
-                    p.setSet3PointsT2(c.getInt(11));
-                    p.setEquipoGanador(c.getInt(12));
-
-                    games.add(p);
+        call.enqueue(new Callback<List<Game>>() {
+            @Override
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getPartidosFromDB) -> response");
+                    Toast.makeText(ActivityListPartidos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                return games;
-            } else {
-                Toast.makeText(this, "2. NO furula :(", Toast.LENGTH_SHORT).show();
-                return games;
-            }
-        }
 
-        Toast.makeText(this, "1. NO VVA :(", Toast.LENGTH_SHORT).show();
-        return games;
+                List<Game> gamesAPI = response.body();
+
+                if (gamesAPI != null) {
+                    for(Game g: gamesAPI) {
+                        Game game = new Game();
+                        game.setId(g.getId());
+                        game.setUserId(userId);
+                        game.setNamePlayer1(g.getNamePlayer1());
+                        game.setNamePlayer2(g.getNamePlayer2());
+                        game.setNamePlayer3(g.getNamePlayer3());
+                        game.setNamePlayer4(g.getNamePlayer4());
+                        game.setSet1PointsT1(g.getSet1PointsT1());
+                        game.setSet2PointsT1(g.getSet2PointsT1());
+                        game.setSet3PointsT1(g.getSet3PointsT1());
+                        game.setSet1PointsT2(g.getSet1PointsT2());
+                        game.setSet2PointsT2(g.getSet2PointsT2());
+                        game.setSet3PointsT2(g.getSet3PointsT2());
+                        game.setWinnerTeam(g.getWinnerTeam());
+
+                        games.add(game);
+                    }
+
+                    // Notificar al adapter que los datos han cambiado
+                    gameAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ActivityListPartidos.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getPartidosFromDB)", t);
+                Toast.makeText(ActivityListPartidos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private String getUserConnected(){
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
-
-        if (c.moveToFirst()) {
-            int indexUser = c.getColumnIndex("User");
-            String user = c.getString(indexUser);
-            if (user != null || !user.isEmpty()){
-                c.close();
-                return user;
-            }
-        }
-
-        c.close();
-
-        return "";
-    }
-
-    private void showPopupMenu(Partido p) {
+    private void showPopupMenu(Game g) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Eliminar Partido");
+        builder.setTitle("Eliminar partido");
         builder.setMessage("¿Estás seguro de eliminar el partido?");
 
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (deleteGame(p)) {
-                    partidos.remove(p);
-                    gameAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Partido eliminado.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el partido.", Toast.LENGTH_SHORT).show();
-                }
+                deleteGame(g);
             }
         });
 
@@ -222,17 +204,35 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         builder.show();
     }
 
-    private boolean deleteGame(Partido p){
-        Cursor c = db.rawQuery("SELECT * FROM games WHERE IdGame = " + p.getIdGame() + ";", null);
+    private void deleteGame(Game g) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deleteGameByid(token, g.getId());
 
-        if (c.getCount() != 0) {
-            db.execSQL("DELETE FROM games WHERE IdGame = " + p.getIdGame() + ";");
-            c.close();
-            return true;
-        }
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    Log.v(TAG, "No va (userExists) -> response");
+                    Toast.makeText(ActivityListPartidos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        c.close();
+                ResponseEntity res = response.body();
 
-        return false;
+                if (res.getMessege().equalsIgnoreCase("Borrado")) {
+                    games.remove(g);
+                    gameAdapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Partido eliminado.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el partido.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (userExists)", t);
+                Toast.makeText(ActivityListPartidos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

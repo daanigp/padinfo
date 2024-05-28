@@ -9,7 +9,9 @@
     <string name="iniciarSesion">INICIAR SESIÓN</string>
     <string name="inicioSesionMenu">Iniciar Sesión</string>
     <string name="registroUsuario">REGISTRARSE</string>
+    <string name="inicioUsuarioInvitado">USUARIO INVITADO</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="eliminarCuenta">Eliminar cuenta</string>
     <string name="salir">Salir</string>
     <string name="volver">VOLVER</string>
     <string name="editar">EDITAR</string>
@@ -34,4 +36,17 @@
     <string name="nomJugEq1">Nombre jugadores equipo 1</string>
     <string name="nomJugEq2">Nombre jugadores equipo 2</string>
     <string name="numeroCero">0</string>
+    <string name="nombreTorneo">Nombre del torneo</string>
+    <string name="ciudadTorneo">Ciudad del torneo</string>
+    <string name="genero">GÉNERO</string>
+    <string name="crearTorneo">Añadir torneo</string>
+    <string name="crearJugador">Añadir jugador/a</string>
+    <string name="rankPosicion">Posición en el ranking</string>
+    <string name="nombreJugador">Nombre del jugador/a</string>
+    <string name="puntos">Puntos del jugador/a</string>
+
+    <string-array name="generos">
+        <item>MASC</item>
+        <item>FEM</item>
+    </string-array>
 </resources>

@@ -18,6 +18,11 @@
         android:id="@+id/itemCerrarSesion"
         android:title="@string/cerrarSesion" />
     <item
+        android:id="@+id/itemDeleteAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/eliminarCuenta" />
+    <item
         android:id="@+id/itemSalir"
         android:title="@string/salir" />
 </menu>

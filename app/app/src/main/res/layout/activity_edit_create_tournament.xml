@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityEdit_CreateTournament">
+
+    <Button
+        android:id="@+id/btnSaveP"
+        android:layout_width="133dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="28dp"
+        android:backgroundTint="#4CAF50"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/guardar"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelP"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTournamentCity" />
+
+    <EditText
+        android:id="@+id/editTextTournamentCity"
+        android:layout_width="349dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/ciudadTorneo"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtTournamentName" />
+
+    <ImageView
+        android:id="@+id/imgTournament"
+        android:layout_width="309dp"
+        android:layout_height="171dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/editTxtTournamentName"
+        android:layout_width="349dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/nombreTorneo"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgTournament" />
+
+    <Button
+        android:id="@+id/btnCancelP"
+        android:layout_width="133dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="125dp"
+        android:backgroundTint="#FF0000"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/cancelar"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTournamentCity" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,47 +7,38 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.Entity.CreateGame;
+import com.daanigp.padinfo.Entity.Game;
+import com.daanigp.padinfo.Entity.UpdateGame;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.databinding.ActivityPartidoBinding;
 
-public class ActivityCrear_EditarPartido extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    SQLiteDatabase db;
+public class ActivityCrear_EditarPartido extends AppCompatActivity {
+    private static final String TAG = "ActivityCrear_EditarPartido";
     ActivityPartidoBinding binding;
     boolean editar;
-    int idEditGame;
+    long idEditGame, maxIdGame;
+    String token;
+    long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partido);
 
-        db = openOrCreateDatabase("UsersPadinfo", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(" +
-                "User VARCHAR, " +
-                "Password VARCHAR, " +
-                "Isconnected INTEGER" +
-                ");"
-        );
-        db.execSQL("CREATE TABLE IF NOT EXISTS games(" +
-                "IdGame INTEGER, " +
-                "User VARCHAR, " +
-                "Player1 VARCHAR, " +
-                "Player2 VARCHAR, " +
-                "Player3 VARCHAR, " +
-                "Player4 VARCHAR, " +
-                "Set1PointsT1 INTEGER, " +
-                "Set2PointsT1 INTEGER, " +
-                "Set3PointsT1 INTEGER, " +
-                "Set1PointsT2 INTEGER, " +
-                "Set2PointsT2 INTEGER, " +
-                "Set3PointsT2 INTEGER, " +
-                "EquipoGanador INTEGER" +
-                ");"
-        );
+        userId = SharedPreferencesManager.getInstance(ActivityCrear_EditarPartido.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityCrear_EditarPartido.this).getToken();
 
         binding = ActivityPartidoBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -60,6 +51,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             editar = true;
         }
 
+        getMaxIdGame();
 
         // Añadir y borrar puntos set 1 equipo 1
         binding.btnAddPtsSet11P.setOnClickListener(new View.OnClickListener() {
@@ -289,9 +281,14 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 }
 
                 if (save) {
-                    Toast.makeText(getApplicationContext(), "EQUIPO 1 -> " + nomJugador1 + " + " + nomJugador2 + "\nEQUIPO 2 -> " + nomJugador3 + " + " + nomJugador4, Toast.LENGTH_SHORT).show();
-
-                    saveDB(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador);
+                    //Toast.makeText(getApplicationContext(), "EQUIPO 1 -> " + nomJugador1 + " + " + nomJugador2 + "\nEQUIPO 2 -> " + nomJugador3 + " + " + nomJugador4, Toast.LENGTH_SHORT).show();
+                    if (editar) {
+                        UpdateGame updateGame = new UpdateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador);
+                        updateGame(updateGame);
+                    } else {
+                        CreateGame newGame = new CreateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador, userId);
+                        saveGame(newGame);
+                    }
                     setResult(RESULT_OK);
                     finish();
                 }
@@ -301,7 +298,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityCrear_EditarPartido.this, "Has cancelado los cambios", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityCrear_EditarPartido.this, "No has guardado nada.", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -349,110 +346,150 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         return ptos1 > ptos2;
     }
 
-    private void saveDB(String nomJugador1, String nomJugador2, String nomJugador3, String nomJugador4, int ptosSet1Eq1, int ptosSet1Eq2, int ptosSet2Eq1, int ptosSet2Eq2, int ptosSet3Eq1, int ptosSet3Eq2, int equipoGanador){
-        String usr = userConnected();
+    private void updateGame(UpdateGame updateGame) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Game> call = padinfoApi.updateGame(token, idEditGame, updateGame);
 
-        if (!(usr.equalsIgnoreCase("") || usr.isEmpty())) {
-            int idGame;
-            if (editar) {
-                idGame = idEditGame;
-                //Hacemos update de los datos del idGame
-                ContentValues valores = new ContentValues();
-                valores.put("Player1", nomJugador1);
-                valores.put("Player2", nomJugador2);
-                valores.put("Player3", nomJugador3);
-                valores.put("Player4", nomJugador4);
-                valores.put("Set1PointsT1", ptosSet1Eq1);
-                valores.put("Set2PointsT1", ptosSet2Eq1);
-                valores.put("Set3PointsT1", ptosSet3Eq1);
-                valores.put("Set1PointsT2", ptosSet1Eq2);
-                valores.put("Set2PointsT2", ptosSet2Eq2);
-                valores.put("Set3PointsT2", ptosSet3Eq2);
-                valores.put("EquipoGanador", equipoGanador);
+        call.enqueue(new Callback<Game>() {
+            @Override
+            public void onResponse(Call<Game> call, Response<Game> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (updateGame) -> response");
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                String whereClause = "IdGame = ?";
-                String[] whereArgs = { String.valueOf(idGame) };
-                db.update("games", valores, whereClause, whereArgs);
+                Game gameAPIupdated = response.body();
 
-            } else {
-                idGame = getIdGame();
-                //Insertamos un nuevo partido
-                db.execSQL("INSERT INTO games VALUES(" +
-                        idGame + ", " +
-                        "'" + usr + "', " +
-                        "'" + nomJugador1 + "', " +
-                        "'" + nomJugador2 + "', " +
-                        "'" + nomJugador3 + "', " +
-                        "'" + nomJugador4 + "', " +
-                        ptosSet1Eq1 + ", " +
-                        ptosSet2Eq1 + ", " +
-                        ptosSet3Eq1 + ", " +
-                        ptosSet1Eq2 + ", " +
-                        ptosSet2Eq2 + ", " +
-                        ptosSet3Eq2 + ", " +
-                        equipoGanador +
-                        ");"
-                );
+                if (gameAPIupdated != null) {
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Partido actualizado con éxito", Toast.LENGTH_SHORT).show();
+                    //METER NOTIFICACIÓN
+                } else {
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        } else {
-            Toast.makeText(this, "No se pueden guardar los datos debido a un error en la app", Toast.LENGTH_SHORT).show();
-        }
+
+            @Override
+            public void onFailure(Call<Game> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (updateGame)", t);
+                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    private String userConnected(){
-        Cursor c = db.rawQuery("SELECT * FROM users WHERE Isconnected = 1", null);
+    private void saveGame(CreateGame newGame){
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Game> call = padinfoApi.createGame(token, newGame);
 
-        if (c.moveToFirst()) {
-            int indexUser = c.getColumnIndex("User");
-            String user = c.getString(indexUser);
-            if (user != null || !user.isEmpty()){
-                c.close();
-                return user;
+        call.enqueue(new Callback<Game>() {
+            @Override
+            public void onResponse(Call<Game> call, Response<Game> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (saveGame) -> response");
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Game gameAPIcreated = response.body();
+
+                if (gameAPIcreated != null) {
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Partido creado con éxito", Toast.LENGTH_SHORT).show();
+                    //METER NOTIFICACIÓN
+                } else {
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
 
-        c.close();
-
-        return "";
+            @Override
+            public void onFailure(Call<Game> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (saveGame)", t);
+                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private int getIdGame(){
-        int idGame = 0;
 
-        Cursor c = db.rawQuery("SELECT * FROM games", null);
+    private void getMaxIdGame(){
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Long> call = padinfoApi.getMaximmumIdGame(token);
 
-        if (c.getCount() == 0) {
-            c.close();
-            return ++idGame;
-        } else if (c.moveToLast()) {
-            int indexId = c.getColumnIndex("IdGame");
-            int id = c.getInt(indexId);
-            c.close();
-            return ++id;
-        }
-        c.close();
+        call.enqueue(new Callback<Long>() {
+            @Override
+            public void onResponse(Call<Long> call, Response<Long> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getMaxIdGame) -> response");
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        return idGame;
+                Long maxIdAPI = response.body();
+
+                if (maxIdAPI != null && maxIdAPI > 0) {
+                    maxIdGame = maxIdAPI + 1;
+                } else {
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    maxIdGame = 1;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Long> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getMaxIdGame)", t);
+                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void putValuesForIdGame(){
-        Cursor c = db.rawQuery("SELECT * FROM games WHERE IdGame = " + idEditGame + "", null);
 
-        if (c.getCount() > 0) {
-            while(c.moveToNext()) {
-                binding.editTxtNombreJug1P.setText(c.getString(2));
-                binding.editTxtNombreJug2P.setText(c.getString(3));
-                binding.editTxtNombreJug3P.setText(c.getString(4));
-                binding.editTxtNombreJug4P.setText(c.getString(5));
-                binding.txtPtosSet1Eq1P.setText(String.valueOf(c.getInt(6)));
-                binding.txtPtosSet2Eq1P.setText(String.valueOf(c.getInt(7)));
-                binding.txtPtosSet3Eq1P.setText(String.valueOf(c.getInt(8)));
-                binding.txtPtosSet1Eq2P.setText(String.valueOf(c.getInt(9)));
-                binding.txtPtosSet2Eq2P.setText(String.valueOf(c.getInt(10)));
-                binding.txtPtosSet3Eq2P.setText(String.valueOf(c.getInt(11)));
+    private void putValuesForIdGame() {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Game> call = padinfoApi.getGameByIdGame(token, idEditGame);
+
+        call.enqueue(new Callback<Game>() {
+            @Override
+            public void onResponse(Call<Game> call, Response<Game> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (putValuesForIdGame) -> response");
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Game gameAPI = response.body();
+
+                if (gameAPI != null) {
+                    binding.editTxtNombreJug1P.setText(gameAPI.getNamePlayer1());
+                    binding.editTxtNombreJug2P.setText(gameAPI.getNamePlayer2());
+                    binding.editTxtNombreJug3P.setText(gameAPI.getNamePlayer3());
+                    binding.editTxtNombreJug4P.setText(gameAPI.getNamePlayer4());
+                    binding.txtPtosSet1Eq1P.setText(String.valueOf(gameAPI.getSet1PointsT1()));
+                    binding.txtPtosSet2Eq1P.setText(String.valueOf(gameAPI.getSet2PointsT1()));
+                    binding.txtPtosSet3Eq1P.setText(String.valueOf(gameAPI.getSet3PointsT1()));
+                    binding.txtPtosSet1Eq2P.setText(String.valueOf(gameAPI.getSet1PointsT2()));
+                    binding.txtPtosSet2Eq2P.setText(String.valueOf(gameAPI.getSet2PointsT2()));
+                    binding.txtPtosSet3Eq2P.setText(String.valueOf(gameAPI.getSet3PointsT2()));
+                } else {
+                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    binding.editTxtNombreJug1P.setText("vacio");
+                    binding.editTxtNombreJug2P.setText("vacio");
+                    binding.editTxtNombreJug3P.setText("vacio");
+                    binding.editTxtNombreJug4P.setText("vacio");
+                    binding.txtPtosSet1Eq1P.setText("0");
+                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet3Eq1P.setText("0");
+                    binding.txtPtosSet1Eq2P.setText("0");
+                    binding.txtPtosSet2Eq2P.setText("0");
+                    binding.txtPtosSet3Eq2P.setText("0");
+                }
             }
-        }
 
-        c.close();
+            @Override
+            public void onFailure(Call<Game> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (putValuesForIdGame)", t);
+                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

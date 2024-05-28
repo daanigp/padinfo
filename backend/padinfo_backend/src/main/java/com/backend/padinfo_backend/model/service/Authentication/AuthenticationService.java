@@ -54,17 +54,20 @@ public class AuthenticationService implements  IAuthenticationService{
                 )
         );
 
-
-        UserInfo logedUser = userInfoRepository.findByUsername(user.getUsername()).orElseThrow(
+        UserInfo loggedUser = userInfoRepository.findByUsername(user.getUsername()).orElseThrow(
                 () -> new UserInfoNotFoundException("Usuario no encontrado con nombre: " + user.getUsername())
         );
 
-        userInfoService.updateIsConnected(logedUser.getId());
+        userInfoService.updateIsConnected(loggedUser.getId());
+
+        return loggedUser;
 
         /*return userInfoRepository.findById(user.getId()).orElseThrow(
                 () -> new UserInfoNotFoundException(user.getId())
         );*/
 
-        return logedUser;
+        /*return userInfoRepository.findByUsername(user.getUsername()).orElseThrow(
+                () -> new UserInfoNotFoundException("Usuario no encontrado con nombre: " + user.getUsername())
+        );*/
     }
 }
