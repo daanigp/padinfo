@@ -2,10 +2,12 @@ package com.daanigp.padinfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -132,7 +134,7 @@ public class Activity_Inicio extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (registredUser) {
+        if (!registredUser) {
             getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
@@ -180,6 +182,10 @@ public class Activity_Inicio extends AppCompatActivity {
                 SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
                 Intent intentInicioSesion = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
                 startActivityForResult(intentInicioSesion, USER_LOGIN);
+                return true;
+            case R.id.itemDeleteAccount:
+                Toast.makeText(getApplicationContext(), "ELIMINAR CUENTA", Toast.LENGTH_SHORT).show();
+                showPopupMenu();
                 return true;
             case R.id.itemSalir:
                 Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
@@ -284,4 +290,60 @@ public class Activity_Inicio extends AppCompatActivity {
         });
     }
 
+    private void showPopupMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar cuenta");
+        builder.setMessage("¿Estás seguro de eliminar la cuenta?");
+
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAccount();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void deleteAccount() {
+        String token = SharedPreferencesManager.getInstance(Activity_Inicio.this).getToken();
+        long idUser = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
+
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deletePlayerById(token, idUser);
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(Activity_Inicio.this, "1-Código error - (deleteAccount): " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res.getMessege().equalsIgnoreCase("Usuario eliminado correctamente")) {
+                    Toast.makeText(Activity_Inicio.this, res.getMessege(), Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(Activity_Inicio.this, "No se ha podido eliminar el usuario.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (deleteAccount)", t);
+                Toast.makeText(Activity_Inicio.this, "2- Código error - (deleteAccount): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
 }

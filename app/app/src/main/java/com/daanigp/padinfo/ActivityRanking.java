@@ -173,12 +173,10 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
 
         if(requestCode == CREATE_PLAYER) {
             if (resultCode == RESULT_OK) {
-                players.clear();
                 getPlayers(selectGender());
             }
         } else if (requestCode == EDIT_PLAYER) {
             if (resultCode == RESULT_OK) {
-                players.clear();
                 getPlayers(selectGender());
             }
         }
@@ -222,6 +220,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
                 List<Player> playersAPI = response.body();
 
                 if (playersAPI != null) {
+                    players.clear();
 
                     for (Player p: playersAPI) {
                         Player player = new Player();

@@ -11,6 +11,7 @@
     <string name="registroUsuario">REGISTRARSE</string>
     <string name="inicioUsuarioInvitado">USUARIO INVITADO</string>
     <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="eliminarCuenta">Eliminar cuenta</string>
     <string name="salir">Salir</string>
     <string name="volver">VOLVER</string>
     <string name="editar">EDITAR</string>

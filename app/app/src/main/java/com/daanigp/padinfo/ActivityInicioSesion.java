@@ -59,8 +59,6 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 String user, pwd;
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
-                user = "dani";
-                pwd = "1234";
                 getIdUser(user);
                 login(user, pwd);
             }
@@ -126,8 +124,6 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     if (isConnected) {
                         Toast.makeText(ActivityInicioSesion.this, "El usuario ya está logueado", Toast.LENGTH_SHORT).show();
                     } else {
-                        long id = SharedPreferencesManager.getInstance(ActivityInicioSesion.this).getUserId();
-                        putUserIsConnected(id);
                         Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
                         intentAppInicio.putExtra("token", token);
                         startActivity(intentAppInicio);
