@@ -11,8 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -21,8 +23,11 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
@@ -37,7 +42,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Activity_Inicio extends AppCompatActivity {
+public class Activity_Inicio extends AppCompatActivity implements MediaController.MediaPlayerControl {
+    MediaController mc;
+    MediaPlayer mp;
+    VideoView video;
 
     public static int USER_LOGIN = 1;
     private static final String TAG = "Activity_Inicio";
@@ -53,6 +61,7 @@ public class Activity_Inicio extends AppCompatActivity {
 
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
         txtInfoApp_webs = (TextView) findViewById(R.id.txtInfoApp_webs);
+        video = (VideoView) findViewById(R.id.bestShotsVideo);
 
         rolesId = new ArrayList<>();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
@@ -67,69 +76,8 @@ public class Activity_Inicio extends AppCompatActivity {
 
         selectTypeMenuByUserRole();
 
-        String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
-        premierPadel = "https://premierpadel.com/";
-        rankingMasculino = "https://www.padelfip.com/ranking-male/";
-        rankingFemenino = "https://www.padelfip.com/ranking-female/";
-
-        textoPremierPadel = "Premier padel: ";
-        textoRankMasc = "Ranking masculino: ";
-        textoRankFem = "Ranking femenino: ";
-
-        textoPremierPadelCompleto = textoPremierPadel + premierPadel;
-        textoRankMascCompleto = textoRankMasc + rankingMasculino;
-        textoRankFemCompleto = textoRankFem + rankingFemenino;
-
-        SpannableString premierPadelSpanneable, rankMascSpanneable, rankFemSpanneable;
-        ClickableSpan clickableSpanPremierPadel, clickableSpanRankMasc, clickableSpanRankFem;
-
-        // Link de Premier Padel
-        premierPadelSpanneable = new SpannableString(textoPremierPadelCompleto);
-        clickableSpanPremierPadel = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
-                Intent intentPremierPadel = new Intent(Intent.ACTION_VIEW, Uri.parse(premierPadel));
-                startActivity(intentPremierPadel);
-            }
-        };
-        premierPadelSpanneable.setSpan(clickableSpanPremierPadel, textoPremierPadel.length(), textoPremierPadelCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // Link del ranking masculino (actual)
-        rankMascSpanneable = new SpannableString(textoRankMascCompleto);
-        clickableSpanRankMasc = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
-                Intent intentRankMasc = new Intent(Intent.ACTION_VIEW, Uri.parse(rankingMasculino));
-                startActivity(intentRankMasc);
-            }
-        };
-        rankMascSpanneable.setSpan(clickableSpanRankMasc, textoRankMasc.length(), textoRankMascCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // Link del rango femenino (actual)
-        rankFemSpanneable = new SpannableString(textoRankFemCompleto);
-        clickableSpanRankFem = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
-                Intent intentRankFem = new Intent(Intent.ACTION_VIEW, Uri.parse(rankingFemenino));
-                startActivity(intentRankFem);
-            }
-        };
-        rankFemSpanneable.setSpan(clickableSpanRankFem, textoRankFem.length(), textoRankFemCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // Creamos un SpannableStringBuilder, para poner los enlaces uno encima del otro
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(premierPadelSpanneable);
-        builder.append("\n"); // Nueva línea entre los enlaces
-        builder.append(rankMascSpanneable);
-        builder.append("\n"); // Nueva línea entre los enlaces
-        builder.append(rankFemSpanneable);
-
-        // Añadimos los spanneables al text view
-        txtInfoApp_webs.setText(builder);
-        txtInfoApp_webs.setMovementMethod(LinkMovementMethod.getInstance());
+        putVideoTopHighlights();
+        completeTheWebsInfo();
     }
 
     @Override
@@ -217,6 +165,94 @@ public class Activity_Inicio extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         }
+    }
+
+    private void putVideoTopHighlights() {
+        mc = new MediaController(this);
+        mc.setMediaPlayer(this);
+        mc.setAnchorView(video);
+
+        video.setMediaController(mc);
+        video.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.best_shots));
+
+        Handler h = new Handler();
+        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                h.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mc.show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void completeTheWebsInfo() {
+        String premierPadel, rankingMasculino, rankingFemenino, textoPremierPadel, textoRankMasc, textoRankFem, textoPremierPadelCompleto, textoRankMascCompleto, textoRankFemCompleto;
+        premierPadel = "https://premierpadel.com/";
+        rankingMasculino = "https://www.padelfip.com/ranking-male/";
+        rankingFemenino = "https://www.padelfip.com/ranking-female/";
+
+        textoPremierPadel = "Premier padel: ";
+        textoRankMasc = "Ranking masculino: ";
+        textoRankFem = "Ranking femenino: ";
+
+        textoPremierPadelCompleto = textoPremierPadel + premierPadel;
+        textoRankMascCompleto = textoRankMasc + rankingMasculino;
+        textoRankFemCompleto = textoRankFem + rankingFemenino;
+
+        SpannableString premierPadelSpanneable, rankMascSpanneable, rankFemSpanneable;
+        ClickableSpan clickableSpanPremierPadel, clickableSpanRankMasc, clickableSpanRankFem;
+
+        // Link de Premier Padel
+        premierPadelSpanneable = new SpannableString(textoPremierPadelCompleto);
+        clickableSpanPremierPadel = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
+                Intent intentPremierPadel = new Intent(Intent.ACTION_VIEW, Uri.parse(premierPadel));
+                startActivity(intentPremierPadel);
+            }
+        };
+        premierPadelSpanneable.setSpan(clickableSpanPremierPadel, textoPremierPadel.length(), textoPremierPadelCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Link del ranking masculino (actual)
+        rankMascSpanneable = new SpannableString(textoRankMascCompleto);
+        clickableSpanRankMasc = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
+                Intent intentRankMasc = new Intent(Intent.ACTION_VIEW, Uri.parse(rankingMasculino));
+                startActivity(intentRankMasc);
+            }
+        };
+        rankMascSpanneable.setSpan(clickableSpanRankMasc, textoRankMasc.length(), textoRankMascCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Link del rango femenino (actual)
+        rankFemSpanneable = new SpannableString(textoRankFemCompleto);
+        clickableSpanRankFem = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
+                Intent intentRankFem = new Intent(Intent.ACTION_VIEW, Uri.parse(rankingFemenino));
+                startActivity(intentRankFem);
+            }
+        };
+        rankFemSpanneable.setSpan(clickableSpanRankFem, textoRankFem.length(), textoRankFemCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // Creamos un SpannableStringBuilder, para poner los enlaces uno encima del otro
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(premierPadelSpanneable);
+        builder.append("\n"); // Nueva línea entre los enlaces
+        builder.append(rankMascSpanneable);
+        builder.append("\n"); // Nueva línea entre los enlaces
+        builder.append(rankFemSpanneable);
+
+        // Añadimos los spanneables al text view
+        txtInfoApp_webs.setText(builder);
+        txtInfoApp_webs.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void getRolesByUserId() {
@@ -357,5 +393,73 @@ public class Activity_Inicio extends AppCompatActivity {
     private void showToast(String message) {
         Toast_Personalized toast = new Toast_Personalized(message, Activity_Inicio.this, message_layout);
         toast.CreateToast();
+    }
+
+    @Override
+    public void start() {
+        if(!mp.isPlaying())
+            mp.start();
+    }
+
+    @Override
+    public void pause() {
+        if(mp.isPlaying())
+            mp.pause();
+    }
+
+    @Override
+    public int getDuration() {
+        return mp.getDuration();
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return mp.getCurrentPosition();
+    }
+
+    @Override
+    public void seekTo(int i) {
+        mp.seekTo(i);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return mp.isPlaying();
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return mp.getAudioSessionId();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
+            if (!mc.isShowing())
+                mc.show();
+            else
+                mc.hide();
+
+        return false;
     }
 }
