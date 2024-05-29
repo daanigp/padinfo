@@ -9,13 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.CreateUpdatePlayer;
 import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +31,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
     long idPlayer;
     boolean edit;
     String image, token;
+    View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinnerGenderP);
         btnCancel = (Button) findViewById(R.id.btnCancelP);
         btnSave = (Button) findViewById(R.id.btnSaveP);
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         idPlayer = getIntent().getIntExtra("idPlayer", 0);
         if (idPlayer != 0) {
@@ -55,7 +57,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "No has guardado nada.", Toast.LENGTH_SHORT).show();
+                showToast("No has guardado nada.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -71,7 +73,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
                 gender = selectGender();
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(points) || isEmptyOrNull(rankingPos)) {
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Debes rellenar todos los datos", Toast.LENGTH_SHORT).show();
+                    showToast("Debes rellenar todos los datos");
                 } else {
                     CreateUpdatePlayer player = new CreateUpdatePlayer();
                     player.setName(name);
@@ -123,16 +125,16 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
             public void onResponse(Call<Player> call, Response<Player> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (updatePlayer) -> response");
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 Player playerAPI = response.body();
 
                 if (playerAPI != null) {
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Has guardado el jugador/a.", Toast.LENGTH_SHORT).show();
+                    showToast("Has guardado el jugador/a.");
                 } else {
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -140,7 +142,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (updatePlayer)", t);
-                Toast.makeText(ActivityEdit_CreatePlayer.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -154,23 +156,23 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
             public void onResponse(Call<Player> call, Response<Player> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (saveNewPlayer) -> response");
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 Player playerAPI = response.body();
 
                 if (playerAPI != null) {
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Has creado el jugador/a.", Toast.LENGTH_SHORT).show();
+                    showToast("Has creado el jugador/a.");
                 } else {
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (saveNewPlayer)", t);
-                Toast.makeText(ActivityEdit_CreatePlayer.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -184,7 +186,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
             public void onResponse(Call<Player> call, Response<Player> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (autocompletePlayerInfo) -> response");
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -203,7 +205,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
                     imgPlayer.setImageResource(imageResourceId);
                     image = playerAPI.getImageURL();
                 } else {
-                    Toast.makeText(ActivityEdit_CreatePlayer.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                     txtName.setText("vacío");
                     txtPoints.setText("0");
                     txtRankingPos.setText("0");
@@ -216,7 +218,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (autocompletePlayerInfo)", t);
-                Toast.makeText(ActivityEdit_CreatePlayer.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
                 txtName.setText("vacío");
                 txtPoints.setText("0");
                 txtRankingPos.setText("0");
@@ -224,6 +226,11 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
                 imgPlayer.setImageResource(R.drawable.icono_img);
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_CreatePlayer.this, message_layout);
+        toast.CreateToast();
     }
 
 }

@@ -3,23 +3,19 @@ package com.daanigp.padinfo;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +30,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
     ImageView imgPerfil;
     String token;
     long userId;
+    View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +47,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
 
         userId = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getToken();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         autocompleteUserInfo();
 
@@ -88,7 +86,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (autocompleteUserInfo) -> response" + response);
-                    Toast.makeText(ActivityPerfilUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -102,7 +100,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
                     int imageResourceId = ActivityPerfilUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityPerfilUsuario.this.getPackageName());
                     imgPerfil.setImageResource(imageResourceId);
                 } else {
-                    Toast.makeText(ActivityPerfilUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                     txtNombre.setText("vacío");
                     txtApellidos.setText("vacío");
                     txtEmail.setText("vacío");
@@ -113,8 +111,13 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (autocompleteUserInfo)", t);
-                Toast.makeText(ActivityPerfilUsuario.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityPerfilUsuario.this, message_layout);
+        toast.CreateToast();
     }
 }

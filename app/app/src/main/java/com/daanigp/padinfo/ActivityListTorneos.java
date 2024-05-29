@@ -11,21 +11,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.TorneoAdapter;
-import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     ListView lista;
     TorneoAdapter adapter;
     boolean adminUser;
-
+    View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +51,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
         tournamnets = new ArrayList<>();
 
         token = SharedPreferencesManager.getInstance(ActivityListTorneos.this).getToken();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         chekUserType();
 
@@ -80,7 +79,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE -> " + tournamnets.get(position).getName(), Toast.LENGTH_LONG).show();
+        showToast("HAS PULSADO SOBRE -> " + tournamnets.get(position).getName());
     }
 
     @Override
@@ -121,7 +120,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
         switch (id) {
             case R.id.itemEditar:
-                Toast.makeText(getApplicationContext(), "EDITAR -> " + tournament.getId(), Toast.LENGTH_SHORT).show();
+                showToast("EDITAR -> " + tournament.getId());
                 Intent intentEditTournament = new Intent(ActivityListTorneos.this, ActivityEdit_CreateTournament.class);
                 intentEditTournament.putExtra("idTournament", tournament.getId());
                 startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
@@ -170,7 +169,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             public void onResponse(Call<List<Tournament>> call, Response<List<Tournament>> response) {
                 if(!response.isSuccessful()) {
                     Log.e(TAG, "No va getTournaments - response" + response);
-                    Toast.makeText(ActivityListTorneos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -189,14 +188,14 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
                     // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(ActivityListTorneos.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Tournament>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - getTournaments", t);
-                Toast.makeText(ActivityListTorneos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -216,7 +215,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
             }
         });
 
@@ -232,7 +231,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (deleteTournament) -> response");
-                    Toast.makeText(ActivityListTorneos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -241,17 +240,22 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
                 if (res.getMessege().equalsIgnoreCase("Borrado")) {
                     tournamnets.remove(tournament);
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Torneo eliminado.", Toast.LENGTH_SHORT).show();
+                    showToast("Torneo eliminado.");
                 } else {
-                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el torneo.", Toast.LENGTH_SHORT).show();
+                    showToast("No se ha podido eliminar el torneo.");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (deleteTournament)", t);
-                Toast.makeText(ActivityListTorneos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityListTorneos.this, message_layout);
+        toast.CreateToast();
     }
 }

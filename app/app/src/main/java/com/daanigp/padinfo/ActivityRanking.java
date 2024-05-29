@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
 import com.daanigp.padinfo.Entity.Player;
@@ -25,6 +24,7 @@ import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -46,6 +46,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
     ListView lista;
     PlayerAdapter adapter;
     boolean adminUser;
+    View message_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
 
         players = new ArrayList<>();
         token = SharedPreferencesManager.getInstance(ActivityRanking.this).getToken();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+
         Log.v(TAG, "TOKEN -> " + token);
         chekUserType();
 
@@ -72,7 +75,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(ActivityRanking.this, "Selecciona el género para ver el ranking", Toast.LENGTH_SHORT).show();
+                showToast("Selecciona el género para ver el ranking");
             }
         });
 
@@ -112,7 +115,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE -> " + players.get(position).getName(), Toast.LENGTH_LONG).show();
+        showToast("HAS PULSADO SOBRE -> " + players.get(position).getName());
     }
 
     @Override
@@ -154,7 +157,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
 
         switch (id) {
             case R.id.itemEditar:
-                Toast.makeText(getApplicationContext(), "EDITAR -> " + player.getId(), Toast.LENGTH_SHORT).show();
+                showToast("EDITAR -> " + player.getId());
                 Intent intentEditTournament = new Intent(ActivityRanking.this, ActivityEdit_CreatePlayer.class);
                 intentEditTournament.putExtra("idPlayer", player.getId());
                 startActivityForResult(intentEditTournament, EDIT_PLAYER);
@@ -213,7 +216,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
             public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (getPlayers) -> response");
-                    Toast.makeText(ActivityRanking.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -250,14 +253,14 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
                     // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(ActivityRanking.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getPlayers)", t);
-                Toast.makeText(ActivityRanking.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -277,7 +280,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
             }
         });
 
@@ -293,7 +296,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (deletePlayer) -> response");
-                    Toast.makeText(ActivityRanking.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -302,18 +305,22 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
                 if (res.getMessege().equalsIgnoreCase("Borrado")) {
                     players.remove(player);
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Jugador/a eliminado.", Toast.LENGTH_SHORT).show();
+                    showToast("Jugador/a eliminado.");
                 } else {
-                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el jugador.", Toast.LENGTH_SHORT).show();
+                    showToast("No se ha podido eliminar el jugador.");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (deletePlayer)", t);
-                Toast.makeText(ActivityRanking.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
 
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityRanking.this, message_layout);
+        toast.CreateToast();
+    }
 }

@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.PartidoAdapter;
 import com.daanigp.padinfo.Entity.Game;
@@ -23,6 +22,7 @@ import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
     PartidoAdapter gameAdapter;
     String token;
     long userId;
+    View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
         userId = SharedPreferencesManager.getInstance(ActivityListPartidos.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityListPartidos.this).getToken();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         getGames();
 
@@ -84,7 +86,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE EL PARTIDO -> " + games.get(position).getId(), Toast.LENGTH_LONG).show();
+        showToast("HAS PULSADO SOBRE EL PARTIDO -> " + games.get(position).getId());
     }
 
     @Override
@@ -102,7 +104,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
         switch (id) {
             case R.id.itemEditar:
-                Toast.makeText(getApplicationContext(), "EDITAR -> " + game.getId(), Toast.LENGTH_SHORT).show();
+                showToast("EDITAR -> " + game.getId());
                 Intent intentEditarPartido = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
                 intentEditarPartido.putExtra("idGame", game.getId());
                 startActivityForResult(intentEditarPartido, EDIT_GAME);
@@ -139,7 +141,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
             public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (getPartidosFromDB) -> response -> " + response.toString());
-                    Toast.makeText(ActivityListPartidos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -170,14 +172,14 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
                     // Notificar al adapter que los datos han cambiado
                     gameAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(ActivityListPartidos.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Game>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getPartidosFromDB)", t);
-                Toast.makeText(ActivityListPartidos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -197,7 +199,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
             }
         });
 
@@ -213,7 +215,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (userExists) -> response");
-                    Toast.makeText(ActivityListPartidos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -222,17 +224,22 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
                 if (res.getMessege().equalsIgnoreCase("Borrado")) {
                     games.remove(g);
                     gameAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Partido eliminado.", Toast.LENGTH_SHORT).show();
+                    showToast("Partido eliminado.");
                 } else {
-                    Toast.makeText(getApplicationContext(), "No se ha podido eliminar el partido.", Toast.LENGTH_SHORT).show();
+                    showToast("No se ha podido eliminar el partido.");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (userExists)", t);
-                Toast.makeText(ActivityListPartidos.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityListPartidos.this, message_layout);
+        toast.CreateToast();
     }
 }

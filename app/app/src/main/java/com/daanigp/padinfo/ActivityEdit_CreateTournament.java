@@ -8,13 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.CreateUpdateTournament;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +29,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
     String token, image;
     long idTournament;
     boolean edit;
+    View message_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
         txtNameT = (EditText) findViewById(R.id.editTxtTournamentName);
         txtCityT = (EditText) findViewById(R.id.editTextTournamentCity);
         imgTournament = (ImageView) findViewById(R.id.imgTournament);
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         // Para los partidos que se quieren editar
         idTournament = getIntent().getIntExtra("idTournament", 0);
@@ -53,7 +55,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "No has guardado nada.", Toast.LENGTH_SHORT).show();
+                showToast("No has guardado nada.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -67,7 +69,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
                 city = txtCityT.getText().toString();
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(city)) {
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Debes rellenar todos los datos", Toast.LENGTH_SHORT).show();
+                    showToast("Debes rellenar todos los datos");
                 } else {
                     CreateUpdateTournament tournament = new CreateUpdateTournament();
                     tournament.setName(name);
@@ -100,16 +102,16 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             public void onResponse(Call<Tournament> call, Response<Tournament> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (updateTournament) -> response");
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 Tournament tournamentAPI = response.body();
 
                 if (tournamentAPI != null) {
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Has guardado el torneo.", Toast.LENGTH_SHORT).show();
+                    showToast("Has guardado el torneo.");
                 } else {
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -117,7 +119,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             @Override
             public void onFailure(Call<Tournament> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (saveNewTournament)", t);
-                Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -131,16 +133,16 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             public void onResponse(Call<Tournament> call, Response<Tournament> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (saveNewTournament) -> response");
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 Tournament tournamentAPI = response.body();
 
                 if (tournamentAPI != null) {
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Has creado un nuevo torneo.", Toast.LENGTH_SHORT).show();
+                    showToast("Has creado un nuevo torneo.");
                 } else {
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -148,7 +150,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             @Override
             public void onFailure(Call<Tournament> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (saveNewTournament)", t);
-                Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -162,7 +164,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             public void onResponse(Call<Tournament> call, Response<Tournament> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (autocompleteTournamentInfo) -> response");
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -176,7 +178,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
                     imgTournament.setImageResource(imageResourceId);
                     image = tournamentAPI.getImageURL();
                 } else {
-                    Toast.makeText(ActivityEdit_CreateTournament.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                     txtNameT.setText("vacío");
                     txtCityT.setText("vacío");
                     imgTournament.setImageResource(R.drawable.icono_img);
@@ -186,11 +188,16 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             @Override
             public void onFailure(Call<Tournament> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (autocompleteTournamentInfo)", t);
-                Toast.makeText(ActivityEdit_CreateTournament.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
                 txtNameT.setText("vacío");
                 txtCityT.setText("vacío");
                 imgTournament.setImageResource(R.drawable.icono_img);
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_CreateTournament.this, message_layout);
+        toast.CreateToast();
     }
 }

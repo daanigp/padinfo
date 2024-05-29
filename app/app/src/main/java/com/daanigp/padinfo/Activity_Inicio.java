@@ -23,13 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
-import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,7 @@ public class Activity_Inicio extends AppCompatActivity {
     boolean registredUser;
     String username;
     ArrayList<Long> rolesId;
+    View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +55,7 @@ public class Activity_Inicio extends AppCompatActivity {
         txtInfoApp_webs = (TextView) findViewById(R.id.txtInfoApp_webs);
 
         rolesId = new ArrayList<>();
-
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         /*if (userIsConnected()) {
             usuarioRegistrado = true;
@@ -149,27 +149,32 @@ public class Activity_Inicio extends AppCompatActivity {
 
         switch (opcionID) {
             case R.id.itemPerfil:
-                Toast.makeText(getApplicationContext(), "Perfil", Toast.LENGTH_SHORT).show();
+                showToast("Perfil");
+
                 Intent intentPerfilUsuario = new Intent(Activity_Inicio.this, ActivityPerfilUsuario.class);
                 startActivity(intentPerfilUsuario);
                 return true;
             case R.id.itemListado:
-                Toast.makeText(getApplicationContext(), "Listado tournaments", Toast.LENGTH_SHORT).show();
+                showToast("Listado tournaments");
+
                 Intent intentListadoTorneos = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
                 startActivity(intentListadoTorneos);
                 return true;
             case R.id.itemTop5:
-                Toast.makeText(getApplicationContext(), "Top 5 jugadores/as", Toast.LENGTH_SHORT).show();
+                showToast("Top 5 jugadores/as");
+
                 Intent intentRanking = new Intent(Activity_Inicio.this, ActivityRanking.class);
                 startActivity(intentRanking);
                 return true;
             case R.id.itemRegistrarPartidos:
-                Toast.makeText(getApplicationContext(), "Registrar Partidos", Toast.LENGTH_SHORT).show();
+                showToast("Partidos");
+
                 Intent intentPartidos = new Intent(Activity_Inicio.this, ActivityListPartidos.class);
                 startActivity(intentPartidos);
                 return true;
             case R.id.itemCerrarSesion:
-                Toast.makeText(getApplicationContext(), "Cerrar Sessión", Toast.LENGTH_SHORT).show();
+                showToast("Cerrar Sessión");
+
                 //usuarioRegistrado = false;
                 //invalidateOptionsMenu();
                 putUserDisconnected();
@@ -178,17 +183,19 @@ public class Activity_Inicio extends AppCompatActivity {
                 startActivity(intentInicioSes);
                 return true;
             case R.id.itemInicioSesion:
-                Toast.makeText(getApplicationContext(), "Iniciar Sessión", Toast.LENGTH_SHORT).show();
+                showToast("Iniciar Sessión");
+
                 SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
                 Intent intentInicioSesion = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
                 startActivityForResult(intentInicioSesion, USER_LOGIN);
                 return true;
             case R.id.itemDeleteAccount:
-                Toast.makeText(getApplicationContext(), "ELIMINAR CUENTA", Toast.LENGTH_SHORT).show();
+                showToast("Eliminar cuenta");
                 showPopupMenu();
                 return true;
             case R.id.itemSalir:
-                Toast.makeText(getApplicationContext(), "Saliendo de la aplicación...", Toast.LENGTH_SHORT).show();
+                showToast("Saliendo de la aplicación...");
+
                 //usuarioRegistrado = false;
                 //invalidateOptionsMenu();
                 putUserDisconnected();
@@ -227,7 +234,7 @@ public class Activity_Inicio extends AppCompatActivity {
             public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (getIdUser) -> response - getRolesByUserId - Activity_Inicio");
-                    Toast.makeText(Activity_Inicio.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -238,7 +245,7 @@ public class Activity_Inicio extends AppCompatActivity {
                     SharedPreferencesManager.getInstance(Activity_Inicio.this).saveRolesId(rolIdAPI);
                     rolesId = (ArrayList<Long>) rolIdAPI;
                 } else {
-                    Toast.makeText(Activity_Inicio.this, "No hay roles asociados al id : " + userId, Toast.LENGTH_SHORT).show();
+                    showToast("No hay roles asociados al id : " + userId);
                 }
 
             }
@@ -246,7 +253,7 @@ public class Activity_Inicio extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Long>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
-                Toast.makeText(Activity_Inicio.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -267,16 +274,16 @@ public class Activity_Inicio extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(Activity_Inicio.this, "1-Código error - (putUserDisconnected): " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("1-Código error - (putUserDisconnected): " + response.code());
                     return;
                 }
 
                 ResponseEntity res = response.body();
 
                 if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
-                    Toast.makeText(Activity_Inicio.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 } else {
-                    Toast.makeText(Activity_Inicio.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -284,7 +291,7 @@ public class Activity_Inicio extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (putUserDisconnected)", t);
-                Toast.makeText(Activity_Inicio.this, "2- Código error - (putUserDisconnected): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("2- Código error - (putUserDisconnected): " + t.getMessage());
                 t.printStackTrace();
             }
         });
@@ -305,7 +312,7 @@ public class Activity_Inicio extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "¡CALMA! No has eliminado nada, todo sigue igual.", Toast.LENGTH_SHORT).show();
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
             }
         });
 
@@ -323,17 +330,17 @@ public class Activity_Inicio extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(Activity_Inicio.this, "1-Código error - (deleteAccount): " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("1-Código error - (deleteAccount): " + response.code());
                     return;
                 }
 
                 ResponseEntity res = response.body();
 
                 if (res.getMessege().equalsIgnoreCase("Usuario eliminado correctamente")) {
-                    Toast.makeText(Activity_Inicio.this, res.getMessege(), Toast.LENGTH_SHORT).show();
+                    showToast(res.getMessege());
                     finish();
                 } else {
-                    Toast.makeText(Activity_Inicio.this, "No se ha podido eliminar el usuario.", Toast.LENGTH_SHORT).show();
+                    showToast("No se ha podido eliminar el usuario.");
                 }
 
             }
@@ -341,9 +348,14 @@ public class Activity_Inicio extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (deleteAccount)", t);
-                Toast.makeText(Activity_Inicio.this, "2- Código error - (deleteAccount): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("2- Código error - (deleteAccount): " + t.getMessage());
                 t.printStackTrace();
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, Activity_Inicio.this, message_layout);
+        toast.CreateToast();
     }
 }

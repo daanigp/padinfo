@@ -2,24 +2,19 @@ package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.UpdateUserInfo;
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +28,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
     ImageView imgPerfilUsuario;
     String token, image;
     long userId;
+    View message_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +41,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
         btnGuardar = (Button) findViewById(R.id.btnGuardarInfo);
         btnCancelar = (Button) findViewById(R.id.btnVolverM);
         imgPerfilUsuario = (ImageView) findViewById(R.id.imgPerfil);
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
        // imgPerfilUsuario.setImageResource(R.drawable.icono_img);
 
@@ -56,7 +53,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "No has hehco ningún cambio.", Toast.LENGTH_SHORT).show();
+                showToast("No has hehco ningún cambio.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -70,7 +67,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                 apellidos = txtApellidos.getText().toString();
                 email = txtEmail.getText().toString();
                 if (isEmptyOrNull(nombre) || isEmptyOrNull(apellidos) || isEmptyOrNull(email)) {
-                    Toast.makeText(ActivityEditarUsuario.this, "Debes rellenar todos los datos", Toast.LENGTH_SHORT).show();
+                    showToast("Debes rellenar todos los datos");
                 } else {
                     UpdateUserInfo updateUser = new UpdateUserInfo();
                     updateUser.setName(nombre);
@@ -96,7 +93,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (autocompleteUserInfo) -> response");
-                    Toast.makeText(ActivityEditarUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -110,7 +107,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                     int imageResourceId = ActivityEditarUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityEditarUsuario.this.getPackageName());
                     imgPerfilUsuario.setImageResource(imageResourceId);
                 } else {
-                    Toast.makeText(ActivityEditarUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                     txtNombre.setText("vacío");
                     txtApellidos.setText("vacío");
                     txtEmail.setText("vacío");
@@ -121,7 +118,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (autocompleteUserInfo)", t);
-                Toast.makeText(ActivityEditarUsuario.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
                 txtNombre.setText("vacío");
                 txtApellidos.setText("vacío");
                 txtEmail.setText("vacío");
@@ -138,27 +135,32 @@ public class ActivityEditarUsuario extends AppCompatActivity {
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (saveChanges) -> response -> " + response.body().toString());
-                    Toast.makeText(ActivityEditarUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 UserEntity userAPI = response.body();
 
                 if (userAPI != null) {
-                    Toast.makeText(ActivityEditarUsuario.this, "Has guardado los cambios.", Toast.LENGTH_SHORT).show();
+                    showToast("Has guardado los cambios.");
 
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(ActivityEditarUsuario.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (saveChanges)", t);
-                Toast.makeText(ActivityEditarUsuario.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEditarUsuario.this, message_layout);
+        toast.CreateToast();
     }
 }

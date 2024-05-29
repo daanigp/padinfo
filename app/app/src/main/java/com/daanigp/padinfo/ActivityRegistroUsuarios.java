@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
@@ -16,6 +15,7 @@ import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
 
@@ -28,6 +28,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
     Button btnCancelar, btnRegistrar;
     EditText txtUsuario, txtPassword, txtName, txtLastName, txtEmail;
     boolean exists;
+    View message_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "CAncelar", Toast.LENGTH_SHORT).show();
+                showToast("Cancelar");
                 finish();
             }
         });
@@ -82,23 +83,23 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
                 public void onResponse(Call<ResponseEntity> call, retrofit2.Response<ResponseEntity> response) {
                     if (!response.isSuccessful()) {
                         Log.v(TAG, "No va (signup) -> response");
-                        Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        showToast("Código error: " + response.code());
                         return;
                     }
 
                     ResponseEntity res = response.body();
 
                     if (res != null && res.getMessege().equalsIgnoreCase("Usuario registrado correctamente")) {
-                        Toast.makeText(ActivityRegistroUsuarios.this, res.getMessege(), Toast.LENGTH_SHORT).show();
+                        showToast("Usuario registrado correctamente");
                     } else {
-                        Toast.makeText(ActivityRegistroUsuarios.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                        showToast("Error en la respuesta del servidor");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseEntity> call, Throwable t) {
                     Log.e(TAG, "Error en la llamada Retrofit - (signup)", t);
-                    Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + t.getMessage());
                 }
             });
 
@@ -123,7 +124,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
             public void onResponse(Call<ResponseEntity> call, retrofit2.Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (userExists) -> response");
-                    Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -132,16 +133,21 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
                 if (res.getMessege().equalsIgnoreCase("No existe")) {
                     exists = false;
                 } else {
-                    Toast.makeText(ActivityRegistroUsuarios.this, "El usuario '" + username + "' ya está registrado.", Toast.LENGTH_SHORT).show();
+                    showToast("El usuario '" + username + "' ya está registrado.");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (userExists)", t);
-                Toast.makeText(ActivityRegistroUsuarios.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
 
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityRegistroUsuarios.this, message_layout);
+        toast.CreateToast();
     }
 }

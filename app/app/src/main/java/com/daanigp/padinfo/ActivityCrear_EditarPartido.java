@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.CreateGame;
 import com.daanigp.padinfo.Entity.Game;
@@ -22,6 +21,7 @@ import com.daanigp.padinfo.Entity.UpdateGame;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 import com.daanigp.padinfo.databinding.ActivityPartidoBinding;
 
 import retrofit2.Call;
@@ -36,6 +36,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
     long idEditGame, maxIdGame, idGame;
     String token;
     long userId;
+    View message_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
 
         userId = SharedPreferencesManager.getInstance(ActivityCrear_EditarPartido.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityCrear_EditarPartido.this).getToken();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         binding = ActivityPartidoBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -240,7 +242,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                         if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
-                            Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            //showToast("Equipo 1 gana el PARTIDO.");
                             equipoGanador = 1;
 
                             save = true;
@@ -252,10 +254,10 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
 
                             if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
                                 if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    //showToast("Equipo 1 gana el PARTIDO.");
                                     equipoGanador = 1;
                                 } else { // 1 - 2
-                                    Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    //showToast("Equipo 2 gana el PARTIDO.");
                                     equipoGanador = 2;
                                 }
 
@@ -271,10 +273,10 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
 
                             if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
                                 if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    //showToast("Equipo 1 gana el PARTIDO.");
                                     equipoGanador = 1;
                                 } else { // 1 - 2
-                                    Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                                    //showToast("Equipo 2 gana el PARTIDO.");
                                     equipoGanador = 2;
                                 }
 
@@ -283,7 +285,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                         } else { // 0 - 2
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
-                            Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
+                            //showToast("Equipo 2 gana el PARTIDO.");
                             equipoGanador = 2;
 
                             save = true;
@@ -309,7 +311,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityCrear_EditarPartido.this, "No has guardado nada.", Toast.LENGTH_SHORT).show();
+                showToast("No has guardado nada.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -320,7 +322,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         String ptos;
 
         if (points == 7) {
-            Toast.makeText(ActivityCrear_EditarPartido.this, "No puedes poner más puntos en " + txtSet.getText().toString(), Toast.LENGTH_SHORT).show();
+            showToast("No puedes poner más puntos en " + txtSet.getText().toString());
         } else {
             ptos = String.valueOf(++points);
             txtPuntos.setText(ptos);
@@ -331,7 +333,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         String ptos;
 
         if (points == 0) {
-            Toast.makeText(ActivityCrear_EditarPartido.this, "No puedes poner menos puntos en " + txtSet.getText().toString(), Toast.LENGTH_SHORT).show();
+            showToast("No puedes poner menos puntos en " + txtSet.getText().toString());
         } else {
             ptos = String.valueOf(--points);
             txtPuntos.setText(ptos);
@@ -348,7 +350,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         } else if (ptos1 >= 5 && ptos2 == 7) {
             return true;
         } else {
-            Toast.makeText(ActivityCrear_EditarPartido.this, "No se puede guardar el " + set +".", Toast.LENGTH_SHORT).show();
+            showToast("No se puede guardar el " + set +".");
             return false;
         }
     }
@@ -366,16 +368,16 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             public void onResponse(Call<Game> call, Response<Game> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (updateGame) -> response");
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 Game gameAPIupdated = response.body();
 
                 if (gameAPIupdated != null) {
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Partido actualizado con éxito", Toast.LENGTH_SHORT).show();
+                    showToast("Partido actualizado con éxito");
                 } else {
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -383,7 +385,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (updateGame)", t);
-                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
 
@@ -398,7 +400,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             public void onResponse(Call<Game> call, Response<Game> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (saveGame) -> response");
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -407,18 +409,18 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 if (gameAPIcreated != null) {
                     idGame = gameAPIcreated.getId();
 
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Partido creado con éxito", Toast.LENGTH_SHORT).show();
+                    showToast("Partido creado con éxito");
 
                     showNotification(true, true, newGame);
                 } else {
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (saveGame)", t);
-                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -433,7 +435,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             public void onResponse(Call<Long> call, Response<Long> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (getMaxIdGame) -> response");
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -442,7 +444,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 if (maxIdAPI != null && maxIdAPI > 0) {
                     maxIdGame = maxIdAPI + 1;
                 } else {
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                     maxIdGame = 1;
                 }
 
@@ -451,7 +453,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             @Override
             public void onFailure(Call<Long> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getMaxIdGame)", t);
-                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -466,7 +468,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             public void onResponse(Call<Game> call, Response<Game> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (putValuesForIdGame) -> response");
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -484,7 +486,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                     binding.txtPtosSet2Eq2P.setText(String.valueOf(gameAPI.getSet2PointsT2()));
                     binding.txtPtosSet3Eq2P.setText(String.valueOf(gameAPI.getSet3PointsT2()));
                 } else {
-                    Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                     binding.editTxtNombreJug1P.setText("vacio");
                     binding.editTxtNombreJug2P.setText("vacio");
                     binding.editTxtNombreJug3P.setText("vacio");
@@ -501,7 +503,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             @Override
             public void onFailure(Call<Game> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (putValuesForIdGame)", t);
-                Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -547,5 +549,10 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
 
         Notification notification = builder.build();
         notificationManager.notify(Integer.parseInt(CANAL_ID), notification);
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityCrear_EditarPartido.this, message_layout);
+        toast.CreateToast();
     }
 }

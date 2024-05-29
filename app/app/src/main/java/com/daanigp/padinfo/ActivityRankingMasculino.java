@@ -2,20 +2,19 @@ package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
 import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,6 +31,7 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
     ArrayList<Player> players;
     String token;
     PlayerAdapter adapter;
+    View message_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
 
         players = new ArrayList<>();
         token = SharedPreferencesManager.getInstance(ActivityRankingMasculino.this).getToken();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         Log.v(TAG, "TOKEN -> " + token);
 
@@ -62,7 +63,7 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "HAS PULSADO SOBRE -> " + players.get(position).getName(), Toast.LENGTH_LONG).show();
+        showToast("HAS PULSADO SOBRE -> " + players.get(position).getName());
     }
 
     private void getPlayers() {
@@ -74,7 +75,7 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
             public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (getPlayersMASC) -> response");
-                    Toast.makeText(ActivityRankingMasculino.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -103,15 +104,20 @@ public class ActivityRankingMasculino extends AppCompatActivity implements Adapt
                     // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(ActivityRankingMasculino.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getPlayersMASC)", t);
-                Toast.makeText(ActivityRankingMasculino.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityRankingMasculino.this, message_layout);
+        toast.CreateToast();
     }
 }

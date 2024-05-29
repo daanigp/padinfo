@@ -2,17 +2,13 @@ package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
@@ -23,6 +19,7 @@ import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 import com.daanigp.padinfo.Entity.Security.LoginUser;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +36,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
     boolean isConnected;
+    View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +48,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
         txtUsuario = (EditText) findViewById(R.id.editTxtUsuario);
         txtPassword = (EditText) findViewById(R.id.editTxtContrasenya);
         imgApp = (ImageView) findViewById(R.id.imgApp);
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         imgApp.setImageResource(R.drawable.padinfo_logo);
 
@@ -61,7 +60,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 pwd = txtPassword.getText().toString();
                 getIdUser(user);
                 if (isConnected) {
-                    Toast.makeText(ActivityInicioSesion.this, "El usuario ya está logueado", Toast.LENGTH_SHORT).show();
+                    showToast("El usuario ya está logueado");
                 } else {
                     login(user, pwd);
                 }
@@ -73,7 +72,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             public void onClick(View v) {
                 txtUsuario.setText("");
                 txtPassword.setText("");
-                Toast.makeText(getApplicationContext(), "Registro", Toast.LENGTH_SHORT).show();
+                showToast("Registro");
                 Intent intentRegistro = new Intent(ActivityInicioSesion.this, ActivityRegistroUsuarios.class);
                 startActivity(intentRegistro);
             }
@@ -82,7 +81,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
         btnInicioInvitado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityInicioSesion.this, "INICIO DE SESIÓN COMO INVITADO", Toast.LENGTH_SHORT).show();
+                showToast("INICIO DE SESIÓN COMO INVITADO");
                 txtUsuario.setText("");
                 txtPassword.setText("");
                 CreateUser createUser = new CreateUser();
@@ -111,7 +110,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(ActivityInicioSesion.this, "1-Código error (login): " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("1-Código error (login): " + response.code());
                     txtUsuario.setText("");
                     txtPassword.setText("");
                     return;
@@ -129,7 +128,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     intentAppInicio.putExtra("token", token);
                     startActivity(intentAppInicio);
                 } else {
-                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
@@ -137,7 +136,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 txtUsuario.setText("");
                 txtPassword.setText("");
-                Toast.makeText(ActivityInicioSesion.this, "2- Código error (login): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("2- Código error (login): " + t.getMessage());
                 Log.e(TAG, "Error en la llamada Retrofit - (login)", t);
             }
         });
@@ -152,7 +151,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (getIdUser) -> response");
-                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -166,14 +165,14 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     Log.v(TAG, "INICIO SESION - id -> " + id);
                     checkUserConnectivity(id);
                 } else {
-                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
             }
 
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
-                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -187,7 +186,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (signupGUEST) -> response");
-                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
@@ -197,7 +196,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     getIdUser(createUser.getUsername());
                     login(createUser.getUsername(), createUser.getPassword());
                 } else {
-                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -205,7 +204,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (signupGUEST)", t);
-                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -219,14 +218,14 @@ public class ActivityInicioSesion extends AppCompatActivity {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (checkUserConnectivity) -> response");
-                    Toast.makeText(ActivityInicioSesion.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Código error: " + response.code());
                     return;
                 }
 
                 Integer isConnectedAPI = response.body();
 
                 if (isConnectedAPI == null) {
-                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 } else if (isConnectedAPI == 0) {
                     isConnected = false;
                 } else {
@@ -238,7 +237,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (checkUserConnectivity)", t);
-                Toast.makeText(ActivityInicioSesion.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Código error: " + t.getMessage());
             }
         });
     }
@@ -250,14 +249,14 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(ActivityInicioSesion.this, "1-Código error - (putUserIsConnected): " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("1-Código error - (putUserIsConnected): " + response.code());
                     return;
                 }
 
                 ResponseEntity res = response.body();
 
                 if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
-                    Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    showToast("Error en la respuesta del servidor");
                 }
 
             }
@@ -265,10 +264,14 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (putUserIsConnected)", t);
-                Toast.makeText(ActivityInicioSesion.this, "2- Código error - (putUserIsConnected): " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("2- Código error - (putUserIsConnected): " + t.getMessage());
                 t.printStackTrace();
             }
         });
     }
 
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityInicioSesion.this, message_layout);
+        toast.CreateToast();
+    }
 }
