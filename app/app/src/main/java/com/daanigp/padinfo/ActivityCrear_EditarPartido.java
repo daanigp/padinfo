@@ -242,6 +242,8 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                             binding.txtPtosSet3Eq2P.setText("0");
                             Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 1 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
                             equipoGanador = 1;
+
+                            save = true;
                         } else { // 1 - 1
                             puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
                             puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
@@ -256,6 +258,8 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                                     Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
                                     equipoGanador = 2;
                                 }
+
+                                save = true;
                             }
                         }
                     } else { // 0 - 1
@@ -273,16 +277,19 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                                     Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
                                     equipoGanador = 2;
                                 }
+
+                                save = true;
                             }
                         } else { // 0 - 2
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
                             Toast.makeText(ActivityCrear_EditarPartido.this, "Equipo 2 gana el PARTIDO.", Toast.LENGTH_SHORT).show();
                             equipoGanador = 2;
+
+                            save = true;
                         }
                     }
 
-                    save = true;
                 }
 
                 if (save) {
