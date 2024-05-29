@@ -109,10 +109,10 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
     }
 
     private int selectGenderSpinner(String gender) {
-        if (gender.equalsIgnoreCase("masc")) {
-            return 0;
-        } else {
+        if (gender.equalsIgnoreCase("fem")) {
             return 1;
+        } else {
+            return 0;
         }
     }
 

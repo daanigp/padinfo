@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">padinfo</string>
+    <string name="info">APP INFORMATION</string>
+    <string name="torneos2023">Tournaments list</string>
+    <string name="top5">TOP 5 Players</string>
+    <string name="perfil">Profile</string>
+    <string name="editUsuario">Edit user</string>
+    <string name="registrarPartidos">Games list</string>
+    <string name="iniciarSesion">LOG IN</string>
+    <string name="inicioSesionMenu">Log in</string>
+    <string name="registroUsuario">SIGN UP</string>
+    <string name="inicioUsuarioInvitado">USER GUEST</string>
+    <string name="cerrarSesion">Close session</string>
+    <string name="eliminarCuenta">Delete account</string>
+    <string name="salir">Exit</string>
+    <string name="volver">GO BACK</string>
+    <string name="editar">EDIT</string>
+    <string name="eliminar">DELETE</string>
+    <string name="cancelar">CANCEL</string>
+    <string name="guardar">SAVE</string>
+    <string name="rankFem">Female ranking</string>
+    <string name="rankMasc">Male ranking</string>
+    <string name="usuario">User:</string>
+    <string name="contrasenya">Password:</string>
+    <string name="nombre">Name:</string>
+    <string name="apellidos">Last name:</string>
+    <string name="email">Email</string>
+    <string name="nombreTxt">Name</string>
+    <string name="apellidosTxt">Last name</string>
+    <string name="emailTxt">Email</string>
+    <string name="newPartido">ADD GAME</string>
+    <string name="eq1">TEAM 1</string>
+    <string name="eq2">TEAM 2</string>
+    <string name="puntosEq1">TEAM 1 POINTS</string>
+    <string name="puntosEq2">TEAM 2 POINTS</string>
+    <string name="set1">SET 1</string>
+    <string name="set2">SET 2</string>
+    <string name="set3">SET 3</string>
+    <string name="nomJugEq1">Team 1 player names</string>
+    <string name="nomJugEq2">Team 2 player names</string>
+    <string name="numeroCero">0</string>
+    <string name="nombreTorneo">Tournament name</string>
+    <string name="ciudadTorneo">Tournament city</string>
+    <string name="genero">GENDER</string>
+    <string name="crearTorneo">Add tournament</string>
+    <string name="crearJugador">Add player</string>
+    <string name="rankPosicion">Ranking position</string>
+    <string name="nombreJugador">Player name</string>
+    <string name="puntos">Player points</string>
+
+    <string-array name="generos">
+        <item>MALE</item>
+        <item>FEM</item>
+    </string-array>
+</resources>
