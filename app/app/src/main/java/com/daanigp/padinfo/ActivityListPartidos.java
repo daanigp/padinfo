@@ -138,7 +138,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
             @Override
             public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getPartidosFromDB) -> response");
+                    Log.v(TAG, "No va (getPartidosFromDB) -> response -> " + response.toString());
                     Toast.makeText(ActivityListPartidos.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }

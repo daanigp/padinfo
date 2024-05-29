@@ -1,11 +1,15 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
-import android.content.ContentValues;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,9 +30,10 @@ import retrofit2.Response;
 
 public class ActivityCrear_EditarPartido extends AppCompatActivity {
     private static final String TAG = "ActivityCrear_EditarPartido";
+    private final String CANAL_ID = "33";
     ActivityPartidoBinding binding;
     boolean editar;
-    long idEditGame, maxIdGame;
+    long idEditGame, maxIdGame, idGame;
     String token;
     long userId;
 
@@ -281,7 +286,6 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 }
 
                 if (save) {
-                    //Toast.makeText(getApplicationContext(), "EQUIPO 1 -> " + nomJugador1 + " + " + nomJugador2 + "\nEQUIPO 2 -> " + nomJugador3 + " + " + nomJugador4, Toast.LENGTH_SHORT).show();
                     if (editar) {
                         UpdateGame updateGame = new UpdateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador);
                         updateGame(updateGame);
@@ -363,7 +367,6 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
 
                 if (gameAPIupdated != null) {
                     Toast.makeText(ActivityCrear_EditarPartido.this, "Partido actualizado con éxito", Toast.LENGTH_SHORT).show();
-                    //METER NOTIFICACIÓN
                 } else {
                     Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
@@ -395,8 +398,11 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 Game gameAPIcreated = response.body();
 
                 if (gameAPIcreated != null) {
+                    idGame = gameAPIcreated.getId();
+
                     Toast.makeText(ActivityCrear_EditarPartido.this, "Partido creado con éxito", Toast.LENGTH_SHORT).show();
-                    //METER NOTIFICACIÓN
+
+                    showNotification(true, true, newGame);
                 } else {
                     Toast.makeText(ActivityCrear_EditarPartido.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
@@ -491,5 +497,48 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                 Toast.makeText(ActivityCrear_EditarPartido.this, "Código error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showNotification(boolean expandible, boolean actividad, CreateGame newGame) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CANAL_ID);
+        builder.setSmallIcon(android.R.drawable.ic_dialog_info);
+
+        if (expandible && actividad) {
+            NotificationCompat.InboxStyle estilo = new NotificationCompat.InboxStyle();
+            estilo.setBigContentTitle("Nuevo partido creado");
+
+            String[] lines = new String[7];
+            lines[0] = "Equipo 1";
+            lines[1] = newGame.getNamePlayer1() + " & " + newGame.getNamePlayer2();
+            lines[2] = "Equipo 2";
+            lines[3] = newGame.getNamePlayer3() + " & " + newGame.getNamePlayer4();
+            lines[4] = "SET 1 -> " + newGame.getSet1PointsT1() + " - " + newGame.getSet1PointsT2();
+            lines[5] = "SET 2 -> " + newGame.getSet2PointsT1() + " - " + newGame.getSet2PointsT2();
+            lines[6] = "SET 3 -> " + newGame.getSet3PointsT1() + " - " + newGame.getSet3PointsT2();
+
+            for (int i = 0; i < lines.length; i++) {
+                estilo.addLine(lines[i]);
+            }
+
+            builder.setStyle(estilo);
+            builder.setAutoCancel(true);
+
+            Intent intent = new Intent(ActivityCrear_EditarPartido.this, ActivityListPartidos.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            builder.setContentIntent(pendingIntent);
+        }
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel canal = new NotificationChannel(CANAL_ID, "Titulo del canal", NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(canal);
+        }
+
+        Notification notification = builder.build();
+        notificationManager.notify(Integer.parseInt(CANAL_ID), notification);
     }
 }
