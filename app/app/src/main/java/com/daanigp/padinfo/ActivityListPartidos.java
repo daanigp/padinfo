@@ -121,12 +121,10 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
 
         if (requestCode == CREATE_GAME) {
             if (resultCode == RESULT_OK) {
-                games.clear();
                 getGames();
             }
         } else if (requestCode == EDIT_GAME) {
             if (resultCode == RESULT_OK) {
-                games.clear();
                 getGames();
             }
         }
@@ -148,6 +146,8 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
                 List<Game> gamesAPI = response.body();
 
                 if (gamesAPI != null) {
+                    games.clear();
+
                     for(Game g: gamesAPI) {
                         Game game = new Game();
                         game.setId(g.getId());

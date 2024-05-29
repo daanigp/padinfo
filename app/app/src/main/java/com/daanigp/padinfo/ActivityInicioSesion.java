@@ -60,7 +60,11 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
                 getIdUser(user);
-                login(user, pwd);
+                if (isConnected) {
+                    Toast.makeText(ActivityInicioSesion.this, "El usuario ya está logueado", Toast.LENGTH_SHORT).show();
+                } else {
+                    login(user, pwd);
+                }
             }
         });
 
@@ -121,13 +125,9 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveToken(token);
                     SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUsername(user);
 
-                    if (isConnected) {
-                        Toast.makeText(ActivityInicioSesion.this, "El usuario ya está logueado", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
-                        intentAppInicio.putExtra("token", token);
-                        startActivity(intentAppInicio);
-                    }
+                    Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
+                    intentAppInicio.putExtra("token", token);
+                    startActivity(intentAppInicio);
                 } else {
                     Toast.makeText(ActivityInicioSesion.this, "Error en la respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }

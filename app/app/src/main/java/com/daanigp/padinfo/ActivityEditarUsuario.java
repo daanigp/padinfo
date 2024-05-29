@@ -31,7 +31,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
     EditText txtNombre, txtApellidos, txtEmail;
     Button btnGuardar, btnCancelar;
     ImageView imgPerfilUsuario;
-    String token;
+    String token, image;
     long userId;
 
     @Override
@@ -76,7 +76,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                     updateUser.setName(nombre);
                     updateUser.setLastname(apellidos);
                     updateUser.setEmail(email);
-                    updateUser.setImageURL(String.valueOf(R.drawable.imgperfil_basic));
+                    updateUser.setImageURL(image);
                     saveChanges(updateUser);
                 }
             }
@@ -106,7 +106,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                     txtNombre.setText(user.getName());
                     txtApellidos.setText(user.getLastname());
                     txtEmail.setText(user.getEmail());
-
+                    image = user.getImageURL();
                     int imageResourceId = ActivityEditarUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityEditarUsuario.this.getPackageName());
                     imgPerfilUsuario.setImageResource(imageResourceId);
                 } else {
@@ -137,7 +137,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (saveChanges) -> response");
+                    Log.v(TAG, "No va (saveChanges) -> response -> " + response.body().toString());
                     Toast.makeText(ActivityEditarUsuario.this, "Código error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }

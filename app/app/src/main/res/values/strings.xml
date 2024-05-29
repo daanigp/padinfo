@@ -24,7 +24,10 @@
     <string name="contrasenya">Contraseña:</string>
     <string name="nombre">Nombre:</string>
     <string name="apellidos">Apellidos:</string>
-    <string name="email">Email:</string>
+    <string name="email">Email</string>
+    <string name="nombreTxt">Nombre</string>
+    <string name="apellidosTxt">Apellidos</string>
+    <string name="emailTxt">Email</string>
     <string name="newPartido">AGREGAR PARTIDO</string>
     <string name="eq1">EQUIPO 1</string>
     <string name="eq2">EQUIPO 2</string>

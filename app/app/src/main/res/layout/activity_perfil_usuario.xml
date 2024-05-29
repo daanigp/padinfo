@@ -6,24 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ActivityEditarUsuario">
 
-    <Button
-        android:id="@+id/btnEditar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/editar"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.218"
-        app:layout_constraintStart_toEndOf="@+id/btnVolverM"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
-
     <TextView
         android:id="@+id/txtEmail"
         android:layout_width="298dp"
         android:layout_height="45dp"
         android:layout_marginTop="24dp"
-        android:text="Email"
+        android:text="@string/emailTxt"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +24,7 @@
         android:layout_width="298dp"
         android:layout_height="45dp"
         android:layout_marginTop="28dp"
-        android:text="Apellido1 Apellido2"
+        android:text="@string/apellidosTxt"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +34,8 @@
 
     <ImageView
         android:id="@+id/imgPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="167dp"
+        android:layout_height="154dp"
         android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,22 +46,35 @@
         android:id="@+id/btnVolverM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="128dp"
         android:text="@string/volver"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+    <Button
+        android:id="@+id/btnEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="@string/editar"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toEndOf="@+id/btnVolverM"
         app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
 
     <TextView
         android:id="@+id/txtNombreUsuario"
         android:layout_width="298dp"
         android:layout_height="45dp"
-        android:layout_marginTop="32dp"
-        android:text="Nombre"
+        android:layout_marginTop="76dp"
+        android:text="@string/nombreTxt"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPerfil" />
 
