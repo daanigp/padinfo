@@ -5,12 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +31,11 @@ import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
 
     public static int USER_LOGIN = 1;
     private static final String TAG = "Activity_Inicio";
-    TextView txtInfoApp, txtInfoApp_webs;
+    TextView txtWelcome, txtInfoApp, txtInfoApp_webs;
     boolean registredUser;
     String username;
     ArrayList<Long> rolesId;
@@ -59,6 +60,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
 
+        txtWelcome = (TextView) findViewById(R.id.txtBienvenida);
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
         txtInfoApp_webs = (TextView) findViewById(R.id.txtInfoApp_webs);
         video = (VideoView) findViewById(R.id.bestShotsVideo);
@@ -76,8 +78,9 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
 
         selectTypeMenuByUserRole();
 
-        putVideoTopHighlights();
+        completeAppInfo();
         completeTheWebsInfo();
+        putVideoTopHighlights();
     }
 
     @Override
@@ -167,26 +170,31 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
         }
     }
 
-    private void putVideoTopHighlights() {
-        mc = new MediaController(this);
-        mc.setMediaPlayer(this);
-        mc.setAnchorView(video);
+    private void completeAppInfo() {
+        username = SharedPreferencesManager.getInstance(this).getUsername();
+        txtWelcome.setText("¡Bienvenido " + username + "!");
 
-        video.setMediaController(mc);
-        video.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.best_shots));
+        InputStream ins = getResources().openRawResource(R.raw.info_app);
+        BufferedReader br = new BufferedReader(new InputStreamReader(ins));
 
-        Handler h = new Handler();
-        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                h.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mc.show();
-                    }
-                });
+        String line = "";
+        boolean firstLine = true;
+        try {
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    txtInfoApp.setText(line);
+                    firstLine = false;
+                } else {
+                    txtInfoApp.setText(txtInfoApp.getText().toString() + "\n" + line);
+                }
             }
-        });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            showToast("No se ha podido leer el fichero de texto");
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
+            showToast("No se ha podido leer el fichero de texto");
+        }
     }
 
     private void completeTheWebsInfo() {
@@ -255,6 +263,28 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
         txtInfoApp_webs.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    private void putVideoTopHighlights() {
+        mc = new MediaController(this);
+        mc.setMediaPlayer(this);
+        mc.setAnchorView(video);
+
+        video.setMediaController(mc);
+        video.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.best_shots));
+
+        Handler h = new Handler();
+        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                h.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mc.show();
+                    }
+                });
+            }
+        });
+    }
+
     private void getRolesByUserId() {
         String token = SharedPreferencesManager.getInstance(Activity_Inicio.this).getToken();
         long userId = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
@@ -269,7 +299,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
             @Override
             public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getIdUser) -> response - getRolesByUserId - Activity_Inicio");
+                    Log.v(TAG, "No va (getRolesByUserId) -> response - getRolesByUserId - Activity_Inicio" + response.body());
                     showToast("Código error: " + response.code());
                     return;
                 }
@@ -280,6 +310,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
                     // Save the rolesID and in SharedPreferences
                     SharedPreferencesManager.getInstance(Activity_Inicio.this).saveRolesId(rolIdAPI);
                     rolesId = (ArrayList<Long>) rolIdAPI;
+                    showToast("ROles -> " + rolesId);
                 } else {
                     showToast("No hay roles asociados al id : " + userId);
                 }

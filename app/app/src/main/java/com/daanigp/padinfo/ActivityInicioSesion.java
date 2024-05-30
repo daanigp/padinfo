@@ -58,11 +58,15 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 String user, pwd;
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
-                getIdUser(user);
-                if (isConnected) {
-                    showToast("El usuario ya está logueado");
+                if (user.isEmpty() || pwd.isEmpty()) {
+                    showToast("Debes rellenar todos los campos");
                 } else {
-                    login(user, pwd);
+                    getIdUser(user);
+                    if (isConnected) {
+                        showToast("El usuario ya está logueado");
+                    } else {
+                        login(user, pwd);
+                    }
                 }
             }
         });
@@ -110,7 +114,11 @@ public class ActivityInicioSesion extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()) {
-                    showToast("1-Código error (login): " + response.code());
+                    if (response.code() == 404) {
+                        showToast("Usuario o contraseña incorrectos.");
+                    } else {
+                        showToast("1-Código error (login): " + response.code());
+                    }
                     txtUsuario.setText("");
                     txtPassword.setText("");
                     return;
@@ -218,7 +226,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(!response.isSuccessful()) {
                     Log.v(TAG, "No va (checkUserConnectivity) -> response");
-                    showToast("Código error: " + response.code());
+                    showToast("Código error - (checkUserConnectivity): " + response.code());
                     return;
                 }
 

@@ -54,8 +54,8 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_ranking);
 
         btnVolverMenu = (Button) findViewById(R.id.btnVolverMenu);
-        btnRankFem = (Button) findViewById(R.id.btnRankFem);
-        btnRankMasc = (Button) findViewById(R.id.btnRankMasc);
+        //btnRankFem = (Button) findViewById(R.id.btnRankFem);
+        //btnRankMasc = (Button) findViewById(R.id.btnRankMasc);
         spinner = (Spinner) findViewById(R.id.spinnerGenderP);
 
         players = new ArrayList<>();
@@ -94,7 +94,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        btnRankMasc.setOnClickListener(new View.OnClickListener() {
+        /*btnRankMasc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentRankMasc = new Intent(ActivityRanking.this, ActivityRankingMasculino.class);
@@ -108,7 +108,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
                 Intent intentRankFem = new Intent(ActivityRanking.this, ActivityRankingFemenino.class);
                 startActivity(intentRankFem);
             }
-        });
+        });*/
 
 
     }

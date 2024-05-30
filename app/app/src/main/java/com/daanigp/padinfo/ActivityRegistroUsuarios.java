@@ -44,8 +44,8 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
         txtLastName = (EditText) findViewById(R.id.editTxtApellidosRegistro);
         txtEmail = (EditText) findViewById(R.id.editTxtEmailRegistro);
 
-        exists = true;
         imgApp.setImageResource(R.drawable.padinfo_logo);
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +91,8 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
 
                     if (res != null && res.getMessege().equalsIgnoreCase("Usuario registrado correctamente")) {
                         showToast("Usuario registrado correctamente");
+
+                        finish();
                     } else {
                         showToast("Error en la respuesta del servidor");
                     }
@@ -102,9 +104,8 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
                     showToast("Código error: " + t.getMessage());
                 }
             });
-
-            finish();
         } else {
+            showToast("El usuario ya existe :)");
             txtUsuario.setText("");
             txtPassword.setText("");
             txtName.setText("");
@@ -134,6 +135,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
                     exists = false;
                 } else {
                     showToast("El usuario '" + username + "' ya está registrado.");
+                    exists = true;
                 }
             }
 
