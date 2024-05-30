@@ -10,10 +10,14 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class PadinfoBackendApplication {
@@ -38,7 +42,11 @@ public class PadinfoBackendApplication {
 								.name("Daniel García Pascual")
 								.email("danielgarciapascual23@gmail.com")
 								.url("https://github.com/daanigp/padinfo"))
-						.version("1.0"));
+						.version("1.0"))
+						.components(new Components()
+								.addSecuritySchemes("bearer-jwt",
+										new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+						.security(Arrays.asList(new SecurityRequirement().addList("bearer-jwt")));
 	}
 
 	@Bean

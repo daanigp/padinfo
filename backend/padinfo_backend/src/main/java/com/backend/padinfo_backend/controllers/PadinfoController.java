@@ -138,7 +138,7 @@ public class PadinfoController {
 
     // 3
     @PutMapping("/users/updateInfo/{id}")
-    public ResponseEntity<?> updateUserInfo(@PathVariable long id, @Valid @RequestBody UpdateUserInfoDTO newUserInfoDTO) {
+    public ResponseEntity<UserInfo> updateUserInfo(@PathVariable long id, @Valid @RequestBody UpdateUserInfoDTO newUserInfoDTO) {
         UserInfo userInfo = null;
 
         UserInfo newUserInfo = userInfoMapper.fromDTO(newUserInfoDTO);
@@ -147,7 +147,7 @@ public class PadinfoController {
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
-    // 4
+    // 4 --
     @PutMapping("/users/updateIsConnected/{id}")
     public ResponseEntity<Response> updateIsConnected(@PathVariable long id) {
         userInfoService.updateIsConnected(id);
@@ -156,7 +156,7 @@ public class PadinfoController {
     }
 
 
-    // 5
+    // 5 --
     @GetMapping("/users/isConnected/{id}")
     public ResponseEntity<Integer> getUserConnectivityByUserId(@PathVariable long id) {
         int isConnected = userInfoService.selectUserIsConnectedByUserId(id);
@@ -222,7 +222,7 @@ public class PadinfoController {
         return new ResponseEntity<>(Response.noErrorResponse("Borrado"), HttpStatus.OK);
     }
 
-    // 13
+    // 13 --
     @GetMapping("/users/userInfoByName")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "UserInfo by user",
