@@ -54,6 +54,7 @@ public class UserInfoService implements IUserInfoService{
         newUserInfo.setIsConnected(user.getIsConnected());
         newUserInfo.setUsername(user.getUsername());
         newUserInfo.setPassword(user.getPassword());
+        newUserInfo.setRoles(user.getRoles());
 
         return userInfoRepository.save(newUserInfo);
     }
