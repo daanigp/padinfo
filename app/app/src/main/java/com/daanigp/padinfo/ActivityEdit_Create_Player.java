@@ -21,9 +21,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityEdit_CreatePlayer extends AppCompatActivity {
+public class ActivityEdit_Create_Player extends AppCompatActivity {
 
-    private static final String TAG = "ActivityEdit_CreatePlayer";
+    private static final String TAG = "ActivityEdit_Create_Player";
     ImageView imgPlayer;
     EditText txtName, txtRankingPos, txtPoints;
     Spinner spinner;
@@ -52,7 +52,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
             edit = true;
         }
 
-        token = SharedPreferencesManager.getInstance(ActivityEdit_CreatePlayer.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Player.this).getToken();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +201,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
                     txtRankingPos.setText(String.valueOf(playerAPI.getRankingPosition()));
                     spinner.setSelection(selectGenderSpinner(playerAPI.getGender()));
 
-                    int imageResourceId = ActivityEdit_CreatePlayer.this.getResources().getIdentifier(playerAPI.getImageURL(), "drawable", ActivityEdit_CreatePlayer.this.getPackageName());
+                    int imageResourceId = ActivityEdit_Create_Player.this.getResources().getIdentifier(playerAPI.getImageURL(), "drawable", ActivityEdit_Create_Player.this.getPackageName());
                     imgPlayer.setImageResource(imageResourceId);
                     image = playerAPI.getImageURL();
                 } else {
@@ -229,7 +229,7 @@ public class ActivityEdit_CreatePlayer extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_CreatePlayer.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_Create_Player.this, message_layout);
         toast.CreateToast();
     }
 

@@ -5,7 +5,7 @@ import com.daanigp.padinfo.R;
 
 import java.util.ArrayList;
 
-public class TorneoDataSource {
+public class TournamentDataSource {
     public static ArrayList<Tournament> tournaments;
 
     public static void Initialize() {

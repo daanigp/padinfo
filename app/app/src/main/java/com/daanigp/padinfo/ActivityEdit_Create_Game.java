@@ -24,14 +24,12 @@ import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 import com.daanigp.padinfo.databinding.ActivityPartidoBinding;
 
-import java.io.EOFException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityCrear_EditarPartido extends AppCompatActivity {
-    private static final String TAG = "ActivityCrear_EditarPartido";
+public class ActivityEdit_Create_Game extends AppCompatActivity {
+    private static final String TAG = "ActivityEdit_Create_Game";
     private final String CANAL_ID = "33";
     ActivityPartidoBinding binding;
     boolean editar;
@@ -43,10 +41,10 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_partido);
+        setContentView(R.layout.activity_game);
 
-        userId = SharedPreferencesManager.getInstance(ActivityCrear_EditarPartido.this).getUserId();
-        token = SharedPreferencesManager.getInstance(ActivityCrear_EditarPartido.this).getToken();
+        userId = SharedPreferencesManager.getInstance(ActivityEdit_Create_Game.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Game.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         binding = ActivityPartidoBinding.inflate(getLayoutInflater());
@@ -540,7 +538,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             builder.setStyle(estilo);
             builder.setAutoCancel(true);
 
-            Intent intent = new Intent(ActivityCrear_EditarPartido.this, ActivityListPartidos.class);
+            Intent intent = new Intent(ActivityEdit_Create_Game.this, ActivityList_Games.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -560,7 +558,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityCrear_EditarPartido.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_Create_Game.this, message_layout);
         toast.CreateToast();
     }
 }

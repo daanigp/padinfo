@@ -26,9 +26,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRankingFemenino extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ActivityRanking_Fem extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "ActivityRankingFemenino";
+    private static final String TAG = "ActivityRanking_Fem";
     Button btnVolver;
     ArrayList<Player> players;
     String token;
@@ -37,10 +37,10 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ranking_femenino);
+        setContentView(R.layout.activity_ranking_fem);
 
         players = new ArrayList<>();
-        token = SharedPreferencesManager.getInstance(ActivityRankingFemenino.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityRanking_Fem.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         getPlayers();
@@ -127,7 +127,7 @@ public class ActivityRankingFemenino extends AppCompatActivity implements Adapte
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityRankingFemenino.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityRanking_Fem.this, message_layout);
         toast.CreateToast();
     }
 }

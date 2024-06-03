@@ -20,9 +20,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityEdit_CreateTournament extends AppCompatActivity {
+public class ActivityEdit_Create_Tournament extends AppCompatActivity {
 
-    private static final String TAG = "ActivityEdit_CreateTournament";
+    private static final String TAG = "ActivityEdit_Create_Tournament";
     Button btnSave, btnCancel;
     EditText txtNameT, txtCityT;
     ImageView imgTournament;
@@ -50,7 +50,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
             edit = true;
         }
 
-        token = SharedPreferencesManager.getInstance(ActivityEdit_CreateTournament.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Tournament.this).getToken();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +174,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
                     txtNameT.setText(tournamentAPI.getName());
                     txtCityT.setText(tournamentAPI.getCity());
 
-                    int imageResourceId = ActivityEdit_CreateTournament.this.getResources().getIdentifier(tournamentAPI.getImageURL(), "drawable", ActivityEdit_CreateTournament.this.getPackageName());
+                    int imageResourceId = ActivityEdit_Create_Tournament.this.getResources().getIdentifier(tournamentAPI.getImageURL(), "drawable", ActivityEdit_Create_Tournament.this.getPackageName());
                     imgTournament.setImageResource(imageResourceId);
                     image = tournamentAPI.getImageURL();
                 } else {
@@ -197,7 +197,7 @@ public class ActivityEdit_CreateTournament extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_CreateTournament.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_Create_Tournament.this, message_layout);
         toast.CreateToast();
     }
 }

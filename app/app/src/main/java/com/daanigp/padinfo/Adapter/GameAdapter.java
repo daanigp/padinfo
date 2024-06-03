@@ -17,12 +17,12 @@ import com.daanigp.padinfo.R;
 
 import java.util.ArrayList;
 
-public class PartidoAdapter extends ArrayAdapter<Game> {
+public class GameAdapter extends ArrayAdapter<Game> {
 
     private int mResource;
     private ArrayList<Game> games;
 
-    public PartidoAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Game> objects) {
+    public GameAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Game> objects) {
         super(context, resource, objects);
         mResource = resource;
         games = objects;

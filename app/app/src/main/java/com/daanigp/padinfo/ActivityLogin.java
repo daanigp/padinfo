@@ -22,16 +22,15 @@ import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityInicioSesion extends AppCompatActivity {
+public class ActivityLogin extends AppCompatActivity {
 
-    private static final String TAG = "ActivityInicioSesion";
+    private static final String TAG = "ActivityLogin";
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
@@ -40,7 +39,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_sesion);
+        setContentView(R.layout.activity_login);
 
         btnInicioSesion = (Button) findViewById(R.id.btnIniciarSesion);
         btnRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
@@ -77,7 +76,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 txtUsuario.setText("");
                 txtPassword.setText("");
                 showToast("Registro");
-                Intent intentRegistro = new Intent(ActivityInicioSesion.this, ActivityRegistroUsuarios.class);
+                Intent intentRegistro = new Intent(ActivityLogin.this, ActivitySignupUser.class);
                 startActivity(intentRegistro);
             }
         });
@@ -129,10 +128,10 @@ public class ActivityInicioSesion extends AppCompatActivity {
                 if (token != null) {
                     // Save the token and username in SharedPreferences
                     token = "Bearer " + token;
-                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveToken(token);
-                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUsername(user);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveToken(token);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(user);
 
-                    Intent intentAppInicio = new Intent(ActivityInicioSesion.this, Activity_Inicio.class);
+                    Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Initiate.class);
                     intentAppInicio.putExtra("token", token);
                     startActivity(intentAppInicio);
                 } else {
@@ -169,7 +168,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
                     long id = user.getId();
 
                     // Save the userID and in SharedPreferences
-                    SharedPreferencesManager.getInstance(ActivityInicioSesion.this).saveUserID(id);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(id);
                     Log.v(TAG, "INICIO SESION - id -> " + id);
                     checkUserConnectivity(id);
                 } else {
@@ -279,7 +278,7 @@ public class ActivityInicioSesion extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityInicioSesion.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityLogin.this, message_layout);
         toast.CreateToast();
     }
 }

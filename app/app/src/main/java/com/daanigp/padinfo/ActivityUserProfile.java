@@ -21,10 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityPerfilUsuario extends AppCompatActivity {
+public class ActivityUserProfile extends AppCompatActivity {
 
     private static int EDIT_USER = 2;
-    private static final String TAG = "ActivityPerfilUsuario";
+    private static final String TAG = "ActivityUserProfile";
     TextView txtNombre, txtApellidos, txtEmail;
     Button btnVolver, btnEditar;
     ImageView imgPerfil;
@@ -34,7 +34,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil_usuario);
+        setContentView(R.layout.activity_user_profile);
 
         txtNombre = (TextView) findViewById(R.id.txtNombreUsuario);
         txtApellidos = (TextView) findViewById(R.id.txtApellidos);
@@ -45,8 +45,8 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
 
         //imgPerfil.setImageResource(R.drawable.imgperfil_basic);
 
-        userId = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getUserId();
-        token = SharedPreferencesManager.getInstance(ActivityPerfilUsuario.this).getToken();
+        userId = SharedPreferencesManager.getInstance(ActivityUserProfile.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityUserProfile.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         autocompleteUserInfo();
@@ -61,7 +61,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentEditarUsuario = new Intent(ActivityPerfilUsuario.this, ActivityEditarUsuario.class);
+                Intent intentEditarUsuario = new Intent(ActivityUserProfile.this, ActivityEdit_User.class);
                 startActivityForResult(intentEditarUsuario, EDIT_USER);
             }
         });
@@ -97,7 +97,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
                     txtApellidos.setText(user.getLastname());
                     txtEmail.setText(user.getEmail());
 
-                    int imageResourceId = ActivityPerfilUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityPerfilUsuario.this.getPackageName());
+                    int imageResourceId = ActivityUserProfile.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityUserProfile.this.getPackageName());
                     imgPerfil.setImageResource(imageResourceId);
                 } else {
                     showToast("Error en la respuesta del servidor");
@@ -117,7 +117,7 @@ public class ActivityPerfilUsuario extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityPerfilUsuario.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityUserProfile.this, message_layout);
         toast.CreateToast();
     }
 }

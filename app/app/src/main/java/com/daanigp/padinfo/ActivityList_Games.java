@@ -16,7 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.daanigp.padinfo.Adapter.PartidoAdapter;
+import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
@@ -31,36 +31,36 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityListPartidos extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ActivityList_Games extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "ActivityListPartidos";
+    private static final String TAG = "ActivityList_Games";
     public static int CREATE_GAME = 3;
     public static int EDIT_GAME = 4;
     Button btnAddGame, btnVolver;
     ArrayList<Game> games;
     ListView lista;
-    PartidoAdapter gameAdapter;
+    GameAdapter gameAdapter;
     String token;
     long userId;
     View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_partidos);
+        setContentView(R.layout.activity_list_games);
 
         games = new ArrayList<>();
 
         btnAddGame = (Button) findViewById(R.id.btnNewGame);
         btnVolver = (Button) findViewById(R.id.buttonVolver);
 
-        userId = SharedPreferencesManager.getInstance(ActivityListPartidos.this).getUserId();
-        token = SharedPreferencesManager.getInstance(ActivityListPartidos.this).getToken();
+        userId = SharedPreferencesManager.getInstance(ActivityList_Games.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityList_Games.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         getGames();
 
         lista = (ListView) findViewById(R.id.listaPartidos);
-        gameAdapter = new PartidoAdapter(this, R.layout.item_partido, games);
+        gameAdapter = new GameAdapter(this, R.layout.item_game, games);
 
         lista.setAdapter(gameAdapter);
         lista.setOnItemClickListener(this);
@@ -69,7 +69,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         btnAddGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentAddGame = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
+                Intent intentAddGame = new Intent(ActivityList_Games.this, ActivityEdit_Create_Game.class);
                 startActivityForResult(intentAddGame, CREATE_GAME);
             }
         });
@@ -77,7 +77,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(ActivityListPartidos.this, Activity_Inicio.class);
+                Intent back = new Intent(ActivityList_Games.this, Activity_Initiate.class);
                 startActivity(back);
             }
         });
@@ -105,7 +105,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
         switch (id) {
             case R.id.itemEditar:
                 showToast("EDITAR -> " + game.getId());
-                Intent intentEditarPartido = new Intent(ActivityListPartidos.this, ActivityCrear_EditarPartido.class);
+                Intent intentEditarPartido = new Intent(ActivityList_Games.this, ActivityEdit_Create_Game.class);
                 intentEditarPartido.putExtra("idGame", game.getId());
                 startActivityForResult(intentEditarPartido, EDIT_GAME);
                 break;
@@ -239,7 +239,7 @@ public class ActivityListPartidos extends AppCompatActivity implements AdapterVi
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityListPartidos.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityList_Games.this, message_layout);
         toast.CreateToast();
     }
 }

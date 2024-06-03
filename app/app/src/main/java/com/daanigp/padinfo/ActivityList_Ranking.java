@@ -34,9 +34,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityListRanking extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ActivityList_Ranking extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "ActivityListRanking";
+    private static final String TAG = "ActivityList_Ranking";
     public static int EDIT_PLAYER = 7;
     public static int CREATE_PLAYER = 8;
     Button btnVolverMenu, btnRankFem, btnRankMasc;
@@ -59,7 +59,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
         spinner = (Spinner) findViewById(R.id.spinnerGenderP);
 
         players = new ArrayList<>();
-        token = SharedPreferencesManager.getInstance(ActivityListRanking.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityList_Ranking.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         Log.v(TAG, "TOKEN -> " + token);
@@ -97,7 +97,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
         /*btnRankMasc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentRankMasc = new Intent(ActivityListRanking.this, ActivityRankingMasculino.class);
+                Intent intentRankMasc = new Intent(ActivityList_Ranking.this, ActivityRanking_Masc.class);
                 startActivity(intentRankMasc);
             }
         });
@@ -105,7 +105,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
         btnRankFem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentRankFem = new Intent(ActivityListRanking.this, ActivityRankingFemenino.class);
+                Intent intentRankFem = new Intent(ActivityList_Ranking.this, ActivityRanking_Fem.class);
                 startActivity(intentRankFem);
             }
         });*/
@@ -131,7 +131,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
         int opcionID = item.getItemId();
 
         if (opcionID == R.id.itemCreateTournament)  {
-            Intent intentAddGame = new Intent(ActivityListRanking.this, ActivityEdit_CreatePlayer.class);
+            Intent intentAddGame = new Intent(ActivityList_Ranking.this, ActivityEdit_Create_Player.class);
             startActivityForResult(intentAddGame, CREATE_PLAYER);
             return true;
         }
@@ -158,7 +158,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
         switch (id) {
             case R.id.itemEditar:
                 showToast("EDITAR -> " + player.getId());
-                Intent intentEditTournament = new Intent(ActivityListRanking.this, ActivityEdit_CreatePlayer.class);
+                Intent intentEditTournament = new Intent(ActivityList_Ranking.this, ActivityEdit_Create_Player.class);
                 intentEditTournament.putExtra("idPlayer", player.getId());
                 startActivityForResult(intentEditTournament, EDIT_PLAYER);
                 break;
@@ -198,7 +198,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
     }
 
     private void chekUserType() {
-        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityListRanking.this).getRolesId();
+        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityList_Ranking.this).getRolesId();
 
         if (rolesId.size() > 0 && rolesId.contains(1L)) {
             adminUser = true;
@@ -325,7 +325,7 @@ public class ActivityListRanking extends AppCompatActivity implements AdapterVie
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityListRanking.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityList_Ranking.this, message_layout);
         toast.CreateToast();
     }
 

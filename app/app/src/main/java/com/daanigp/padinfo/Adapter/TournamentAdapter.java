@@ -16,11 +16,11 @@ import com.daanigp.padinfo.R;
 
 import java.util.ArrayList;
 
-public class TorneoAdapter extends ArrayAdapter<Tournament> {
+public class TournamentAdapter extends ArrayAdapter<Tournament> {
     private int mResource;
     private ArrayList<Tournament> torneos2023;
 
-    public TorneoAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Tournament> objects) {
+    public TournamentAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Tournament> objects) {
         super(context, resource, objects);
         mResource = resource;
         torneos2023 = objects;

@@ -43,13 +43,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Activity_Inicio extends AppCompatActivity implements MediaController.MediaPlayerControl {
+public class Activity_Initiate extends AppCompatActivity implements MediaController.MediaPlayerControl {
     MediaController mc;
     MediaPlayer mp;
     VideoView video;
 
     public static int USER_LOGIN = 1;
-    private static final String TAG = "Activity_Inicio";
+    private static final String TAG = "Activity_Initiate";
     TextView txtWelcome, txtInfoApp, txtInfoApp_webs;
     boolean registredUser;
     String username;
@@ -58,7 +58,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio);
+        setContentView(R.layout.activity_initialite);
 
         txtWelcome = (TextView) findViewById(R.id.txtBienvenida);
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
@@ -82,9 +82,9 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (registredUser) {
-            getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
+            getMenuInflater().inflate(R.menu.dinamicmenu_user_admin, menu);
         } else {
-            getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
+            getMenuInflater().inflate(R.menu.dinamicmenu_guest, menu);
         }
 
         return true;
@@ -98,39 +98,39 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
             case R.id.itemPerfil:
                 showToast("Perfil");
 
-                Intent intentPerfilUsuario = new Intent(Activity_Inicio.this, ActivityPerfilUsuario.class);
+                Intent intentPerfilUsuario = new Intent(Activity_Initiate.this, ActivityUserProfile.class);
                 startActivity(intentPerfilUsuario);
                 return true;
             case R.id.itemListado:
                 showToast("Listado tournaments");
 
-                Intent intentListadoTorneos = new Intent(Activity_Inicio.this, ActivityListTorneos.class);
+                Intent intentListadoTorneos = new Intent(Activity_Initiate.this, ActivityList_Tournament.class);
                 startActivity(intentListadoTorneos);
                 return true;
             case R.id.itemTop5:
                 showToast("Top 5 jugadores/as");
 
-                Intent intentRanking = new Intent(Activity_Inicio.this, ActivityListRanking.class);
+                Intent intentRanking = new Intent(Activity_Initiate.this, ActivityList_Ranking.class);
                 startActivity(intentRanking);
                 return true;
             case R.id.itemRegistrarPartidos:
                 showToast("Partidos");
 
-                Intent intentPartidos = new Intent(Activity_Inicio.this, ActivityListPartidos.class);
+                Intent intentPartidos = new Intent(Activity_Initiate.this, ActivityList_Games.class);
                 startActivity(intentPartidos);
                 return true;
             case R.id.itemCerrarSesion:
                 showToast("Cerrar Sessión");
                 putUserDisconnected();
-                SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
-                Intent intentInicioSes = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
+                SharedPreferencesManager.getInstance(Activity_Initiate.this).clear();
+                Intent intentInicioSes = new Intent(Activity_Initiate.this, ActivityLogin.class);
                 startActivity(intentInicioSes);
                 return true;
             case R.id.itemInicioSesion:
                 showToast("Iniciar Sessión");
 
-                SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
-                Intent intentInicioSesion = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
+                SharedPreferencesManager.getInstance(Activity_Initiate.this).clear();
+                Intent intentInicioSesion = new Intent(Activity_Initiate.this, ActivityLogin.class);
                 startActivityForResult(intentInicioSesion, USER_LOGIN);
                 return true;
             case R.id.itemDeleteAccount:
@@ -143,7 +143,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
                 //usuarioRegistrado = false;
                 //invalidateOptionsMenu();
                 putUserDisconnected();
-                SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
+                SharedPreferencesManager.getInstance(Activity_Initiate.this).clear();
                 finishAffinity();
                 return true;
         }
@@ -279,8 +279,8 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     }
 
     private void getRolesByUserId() {
-        String token = SharedPreferencesManager.getInstance(Activity_Inicio.this).getToken();
-        long userId = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
+        String token = SharedPreferencesManager.getInstance(Activity_Initiate.this).getToken();
+        long userId = SharedPreferencesManager.getInstance(Activity_Initiate.this).getUserId();
 
         Log.v(TAG, "TOKEN -> " + token);
         Log.v(TAG, "userId -> " + userId);
@@ -292,7 +292,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
             @Override
             public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getRolesByUserId) -> response - getRolesByUserId - Activity_Inicio" + response.body());
+                    Log.v(TAG, "No va (getRolesByUserId) -> response - getRolesByUserId - Activity_Initiate" + response.body());
                     showToast("Código error: " + response.code());
                     return;
                 }
@@ -301,7 +301,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
 
                 if (rolIdAPI != null && !rolIdAPI.isEmpty()) {
                     // Save the rolesID and in SharedPreferences
-                    SharedPreferencesManager.getInstance(Activity_Inicio.this).saveRolesId(rolIdAPI);
+                    SharedPreferencesManager.getInstance(Activity_Initiate.this).saveRolesId(rolIdAPI);
                     rolesId = (ArrayList<Long>) rolIdAPI;
                     showToast("ROles -> " + rolesId);
 
@@ -335,7 +335,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     }
 
     private void putUserDisconnected() {
-        long id = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
+        long id = SharedPreferencesManager.getInstance(Activity_Initiate.this).getUserId();
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
         call.enqueue(new Callback<ResponseEntity>() {
@@ -386,8 +386,8 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     }
 
     private void deleteAccount() {
-        String token = SharedPreferencesManager.getInstance(Activity_Inicio.this).getToken();
-        long idUser = SharedPreferencesManager.getInstance(Activity_Inicio.this).getUserId();
+        String token = SharedPreferencesManager.getInstance(Activity_Initiate.this).getToken();
+        long idUser = SharedPreferencesManager.getInstance(Activity_Initiate.this).getUserId();
 
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<ResponseEntity> call = padinfoApi.deletePlayerById(token, idUser);
@@ -421,7 +421,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, Activity_Inicio.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, Activity_Initiate.this, message_layout);
         toast.CreateToast();
     }
 

@@ -22,8 +22,8 @@ import java.util.Collections;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class ActivityRegistroUsuarios extends AppCompatActivity {
-    private static final String TAG = "ActivityRegistroUsuarios";
+public class ActivitySignupUser extends AppCompatActivity {
+    private static final String TAG = "ActivitySignupUser";
     ImageView imgApp;
     Button btnCancelar, btnRegistrar;
     EditText txtUsuario, txtPassword, txtName, txtLastName, txtEmail;
@@ -33,7 +33,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_usuarios);
+        setContentView(R.layout.activity_signup_user);
 
         imgApp = (ImageView) findViewById(R.id.imgApp2);
         btnCancelar = (Button) findViewById(R.id.btnCancel);
@@ -149,7 +149,7 @@ public class ActivityRegistroUsuarios extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityRegistroUsuarios.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivitySignupUser.this, message_layout);
         toast.CreateToast();
     }
 }

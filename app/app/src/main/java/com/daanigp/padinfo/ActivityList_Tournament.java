@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.daanigp.padinfo.Adapter.TorneoAdapter;
+import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
@@ -32,25 +32,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityListTorneos extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private static final String TAG = "ActivityListTorneos";
+public class ActivityList_Tournament extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private static final String TAG = "ActivityList_Tournament";
     public static int EDIT_TOURNAMENT = 5;
     public static int CREATE_TOURNAMENT = 6;
     Button btnVolver;
     ArrayList<Tournament> tournamnets;
     String token;
     ListView lista;
-    TorneoAdapter adapter;
+    TournamentAdapter adapter;
     boolean adminUser;
     View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_torneos);
+        setContentView(R.layout.activity_list_tournaments);
 
         tournamnets = new ArrayList<>();
 
-        token = SharedPreferencesManager.getInstance(ActivityListTorneos.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityList_Tournament.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         chekUserType();
@@ -60,7 +60,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
         getTournaments();
 
         lista = (ListView) findViewById(R.id.listaTorneos);
-        adapter = new TorneoAdapter(this, R.layout.item_torneo, tournamnets);
+        adapter = new TournamentAdapter(this, R.layout.item_tournament, tournamnets);
 
         lista.setAdapter(adapter);
         lista.setOnItemClickListener(this);
@@ -95,7 +95,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
         int opcionID = item.getItemId();
 
         if (opcionID == R.id.itemCreateTournament)  {
-            Intent intentAddGame = new Intent(ActivityListTorneos.this, ActivityEdit_CreateTournament.class);
+            Intent intentAddGame = new Intent(ActivityList_Tournament.this, ActivityEdit_Create_Tournament.class);
             startActivityForResult(intentAddGame, CREATE_TOURNAMENT);
             return true;
         }
@@ -121,7 +121,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
         switch (id) {
             case R.id.itemEditar:
                 showToast("EDITAR -> " + tournament.getId());
-                Intent intentEditTournament = new Intent(ActivityListTorneos.this, ActivityEdit_CreateTournament.class);
+                Intent intentEditTournament = new Intent(ActivityList_Tournament.this, ActivityEdit_Create_Tournament.class);
                 intentEditTournament.putExtra("idTournament", tournament.getId());
                 startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
                 break;
@@ -149,7 +149,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     }
 
     private void chekUserType() {
-        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityListTorneos.this).getRolesId();
+        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityList_Tournament.this).getRolesId();
 
         if (rolesId.size() > 0 && rolesId.contains(1L)) {
             adminUser = true;
@@ -258,7 +258,7 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityListTorneos.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityList_Tournament.this, message_layout);
         toast.CreateToast();
     }
 

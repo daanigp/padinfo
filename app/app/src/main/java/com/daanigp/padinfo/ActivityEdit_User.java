@@ -20,9 +20,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityEditarUsuario extends AppCompatActivity {
+public class ActivityEdit_User extends AppCompatActivity {
 
-    private static final String TAG = "ActivityEditarUsuario";
+    private static final String TAG = "ActivityEdit_User";
     EditText txtNombre, txtApellidos, txtEmail;
     Button btnGuardar, btnCancelar;
     ImageView imgPerfilUsuario;
@@ -33,7 +33,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editar_usuario);
+        setContentView(R.layout.activity_edit_user);
 
         txtNombre = (EditText) findViewById(R.id.editTxtNombre);
         txtApellidos = (EditText) findViewById(R.id.editTxtApellidos);
@@ -45,8 +45,8 @@ public class ActivityEditarUsuario extends AppCompatActivity {
 
        // imgPerfilUsuario.setImageResource(R.drawable.icono_img);
 
-        userId = SharedPreferencesManager.getInstance(ActivityEditarUsuario.this).getUserId();
-        token = SharedPreferencesManager.getInstance(ActivityEditarUsuario.this).getToken();
+        userId = SharedPreferencesManager.getInstance(ActivityEdit_User.this).getUserId();
+        token = SharedPreferencesManager.getInstance(ActivityEdit_User.this).getToken();
 
         autocompleteUserInfo();
 
@@ -119,7 +119,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                     txtApellidos.setText(user.getLastname());
                     txtEmail.setText(user.getEmail());
                     image = user.getImageURL();
-                    int imageResourceId = ActivityEditarUsuario.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityEditarUsuario.this.getPackageName());
+                    int imageResourceId = ActivityEdit_User.this.getResources().getIdentifier(user.getImageURL(), "drawable", ActivityEdit_User.this.getPackageName());
                     imgPerfilUsuario.setImageResource(imageResourceId);
                 } else {
                     showToast("Error en la respuesta del servidor");
@@ -175,7 +175,7 @@ public class ActivityEditarUsuario extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityEditarUsuario.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_User.this, message_layout);
         toast.CreateToast();
     }
 }
