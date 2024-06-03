@@ -176,11 +176,13 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
         if(requestCode == CREATE_PLAYER) {
             if (resultCode == RESULT_OK) {
+                adapter.notifyDataSetChanged();
                 getPlayers(selectGender());
                 chekUserType();
             }
         } else if (requestCode == EDIT_PLAYER) {
             if (resultCode == RESULT_OK) {
+                adapter.notifyDataSetChanged();
                 getPlayers(selectGender());
                 chekUserType();
             }

@@ -22,7 +22,7 @@ import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
-import com.daanigp.padinfo.databinding.ActivityPartidoBinding;
+import com.daanigp.padinfo.databinding.ActivityGameBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class ActivityEdit_Create_Game extends AppCompatActivity {
     private static final String TAG = "ActivityEdit_Create_Game";
     private final String CANAL_ID = "33";
-    ActivityPartidoBinding binding;
+    ActivityGameBinding binding;
     boolean editar;
     long idEditGame, maxIdGame, idGame;
     String token;
@@ -47,18 +47,16 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Game.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
-        binding = ActivityPartidoBinding.inflate(getLayoutInflater());
+        binding = ActivityGameBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
         // Para los partidos que se quieren editar
-        idEditGame = getIntent().getIntExtra("idGame", 0);
+        idEditGame = getIntent().getLongExtra("idGame", 0);
         if (idEditGame != 0) {
             putValuesForIdGame();
             editar = true;
         }
-
-        //getMaxIdGame();
 
         // Añadir y borrar puntos set 1 equipo 1
         binding.btnAddPtsSet11P.setOnClickListener(new View.OnClickListener() {

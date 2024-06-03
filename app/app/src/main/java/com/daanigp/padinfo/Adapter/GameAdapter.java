@@ -67,10 +67,12 @@ public class GameAdapter extends ArrayAdapter<Game> {
             txtSet2Eq2.setTypeface(null, Typeface.BOLD);
         }
 
-        if (games.get(position).getSet3PointsT1() > games.get(position).getSet3PointsT2()) {
-            txtSet3Eq1.setTypeface(null, Typeface.BOLD);
-        } else {
-            txtSet3Eq2.setTypeface(null, Typeface.BOLD);
+        if (games.get(position).getSet3PointsT1() != games.get(position).getSet3PointsT2()) {
+            if (games.get(position).getSet3PointsT1() > games.get(position).getSet3PointsT2()) {
+                txtSet3Eq1.setTypeface(null, Typeface.BOLD);
+            } else {
+                txtSet3Eq2.setTypeface(null, Typeface.BOLD);
+            }
         }
 
         txtNombreJugadoresEq1.setText(nombreJugadoresEq1);

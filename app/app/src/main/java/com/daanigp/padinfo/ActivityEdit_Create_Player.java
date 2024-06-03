@@ -45,14 +45,13 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
         btnCancel = (Button) findViewById(R.id.btnCancelP);
         btnSave = (Button) findViewById(R.id.btnSaveP);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Player.this).getToken();
 
-        idPlayer = getIntent().getIntExtra("idPlayer", 0);
+        idPlayer = getIntent().getLongExtra("idPlayer", 0);
         if (idPlayer != 0) {
             autocompletePlayerInfo();
             edit = true;
         }
-
-        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Player.this).getToken();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

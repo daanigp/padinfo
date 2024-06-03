@@ -42,15 +42,14 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
         txtCityT = (EditText) findViewById(R.id.editTextTournamentCity);
         imgTournament = (ImageView) findViewById(R.id.imgTournament);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Tournament.this).getToken();
 
         // Para los partidos que se quieren editar
-        idTournament = getIntent().getIntExtra("idTournament", 0);
+        idTournament = getIntent().getLongExtra("idTournament", 0);
         if (idTournament != 0) {
             autocompleteTournamentInfo();
             edit = true;
         }
-
-        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Tournament.this).getToken();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
