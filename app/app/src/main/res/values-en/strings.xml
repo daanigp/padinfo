@@ -50,6 +50,8 @@
     <string name="rankPosicion">Ranking position</string>
     <string name="nombreJugador">Player name</string>
     <string name="puntos">Player points</string>
+    <string name="add_points">Add points</string>
+    <string name="del_points">Delete points</string>
 
     <string-array name="generos">
         <item>MALE</item>

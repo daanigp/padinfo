@@ -55,19 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="195dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/cancelar"
-        android:textSize="18dp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.458"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNewRegistro" />
-
     <EditText
         android:id="@+id/editTxtNuevaContrasenya"
         android:layout_width="237dp"
@@ -153,15 +140,36 @@
         app:layout_constraintTop_toBottomOf="@+id/imgApp2" />
 
     <Button
-        android:id="@+id/btnNewRegistro"
-        android:layout_width="195dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="228dp"
-        android:text="@string/registroUsuario"
-        android:textSize="18dp"
+        android:id="@+id/btnCancel"
+        android:layout_width="155dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="#FF0000"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/cancelar"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        app:cornerRadius="0dp"
         android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTxtNuevaContrasenya" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+
+    <Button
+        android:id="@+id/btnNewRegistro"
+        android:layout_width="155dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="28dp"
+        android:backgroundTint="#4CAF50"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/registroUsuario"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold|italic"
+        app:cornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

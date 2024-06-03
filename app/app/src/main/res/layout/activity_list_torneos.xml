@@ -8,13 +8,18 @@
 
     <Button
         android:id="@+id/btnVolver"
-        android:layout_width="122dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="64dp"
-        android:scrollbarSize="20dp"
+        android:layout_width="133dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="#FF0000"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="@string/volver"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
         android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cornerRadius="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

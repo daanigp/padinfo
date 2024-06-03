@@ -49,6 +49,8 @@
     <string name="rankPosicion">Posición en el ranking</string>
     <string name="nombreJugador">Nombre del jugador/a</string>
     <string name="puntos">Puntos del jugador/a</string>
+    <string name="add_points">Añadir puntos</string>
+    <string name="del_points">Borrar puntos</string>
 
     <string-array name="generos">
         <item>MASC</item>
