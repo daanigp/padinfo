@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
 import com.daanigp.padinfo.Entity.UserEntity;
+import com.daanigp.padinfo.InterfaceConectivity.ConnectivityCallback;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
@@ -34,7 +35,6 @@ public class ActivityLogin extends AppCompatActivity {
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
-    boolean isConnected;
     View message_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +60,16 @@ public class ActivityLogin extends AppCompatActivity {
                 if (user.isEmpty() || pwd.isEmpty()) {
                     showToast("Debes rellenar todos los campos");
                 } else {
-                    getIdUser(user);
-                    if (isConnected) {
-                        showToast("El usuario ya está logueado");
-                    } else {
-                        login(user, pwd);
-                    }
+                    getIdUser(user, new ConnectivityCallback() {
+                        @Override
+                        public void onConnectivityChecked(boolean isConnected) {
+                            if (isConnected) {
+                                showToast("El usuario " + user + " ya está logueado");
+                            } else {
+                                login(user, pwd);
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -149,7 +153,7 @@ public class ActivityLogin extends AppCompatActivity {
         });
     }
 
-    private void getIdUser(String username) {
+    private void getIdUser(String username, ConnectivityCallback callback) {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<UserEntity> call = padinfoApi.getUserByUsername(username);
 
@@ -170,7 +174,7 @@ public class ActivityLogin extends AppCompatActivity {
                     // Save the userID and in SharedPreferences
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(id);
                     Log.v(TAG, "INICIO SESION - id -> " + id);
-                    checkUserConnectivity(id);
+                    checkUserConnectivity(id, callback);
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }
@@ -179,6 +183,41 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void checkUserConnectivity(long id, ConnectivityCallback callback) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Integer> call = padinfoApi.getUserConnectivityByUserId(id);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (checkUserConnectivity) -> response");
+                    showToast("Código error - (checkUserConnectivity): " + response.code());
+                    return;
+                }
+
+                Integer isConnectedAPI = response.body();
+
+                if (isConnectedAPI == null) {
+                    showToast("Error en la respuesta del servidor");
+                } else if (isConnectedAPI == 0) {
+                    //isConnected = false;
+                    callback.onConnectivityChecked(false);
+                } else {
+                    //isConnected = true;
+                    callback.onConnectivityChecked(true);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (checkUserConnectivity)", t);
                 showToast("Código error: " + t.getMessage());
             }
         });
@@ -200,8 +239,16 @@ public class ActivityLogin extends AppCompatActivity {
                 ResponseEntity res = response.body();
 
                 if (res != null && res.getMessege().equalsIgnoreCase("Usuario registrado correctamente")) {
-                    getIdUser(createUser.getUsername());
-                    login(createUser.getUsername(), createUser.getPassword());
+                    getIdUser(createUser.getUsername(), new ConnectivityCallback() {
+                        @Override
+                        public void onConnectivityChecked(boolean isConnected) {
+                            if (!isConnected) {
+                                login(createUser.getUsername(), createUser.getPassword());
+                            } else {
+                                showToast("Vuelve a intentarlo, el usuario " + createUser.getUsername() + " ya está logueado.");
+                            }
+                        }
+                    });
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }
@@ -211,39 +258,6 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (signupGUEST)", t);
-                showToast("Código error: " + t.getMessage());
-            }
-        });
-    }
-
-    private void checkUserConnectivity(long id) {
-        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<Integer> call = padinfoApi.getUserConnectivityByUserId(id);
-
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (checkUserConnectivity) -> response");
-                    showToast("Código error - (checkUserConnectivity): " + response.code());
-                    return;
-                }
-
-                Integer isConnectedAPI = response.body();
-
-                if (isConnectedAPI == null) {
-                    showToast("Error en la respuesta del servidor");
-                } else if (isConnectedAPI == 0) {
-                    isConnected = false;
-                } else {
-                    isConnected = true;
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit - (checkUserConnectivity)", t);
                 showToast("Código error: " + t.getMessage());
             }
         });
