@@ -69,12 +69,18 @@ public class ActivityEditarUsuario extends AppCompatActivity {
                 if (isEmptyOrNull(nombre) || isEmptyOrNull(apellidos) || isEmptyOrNull(email)) {
                     showToast("Debes rellenar todos los datos");
                 } else {
-                    UpdateUserInfo updateUser = new UpdateUserInfo();
-                    updateUser.setName(nombre);
-                    updateUser.setLastname(apellidos);
-                    updateUser.setEmail(email);
-                    updateUser.setImageURL(image);
-                    saveChanges(updateUser);
+                    if (validationEmail(email)) {
+                        UpdateUserInfo updateUser = new UpdateUserInfo();
+                        updateUser.setName(nombre);
+                        updateUser.setLastname(apellidos);
+                        updateUser.setEmail(email);
+                        updateUser.setImageURL(image);
+                        saveChanges(updateUser);
+                    } else {
+                        txtEmail.setText("");
+                        showToast("Recuerda: los emails válidos son:\n" +
+                                "'@gmail.com', '@gmail.es', @hotmail.com', @hotmail.es'.");
+                    }
                 }
             }
         });
@@ -84,6 +90,15 @@ public class ActivityEditarUsuario extends AppCompatActivity {
     private boolean isEmptyOrNull(String str){
         return str == null || str.isEmpty();
     }
+
+    private boolean validationEmail(String email) {
+        if (email.endsWith("@gmail.com") || email.endsWith("@gmail.es") || email.endsWith("@hotmail.com") || email.endsWith("@hotmail.es")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void autocompleteUserInfo() {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<UserEntity> call = padinfoApi.getUserInfoByUserID(token, userId);

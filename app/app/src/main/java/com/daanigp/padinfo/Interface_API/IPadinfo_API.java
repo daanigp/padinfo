@@ -49,7 +49,7 @@ public interface IPadinfo_API {
     @GET("players")
     Call<List<Player>> getPlayers(@Header("Authorization") String token);
 
-    @GET("players/{gender}")
+    @GET("players/selectType/{gender}")
     Call<List<Player>> getPlayersByGender(
         @Header("Authorization") String token,
         @Path("gender") String gender

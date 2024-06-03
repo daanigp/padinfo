@@ -139,12 +139,10 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
 
         if(requestCode == CREATE_TOURNAMENT) {
             if (resultCode == RESULT_OK) {
-                tournamnets.clear();
                 getTournaments();
             }
         } else if (requestCode == EDIT_TOURNAMENT) {
             if (resultCode == RESULT_OK) {
-                tournamnets.clear();
                 getTournaments();
             }
         }
@@ -158,6 +156,9 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
         } else {
             adminUser = false;
         }
+
+        invalidateOptionsMenu();
+        updateContextMenu();
     }
 
     private void getTournaments(){
@@ -176,6 +177,8 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
                 List<Tournament> tournamentsApi = response.body();
 
                 if (tournamentsApi != null) {
+                    tournamnets.clear();
+
                     for (Tournament t : tournamentsApi) {
                         Tournament tor = new Tournament();
                         tor.setId(t.getId());
@@ -257,5 +260,13 @@ public class ActivityListTorneos extends AppCompatActivity implements AdapterVie
     private void showToast(String message) {
         Toast_Personalized toast = new Toast_Personalized(message, ActivityListTorneos.this, message_layout);
         toast.CreateToast();
+    }
+
+    private void updateContextMenu() {
+        // Este método se puede llamar cuando necesitas actualizar el menú contextual
+        // por ejemplo, después de obtener roles del servidor.
+        View view = findViewById(R.id.listaTorneos); // Reemplaza con el ID de la vista que tiene el menú contextual
+        unregisterForContextMenu(view); // Desregistrar el menú contextual anterior
+        registerForContextMenu(view); // Registrar de nuevo el menú contextual
     }
 }

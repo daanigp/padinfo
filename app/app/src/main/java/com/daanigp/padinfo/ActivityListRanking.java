@@ -34,9 +34,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRanking extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ActivityListRanking extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "ActivityRanking";
+    private static final String TAG = "ActivityListRanking";
     public static int EDIT_PLAYER = 7;
     public static int CREATE_PLAYER = 8;
     Button btnVolverMenu, btnRankFem, btnRankMasc;
@@ -59,7 +59,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         spinner = (Spinner) findViewById(R.id.spinnerGenderP);
 
         players = new ArrayList<>();
-        token = SharedPreferencesManager.getInstance(ActivityRanking.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityListRanking.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         Log.v(TAG, "TOKEN -> " + token);
@@ -97,7 +97,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         /*btnRankMasc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentRankMasc = new Intent(ActivityRanking.this, ActivityRankingMasculino.class);
+                Intent intentRankMasc = new Intent(ActivityListRanking.this, ActivityRankingMasculino.class);
                 startActivity(intentRankMasc);
             }
         });
@@ -105,7 +105,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         btnRankFem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentRankFem = new Intent(ActivityRanking.this, ActivityRankingFemenino.class);
+                Intent intentRankFem = new Intent(ActivityListRanking.this, ActivityRankingFemenino.class);
                 startActivity(intentRankFem);
             }
         });*/
@@ -131,7 +131,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         int opcionID = item.getItemId();
 
         if (opcionID == R.id.itemCreateTournament)  {
-            Intent intentAddGame = new Intent(ActivityRanking.this, ActivityEdit_CreatePlayer.class);
+            Intent intentAddGame = new Intent(ActivityListRanking.this, ActivityEdit_CreatePlayer.class);
             startActivityForResult(intentAddGame, CREATE_PLAYER);
             return true;
         }
@@ -158,7 +158,7 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         switch (id) {
             case R.id.itemEditar:
                 showToast("EDITAR -> " + player.getId());
-                Intent intentEditTournament = new Intent(ActivityRanking.this, ActivityEdit_CreatePlayer.class);
+                Intent intentEditTournament = new Intent(ActivityListRanking.this, ActivityEdit_CreatePlayer.class);
                 intentEditTournament.putExtra("idPlayer", player.getId());
                 startActivityForResult(intentEditTournament, EDIT_PLAYER);
                 break;
@@ -177,10 +177,12 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
         if(requestCode == CREATE_PLAYER) {
             if (resultCode == RESULT_OK) {
                 getPlayers(selectGender());
+                chekUserType();
             }
         } else if (requestCode == EDIT_PLAYER) {
             if (resultCode == RESULT_OK) {
                 getPlayers(selectGender());
+                chekUserType();
             }
         }
     }
@@ -196,13 +198,16 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
     }
 
     private void chekUserType() {
-        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityRanking.this).getRolesId();
+        List<Long> rolesId = SharedPreferencesManager.getInstance(ActivityListRanking.this).getRolesId();
 
         if (rolesId.size() > 0 && rolesId.contains(1L)) {
             adminUser = true;
         } else {
             adminUser = false;
         }
+
+        invalidateOptionsMenu();
+        updateContextMenu();
     }
 
     private void getPlayers(String gender) {
@@ -320,7 +325,15 @@ public class ActivityRanking extends AppCompatActivity implements AdapterView.On
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityRanking.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityListRanking.this, message_layout);
         toast.CreateToast();
+    }
+
+    private void updateContextMenu() {
+        // Este método se puede llamar cuando necesitas actualizar el menú contextual
+        // por ejemplo, después de obtener roles del servidor.
+        View view = findViewById(R.id.listRanking); // Reemplaza con el ID de la vista que tiene el menú contextual
+        unregisterForContextMenu(view); // Desregistrar el menú contextual anterior
+        registerForContextMenu(view); // Registrar de nuevo el menú contextual
     }
 }

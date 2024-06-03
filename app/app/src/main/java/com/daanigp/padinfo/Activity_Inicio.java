@@ -73,11 +73,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
         } else {
             usuarioRegistrado = false;
         }*/
-
         getRolesByUserId();
-
-        selectTypeMenuByUserRole();
-
         completeAppInfo();
         completeTheWebsInfo();
         putVideoTopHighlights();
@@ -85,7 +81,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!registredUser) {
+        if (registredUser) {
             getMenuInflater().inflate(R.menu.menu_dinamico_usuario, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_dinamico_invitado, menu);
@@ -114,7 +110,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
             case R.id.itemTop5:
                 showToast("Top 5 jugadores/as");
 
-                Intent intentRanking = new Intent(Activity_Inicio.this, ActivityRanking.class);
+                Intent intentRanking = new Intent(Activity_Inicio.this, ActivityListRanking.class);
                 startActivity(intentRanking);
                 return true;
             case R.id.itemRegistrarPartidos:
@@ -125,9 +121,6 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
                 return true;
             case R.id.itemCerrarSesion:
                 showToast("Cerrar Sessión");
-
-                //usuarioRegistrado = false;
-                //invalidateOptionsMenu();
                 putUserDisconnected();
                 SharedPreferencesManager.getInstance(Activity_Inicio.this).clear();
                 Intent intentInicioSes = new Intent(Activity_Inicio.this, ActivityInicioSesion.class);
@@ -164,7 +157,7 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
         if (requestCode == USER_LOGIN) {
             if (resultCode == RESULT_OK) {
                 getRolesByUserId();
-                selectTypeMenuByUserRole();
+                //selectTypeMenuByUserRole();
                 invalidateOptionsMenu();
             }
         }
@@ -311,6 +304,12 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
                     SharedPreferencesManager.getInstance(Activity_Inicio.this).saveRolesId(rolIdAPI);
                     rolesId = (ArrayList<Long>) rolIdAPI;
                     showToast("ROles -> " + rolesId);
+
+                    Log.e(TAG, "Listado ROLES -> " + rolesId);
+
+                    selectTypeMenuByUserRole();
+
+                    invalidateOptionsMenu();
                 } else {
                     showToast("No hay roles asociados al id : " + userId);
                 }
@@ -328,8 +327,10 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
     private void selectTypeMenuByUserRole() {
         if (rolesId.size() > 0 && (rolesId.contains(1L) || rolesId.contains(2L))) {
             registredUser = true;
+            Log.e(TAG, "USUARIO REGISTRADO -> TRUE");
         } else {
             registredUser = false;
+            Log.e(TAG, "USUARIO REGISTRADO -> FALSE");
         }
     }
 
@@ -348,8 +349,6 @@ public class Activity_Inicio extends AppCompatActivity implements MediaControlle
                 ResponseEntity res = response.body();
 
                 if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
-                    showToast("Error en la respuesta del servidor");
-                } else {
                     showToast("Error en la respuesta del servidor");
                 }
 

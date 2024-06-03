@@ -24,6 +24,8 @@ import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 import com.daanigp.padinfo.databinding.ActivityPartidoBinding;
 
+import java.io.EOFException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +60,7 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
             editar = true;
         }
 
-        getMaxIdGame();
+        //getMaxIdGame();
 
         // Añadir y borrar puntos set 1 equipo 1
         binding.btnAddPtsSet11P.setOnClickListener(new View.OnClickListener() {
@@ -302,8 +304,6 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                         CreateGame newGame = new CreateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador, userId);
                         saveGame(newGame);
                     }
-                    setResult(RESULT_OK);
-                    finish();
                 }
             }
         });
@@ -376,6 +376,8 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
 
                 if (gameAPIupdated != null) {
                     showToast("Partido actualizado con éxito");
+                    setResult(RESULT_OK);
+                    finish();
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }
@@ -412,6 +414,9 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
                     showToast("Partido creado con éxito");
 
                     showNotification(true, true, newGame);
+
+                    setResult(RESULT_OK);
+                    finish();
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }
@@ -433,21 +438,24 @@ public class ActivityCrear_EditarPartido extends AppCompatActivity {
         call.enqueue(new Callback<Long>() {
             @Override
             public void onResponse(Call<Long> call, Response<Long> response) {
-                if(!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     Log.v(TAG, "No va (getMaxIdGame) -> response");
                     showToast("Código error: " + response.code());
                     return;
                 }
 
-                Long maxIdAPI = response.body();
-
-                if (maxIdAPI != null && maxIdAPI > 0) {
-                    maxIdGame = maxIdAPI + 1;
-                } else {
-                    showToast("Error en la respuesta del servidor");
+                if (response.body() == null) {
                     maxIdGame = 1;
-                }
+                } else {
+                    Long maxIdAPI = response.body();
 
+                    if (maxIdAPI != null && maxIdAPI > 0) {
+                        maxIdGame = maxIdAPI + 1;
+                    } else {
+                        maxIdGame = 1;
+                    }
+                }
+                showToast("ID MAX GAME -> " + maxIdGame);
             }
 
             @Override

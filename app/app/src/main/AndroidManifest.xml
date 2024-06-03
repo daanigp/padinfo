@@ -46,7 +46,7 @@
             android:name=".ActivityRankingMasculino"
             android:exported="false" />
         <activity
-            android:name=".ActivityRanking"
+            android:name=".ActivityListRanking"
             android:exported="false" />
         <activity
             android:name=".ActivityListTorneos"
