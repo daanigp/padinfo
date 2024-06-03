@@ -90,6 +90,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/users/isConnected/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/tournaments").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers(HttpMethod.GET, "/api/players").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
+                                .requestMatchers(HttpMethod.GET, "/api/players/selectType/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
+                                .requestMatchers(HttpMethod.GET, "/api/users/getRoles/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers("/api/games/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
                                 .requestMatchers("/api/games").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
                                 .requestMatchers("/api/users/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())

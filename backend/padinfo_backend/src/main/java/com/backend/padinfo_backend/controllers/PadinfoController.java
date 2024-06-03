@@ -165,7 +165,7 @@ public class PadinfoController {
     }
 
     // 7
-    @GetMapping("/players/{gender}")
+    @GetMapping("/players/selectType/{gender}")
     public ResponseEntity<List<PlayerDTO>> getPlayersByGender(@PathVariable String gender) {
         List<Player> players = playerService.getPlayersByGender(gender);
 
