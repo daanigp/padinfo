@@ -49,7 +49,7 @@ public interface IPadinfo_API {
     @GET("players")
     Call<List<Player>> getPlayers(@Header("Authorization") String token);
 
-    @GET("players/{gender}")
+    @GET("players/selectType/{gender}")
     Call<List<Player>> getPlayersByGender(
         @Header("Authorization") String token,
         @Path("gender") String gender
@@ -108,51 +108,51 @@ public interface IPadinfo_API {
         @Body UpdateGame updateGame
     );
 
-    @GET("/tournaments/info/{id}")
+    @GET("tournaments/info/{id}")
     Call<Tournament> findTournamentById(
         @Header("Authorization") String token,
         @Path("id") long id
     );
 
-    @POST("/tournaments/createTournament")
+    @POST("tournaments/createTournament")
     Call<Tournament> createTournament(
         @Header("Authorization") String token,
         @Body CreateUpdateTournament createUpdateTournament
     );
 
-    @PUT("/tournaments/updateTournament/{id}")
+    @PUT("tournaments/updateTournament/{id}")
     Call<Tournament> updateTournament(
         @Header("Authorization") String token,
         @Path("id") long id,
         @Body CreateUpdateTournament createUpdateTournament
     );
 
-    @DELETE("/tournaments/deleteTournament/{id}")
+    @DELETE("tournaments/deleteTournament/{id}")
     Call<ResponseEntity> deleteTournamentById(
         @Header("Authorization") String token,
         @Path("id") long id
     );
 
-    @GET("/players/info/{id}")
+    @GET("players/info/{id}")
     Call<Player> findPlayerById(
         @Header("Authorization") String token,
         @Path("id") long id
     );
 
-    @POST("/players/createPlayer")
+    @POST("players/createPlayer")
     Call<Player> createPlayer(
         @Header("Authorization") String token,
         @Body CreateUpdatePlayer createUpdatePlayer
     );
 
-    @PUT("/players/updatePlayer/{id}")
+    @PUT("players/updatePlayer/{id}")
     Call<Player> updatePlayer(
         @Header("Authorization") String token,
         @Path("id") long id,
         @Body CreateUpdatePlayer createUpdatePlayer
     );
 
-    @DELETE("/players/deletePlayer/{id}")
+    @DELETE("players/deletePlayer/{id}")
     Call<ResponseEntity> deletePlayerById(
         @Header("Authorization") String token,
         @Path("id") long id

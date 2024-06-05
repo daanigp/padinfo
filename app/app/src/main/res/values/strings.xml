@@ -1,16 +1,18 @@
 <resources>
     <string name="app_name">padinfo</string>
+    <string name="bienvenida">TEXTO DE BIENVENIDA</string>
     <string name="info">AQUÍ VA LA INFO DE LA APP</string>
-    <string name="torneos2023">Listado de Torneos 2023</string>
+    <string name="imgLogo">Logo de la app</string>
+    <string name="torneos2023">Listado de Torneos</string>
     <string name="top5">TOP 5 Jugadores/as</string>
     <string name="perfil">Perfil</string>
-    <string name="editUsuario">Editar Usuario</string>
-    <string name="registrarPartidos">Registrar Partidos</string>
+    <string name="editUsuario">Editar usuario</string>
+    <string name="registrarPartidos">Listado de partidos</string>
     <string name="iniciarSesion">INICIAR SESIÓN</string>
-    <string name="inicioSesionMenu">Iniciar Sesión</string>
+    <string name="inicioSesionMenu">Iniciar sesión</string>
     <string name="registroUsuario">REGISTRARSE</string>
     <string name="inicioUsuarioInvitado">USUARIO INVITADO</string>
-    <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="cerrarSesion">Cerrar sesión</string>
     <string name="eliminarCuenta">Eliminar cuenta</string>
     <string name="salir">Salir</string>
     <string name="volver">VOLVER</string>
@@ -18,13 +20,16 @@
     <string name="eliminar">ELIMINAR</string>
     <string name="cancelar">CANCELAR</string>
     <string name="guardar">GUARDAR</string>
-    <string name="rankFem">Ranking Femenino</string>
-    <string name="rankMasc">Ranking Masculino</string>
+    <string name="rankFem">Ranking femenino</string>
+    <string name="rankMasc">Ranking masculino</string>
     <string name="usuario">Usuario:</string>
     <string name="contrasenya">Contraseña:</string>
     <string name="nombre">Nombre:</string>
     <string name="apellidos">Apellidos:</string>
-    <string name="email">Email:</string>
+    <string name="email">Email</string>
+    <string name="nombreTxt">Nombre</string>
+    <string name="apellidosTxt">Apellidos</string>
+    <string name="emailTxt">Email</string>
     <string name="newPartido">AGREGAR PARTIDO</string>
     <string name="eq1">EQUIPO 1</string>
     <string name="eq2">EQUIPO 2</string>
@@ -44,6 +49,8 @@
     <string name="rankPosicion">Posición en el ranking</string>
     <string name="nombreJugador">Nombre del jugador/a</string>
     <string name="puntos">Puntos del jugador/a</string>
+    <string name="add_points">Añadir puntos</string>
+    <string name="del_points">Borrar puntos</string>
 
     <string-array name="generos">
         <item>MASC</item>

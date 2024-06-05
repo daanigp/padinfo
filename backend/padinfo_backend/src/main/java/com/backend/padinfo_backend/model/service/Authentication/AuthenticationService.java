@@ -39,7 +39,7 @@ public class AuthenticationService implements  IAuthenticationService{
         newUser.setIsConnected(0);
 
         if (newUser.getImageURL() == null || newUser.getImageURL().isBlank()) {
-            newUser.setImageURL("R.drawable.imgperfil_basic");
+            newUser.setImageURL("imgperfil_basic");
         }
 
         return userInfoRepository.save(newUser);

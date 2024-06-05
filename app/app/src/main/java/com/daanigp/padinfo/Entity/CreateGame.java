@@ -17,7 +17,7 @@ public class CreateGame {
     public CreateGame() {
     }
 
-    public CreateGame(String namePlayer1, String namePlayer2, String namePlayer3, String namePlayer4, int set1PointsT1, int set2PointsT1, int set3PointsT1, int set1PointsT2, int set2PointsT2, int set3PointsT2, int winnerTeam, long user_id) {
+    public CreateGame(String namePlayer1, String namePlayer2, String namePlayer3, String namePlayer4, int set1PointsT1, int set1PointsT2, int set2PointsT1, int set2PointsT2, int set3PointsT1, int set3PointsT2, int winnerTeam, long user_id) {
         this.namePlayer1 = namePlayer1;
         this.namePlayer2 = namePlayer2;
         this.namePlayer3 = namePlayer3;

@@ -82,6 +82,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
+                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/users/checkUser").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/users/userInfoByName").permitAll()
@@ -89,6 +90,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/users/isConnected/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/tournaments").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers(HttpMethod.GET, "/api/players").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
+                                .requestMatchers(HttpMethod.GET, "/api/players/selectType/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
+                                .requestMatchers(HttpMethod.GET, "/api/users/getRoles/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name(), ERole.GUEST.name())
                                 .requestMatchers("/api/games/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
                                 .requestMatchers("/api/games").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
                                 .requestMatchers("/api/users/**").hasAnyRole(ERole.ADMIN.name(), ERole.USER.name())
