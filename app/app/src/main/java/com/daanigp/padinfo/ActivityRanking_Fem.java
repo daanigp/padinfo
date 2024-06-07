@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
         token = SharedPreferencesManager.getInstance(ActivityRanking_Fem.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
+        setDayNight();
         getPlayers();
 
         ListView lista = (ListView) findViewById(R.id.rankFemList);
@@ -63,6 +65,15 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         showToast("HAS PULSADO SOBRE -> " + RankingDataSource.rankingFem.get(position).getName());
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private void getPlayers() {

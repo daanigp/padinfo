@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,6 +64,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         Log.v(TAG, "TOKEN -> " + token);
+        setDayNight();
         chekUserType();
 
         spinner.setSelection(0);
@@ -93,23 +95,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                 finish();
             }
         });
-
-        /*btnRankMasc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentRankMasc = new Intent(ActivityList_Ranking.this, ActivityRanking_Masc.class);
-                startActivity(intentRankMasc);
-            }
-        });
-
-        btnRankFem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentRankFem = new Intent(ActivityList_Ranking.this, ActivityRanking_Fem.class);
-                startActivity(intentRankFem);
-            }
-        });*/
-
 
     }
 
@@ -186,6 +171,15 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                 getPlayers(selectGender());
                 chekUserType();
             }
+        }
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 

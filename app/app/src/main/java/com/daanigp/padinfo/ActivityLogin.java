@@ -1,14 +1,21 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
@@ -23,6 +30,7 @@ import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -35,7 +43,9 @@ public class ActivityLogin extends AppCompatActivity {
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
     ImageView imgApp;
+    Switch switchTema;
     View message_layout;
+    private boolean isFirstTime = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +57,30 @@ public class ActivityLogin extends AppCompatActivity {
         txtUsuario = (EditText) findViewById(R.id.editTxtUsuario);
         txtPassword = (EditText) findViewById(R.id.editTxtContrasenya);
         imgApp = (ImageView) findViewById(R.id.imgApp);
+        switchTema = findViewById(R.id.swithTema);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         imgApp.setImageResource(R.drawable.padinfo_logo);
+
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme==1) {
+            switchTema.setChecked(false);
+        } else {
+            switchTema.setChecked(true);
+        }
+        setDayNight();
+
+        switchTema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (switchTema.isChecked()) {
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveTheme(0);
+                } else {
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveTheme(1);
+                }
+                setDayNight();
+            }
+        });
 
         btnInicioSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +140,15 @@ public class ActivityLogin extends AppCompatActivity {
         return rnd.nextInt(num1) + 1;
     }
 
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
     private void login(String user, String pwd) {
         ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
         Call<String> call = securityPadinfoApi.loginUser( new LoginUser(user, pwd) );
@@ -119,6 +159,8 @@ public class ActivityLogin extends AppCompatActivity {
                 if(!response.isSuccessful()) {
                     if (response.code() == 404) {
                         showToast("Usuario o contraseña incorrectos.");
+                    } else if (response.code() == 502) {
+                        showToast("El servidor no funciona");
                     } else {
                         showToast("1-Código error (login): " + response.code());
                     }
@@ -259,34 +301,6 @@ public class ActivityLogin extends AppCompatActivity {
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (signupGUEST)", t);
                 showToast("Código error: " + t.getMessage());
-            }
-        });
-    }
-
-    private void putUserIsConnected(long id) {
-        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
-        call.enqueue(new Callback<ResponseEntity>() {
-            @Override
-            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
-                if(!response.isSuccessful()) {
-                    showToast("1-Código error - (putUserIsConnected): " + response.code());
-                    return;
-                }
-
-                ResponseEntity res = response.body();
-
-                if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
-                    showToast("Error en la respuesta del servidor");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseEntity> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit - (putUserIsConnected)", t);
-                showToast("2- Código error - (putUserIsConnected): " + t.getMessage());
-                t.printStackTrace();
             }
         });
     }

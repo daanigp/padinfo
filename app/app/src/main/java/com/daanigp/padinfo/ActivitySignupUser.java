@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
@@ -48,6 +50,7 @@ public class ActivitySignupUser extends AppCompatActivity {
         imgApp.setImageResource(R.drawable.padinfo_logo);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
+        setDayNight();
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +89,15 @@ public class ActivitySignupUser extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private boolean validationEmail(String email) {

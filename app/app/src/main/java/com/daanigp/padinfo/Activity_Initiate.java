@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,11 +71,7 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         rolesId = new ArrayList<>();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
-        /*if (userIsConnected()) {
-            usuarioRegistrado = true;
-        } else {
-            usuarioRegistrado = false;
-        }*/
+        setDayNight();
         getRolesByUserId();
         completeAppInfo();
         completeTheWebsInfo();
@@ -418,6 +417,15 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
                 t.printStackTrace();
             }
         });
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private void showToast(String message) {

@@ -16,6 +16,7 @@ public class SharedPreferencesManager {
     private static final String KEY_TOKEN = "token";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_ROLES_ID = "rolesID";
+    private static final String KEY_THEME = "theme";
 
     private static SharedPreferencesManager instance;
     private static Context context;
@@ -87,10 +88,25 @@ public class SharedPreferencesManager {
         return gson.fromJson(jsonRolesId, type);
     }
 
+    public void saveTheme(int theme) {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(KEY_THEME, theme);
+        editor.apply();
+    }
+
+    public int getTheme() {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getInt(KEY_THEME, 1);
+    }
+
     public void clear() {
         SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear();
+        editor.remove(KEY_USER_ID);
+        editor.remove(KEY_TOKEN);
+        editor.remove(KEY_USERNAME);
+        editor.remove(KEY_ROLES_ID);
         editor.apply();
     }
 

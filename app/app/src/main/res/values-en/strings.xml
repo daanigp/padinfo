@@ -25,6 +25,8 @@
     <string name="rankMasc">Male ranking</string>
     <string name="usuario">User:</string>
     <string name="contrasenya">Password:</string>
+    <string name="usu">User</string>
+    <string name="contra">Password</string>
     <string name="nombre">Name:</string>
     <string name="apellidos">Last name:</string>
     <string name="email">Email</string>
@@ -52,6 +54,7 @@
     <string name="puntos">Player points</string>
     <string name="add_points">Add points</string>
     <string name="del_points">Delete points</string>
+    <string name="tema">Dark theme</string>
 
     <string-array name="generos">
         <item>MALE</item>

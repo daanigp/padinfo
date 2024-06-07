@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 
 import android.app.Notification;
@@ -51,6 +52,7 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        setDayNight();
         // Para los partidos que se quieren editar
         idEditGame = getIntent().getLongExtra("idGame", 0);
         if (idEditGame != 0) {
@@ -312,6 +314,15 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private void addPoints(int points, TextView txtPuntos, TextView txtSet){

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,6 +57,8 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
         chekUserType();
 
         Log.v(TAG, "TOKEN -> " + token);
+
+        setDayNight();
 
         getTournaments();
 
@@ -145,6 +148,15 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
             if (resultCode == RESULT_OK) {
                 getTournaments();
             }
+        }
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 

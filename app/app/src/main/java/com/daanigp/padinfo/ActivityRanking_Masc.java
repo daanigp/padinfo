@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
 
         Log.v(TAG, "TOKEN -> " + token);
 
+        setDayNight();
         getPlayers();
 
         ListView lista = (ListView) findViewById(R.id.rankMascList);
@@ -59,6 +61,15 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
                 finish();
             }
         });
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override

@@ -24,6 +24,8 @@
     <string name="rankMasc">Ranking masculino</string>
     <string name="usuario">Usuario:</string>
     <string name="contrasenya">Contraseña:</string>
+    <string name="usu">Usuario</string>
+    <string name="contra">Contraseña</string>
     <string name="nombre">Nombre:</string>
     <string name="apellidos">Apellidos:</string>
     <string name="email">Email</string>
@@ -51,6 +53,7 @@
     <string name="puntos">Puntos del jugador/a</string>
     <string name="add_points">Añadir puntos</string>
     <string name="del_points">Borrar puntos</string>
+    <string name="tema">Tema oscuro</string>
 
     <string-array name="generos">
         <item>MASC</item>

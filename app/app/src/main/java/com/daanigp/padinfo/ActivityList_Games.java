@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,6 +58,7 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
         token = SharedPreferencesManager.getInstance(ActivityList_Games.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
+        setDayNight();
         getGames();
 
         lista = (ListView) findViewById(R.id.listaPartidos);
@@ -82,6 +84,15 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
             }
         });
 
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override
