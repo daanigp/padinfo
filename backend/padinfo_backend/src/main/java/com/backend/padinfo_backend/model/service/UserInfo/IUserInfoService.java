@@ -19,7 +19,6 @@ public interface IUserInfoService {
 
 
 
-    // 4. Actualizar isConnected
     void updateIsConnected(Long idUser);
     Integer selectUserIsConnectedByUserId(Long id);
     UserInfo selectUserInfoByUsername(String user);

@@ -45,7 +45,6 @@ class TournamentServiceTest {
 
         List<Tournament> result = tournamentService.findAll();
 
-        // Assert
         assertEquals(3, result.size());
         assertEquals(1L, result.get(0).getId());
         assertEquals("La Rioja Open 1000", result.get(1).getName());
@@ -60,7 +59,6 @@ class TournamentServiceTest {
 
         List<Tournament> result = tournamentService.findAll();
 
-        // Assert
         assertEquals(0, result.size());
     }
 

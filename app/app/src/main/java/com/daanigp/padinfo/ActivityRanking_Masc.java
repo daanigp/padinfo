@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
 
         Log.v(TAG, "TOKEN -> " + token);
 
+        setDayNight();
         getPlayers();
 
         ListView lista = (ListView) findViewById(R.id.rankMascList);
@@ -61,9 +63,18 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
         });
     }
 
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + players.get(position).getName());
+        showToast(players.get(position).getName());
     }
 
     private void getPlayers() {
@@ -101,7 +112,6 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
                         }
                     });
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");

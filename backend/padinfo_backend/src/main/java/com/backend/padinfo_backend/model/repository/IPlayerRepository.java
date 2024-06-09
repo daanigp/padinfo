@@ -10,6 +10,5 @@ import java.util.List;
 @Hidden
 @Repository
 public interface IPlayerRepository extends CrudRepository<Player, Long> {
-    // 7
     List<Player> getPlayersByGender(String gender);
 }

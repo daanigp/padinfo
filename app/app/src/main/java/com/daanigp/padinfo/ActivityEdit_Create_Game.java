@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 
 import android.app.Notification;
@@ -51,6 +52,7 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        setDayNight();
         // Para los partidos que se quieren editar
         idEditGame = getIntent().getLongExtra("idGame", 0);
         if (idEditGame != 0) {
@@ -240,7 +242,6 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                         if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
-                            //showToast("Equipo 1 gana el PARTIDO.");
                             equipoGanador = 1;
 
                             save = true;
@@ -252,10 +253,8 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                             if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
                                 if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    //showToast("Equipo 1 gana el PARTIDO.");
                                     equipoGanador = 1;
                                 } else { // 1 - 2
-                                    //showToast("Equipo 2 gana el PARTIDO.");
                                     equipoGanador = 2;
                                 }
 
@@ -271,10 +270,8 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                             if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
                                 if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    //showToast("Equipo 1 gana el PARTIDO.");
                                     equipoGanador = 1;
                                 } else { // 1 - 2
-                                    //showToast("Equipo 2 gana el PARTIDO.");
                                     equipoGanador = 2;
                                 }
 
@@ -283,7 +280,6 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                         } else { // 0 - 2
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
-                            //showToast("Equipo 2 gana el PARTIDO.");
                             equipoGanador = 2;
 
                             save = true;
@@ -312,6 +308,15 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private void addPoints(int points, TextView txtPuntos, TextView txtSet){
@@ -451,7 +456,6 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                         maxIdGame = 1;
                     }
                 }
-                showToast("ID MAX GAME -> " + maxIdGame);
             }
 
             @Override

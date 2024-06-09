@@ -2,6 +2,7 @@ package com.daanigp.padinfo;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,12 +44,11 @@ public class ActivityUserProfile extends AppCompatActivity {
         btnEditar = (Button) findViewById(R.id.btnEditar);
         imgPerfil = (ImageView) findViewById(R.id.imgPerfil);
 
-        //imgPerfil.setImageResource(R.drawable.imgperfil_basic);
-
         userId = SharedPreferencesManager.getInstance(ActivityUserProfile.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityUserProfile.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
+        setDayNight();
         autocompleteUserInfo();
 
         btnVolver.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +74,15 @@ public class ActivityUserProfile extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 autocompleteUserInfo();
             }
+        }
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 

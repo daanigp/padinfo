@@ -11,9 +11,7 @@ import java.util.List;
 @Hidden
 @Repository
 public interface IGameRepository extends CrudRepository<Game, Long> {
-    // 8
     Long getMaxGameId();
 
-    // 11
     List<Game> getGamesByUserId(Long userId);
 }

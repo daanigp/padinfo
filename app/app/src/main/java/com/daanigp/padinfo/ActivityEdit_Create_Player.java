@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -46,12 +47,15 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btnSaveP);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Player.this).getToken();
+        imgPlayer.setImageResource(R.drawable.player_img);
 
         idPlayer = getIntent().getLongExtra("idPlayer", 0);
         if (idPlayer != 0) {
             autocompletePlayerInfo();
             edit = true;
         }
+
+        setDayNight();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +74,7 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
                 points = txtPoints.getText().toString() + " puntos";
                 rankingPos = txtRankingPos.getText().toString();
                 gender = selectGender();
+                image = "player_img";
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(points) || isEmptyOrNull(rankingPos)) {
                     showToast("Debes rellenar todos los datos");
@@ -91,6 +96,15 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private boolean isEmptyOrNull(String str){
@@ -217,7 +231,7 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (autocompletePlayerInfo)", t);
-                showToast("Código error: " + t.getMessage());
+                showToast("Error: " + t.getMessage());
                 txtName.setText("vacío");
                 txtPoints.setText("0");
                 txtRankingPos.setText("0");

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,8 +55,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_ranking);
 
         btnVolverMenu = (Button) findViewById(R.id.btnVolverMenu);
-        //btnRankFem = (Button) findViewById(R.id.btnRankFem);
-        //btnRankMasc = (Button) findViewById(R.id.btnRankMasc);
         spinner = (Spinner) findViewById(R.id.spinnerGenderP);
 
         players = new ArrayList<>();
@@ -63,6 +62,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         Log.v(TAG, "TOKEN -> " + token);
+        setDayNight();
         chekUserType();
 
         spinner.setSelection(0);
@@ -94,28 +94,14 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
             }
         });
 
-        /*btnRankMasc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentRankMasc = new Intent(ActivityList_Ranking.this, ActivityRanking_Masc.class);
-                startActivity(intentRankMasc);
-            }
-        });
-
-        btnRankFem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentRankFem = new Intent(ActivityList_Ranking.this, ActivityRanking_Fem.class);
-                startActivity(intentRankFem);
-            }
-        });*/
-
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + players.get(position).getName());
+        //showToast(players.get(position).getName());
+        Intent viewTournmanet = new Intent(ActivityList_Ranking.this, ActivityPlayer.class);
+        viewTournmanet.putExtra("idPlayer", players.get(position).getId());
+        startActivity(viewTournmanet);
     }
 
     @Override
@@ -130,7 +116,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int opcionID = item.getItemId();
 
-        if (opcionID == R.id.itemCreateTournament)  {
+        if (opcionID == R.id.itemCreatePlayer)  {
             Intent intentAddGame = new Intent(ActivityList_Ranking.this, ActivityEdit_Create_Player.class);
             startActivityForResult(intentAddGame, CREATE_PLAYER);
             return true;
@@ -157,7 +143,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
         switch (id) {
             case R.id.itemEditar:
-                showToast("EDITAR -> " + player.getId());
                 Intent intentEditTournament = new Intent(ActivityList_Ranking.this, ActivityEdit_Create_Player.class);
                 intentEditTournament.putExtra("idPlayer", player.getId());
                 startActivityForResult(intentEditTournament, EDIT_PLAYER);
@@ -186,6 +171,15 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                 getPlayers(selectGender());
                 chekUserType();
             }
+        }
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
@@ -257,7 +251,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                         }
                     });
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");
@@ -312,7 +305,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                 if (res.getMessege().equalsIgnoreCase("Borrado")) {
                     players.remove(player);
                     adapter.notifyDataSetChanged();
-                    showToast("Jugador/a eliminado.");
+                    showToast("Jugador eliminado.");
                 } else {
                     showToast("No se ha podido eliminar el jugador.");
                 }
@@ -332,10 +325,8 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
     }
 
     private void updateContextMenu() {
-        // Este método se puede llamar cuando necesitas actualizar el menú contextual
-        // por ejemplo, después de obtener roles del servidor.
-        View view = findViewById(R.id.listRanking); // Reemplaza con el ID de la vista que tiene el menú contextual
-        unregisterForContextMenu(view); // Desregistrar el menú contextual anterior
-        registerForContextMenu(view); // Registrar de nuevo el menú contextual
+        View view = findViewById(R.id.listRanking);
+        unregisterForContextMenu(view);
+        registerForContextMenu(view);
     }
 }

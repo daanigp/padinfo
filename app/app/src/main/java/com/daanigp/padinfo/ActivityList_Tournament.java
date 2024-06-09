@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,6 +58,8 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
 
         Log.v(TAG, "TOKEN -> " + token);
 
+        setDayNight();
+
         getTournaments();
 
         lista = (ListView) findViewById(R.id.listaTorneos);
@@ -79,7 +82,10 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + tournamnets.get(position).getName());
+//        showToast(tournamnets.get(position).getName());
+        Intent viewTournmanet = new Intent(ActivityList_Tournament.this, ActivityTournament.class);
+        viewTournmanet.putExtra("idTournament", tournamnets.get(position).getId());
+        startActivity(viewTournmanet);
     }
 
     @Override
@@ -120,7 +126,6 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
 
         switch (id) {
             case R.id.itemEditar:
-                showToast("EDITAR -> " + tournament.getId());
                 Intent intentEditTournament = new Intent(ActivityList_Tournament.this, ActivityEdit_Create_Tournament.class);
                 intentEditTournament.putExtra("idTournament", tournament.getId());
                 startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
@@ -145,6 +150,15 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
             if (resultCode == RESULT_OK) {
                 getTournaments();
             }
+        }
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
@@ -188,7 +202,6 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
                         tournamnets.add(tor);
                     }
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");
@@ -263,10 +276,8 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
     }
 
     private void updateContextMenu() {
-        // Este método se puede llamar cuando necesitas actualizar el menú contextual
-        // por ejemplo, después de obtener roles del servidor.
-        View view = findViewById(R.id.listaTorneos); // Reemplaza con el ID de la vista que tiene el menú contextual
-        unregisterForContextMenu(view); // Desregistrar el menú contextual anterior
-        registerForContextMenu(view); // Registrar de nuevo el menú contextual
+        View view = findViewById(R.id.listaTorneos);
+        unregisterForContextMenu(view);
+        registerForContextMenu(view);
     }
 }

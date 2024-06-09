@@ -15,7 +15,7 @@ public class RetrofitClient {
     public static Retrofit getClient() {
         if (retrofit == null) {
             Gson gson = new GsonBuilder()
-                    .setLenient()  // Permitir JSON mal formado, si es necesario
+                    .setLenient()
                     .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

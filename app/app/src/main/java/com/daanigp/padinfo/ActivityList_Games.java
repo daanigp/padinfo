@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,6 +58,7 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
         token = SharedPreferencesManager.getInstance(ActivityList_Games.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
+        setDayNight();
         getGames();
 
         lista = (ListView) findViewById(R.id.listaPartidos);
@@ -84,9 +86,18 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
 
     }
 
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE EL PARTIDO -> " + games.get(position).getId());
+        showToast("EQUIPO GANADOR -> " + games.get(position).getWinnerTeam());
     }
 
     @Override
@@ -104,7 +115,6 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
 
         switch (id) {
             case R.id.itemEditar:
-                showToast("EDITAR -> " + game.getId());
                 Intent intentEditarPartido = new Intent(ActivityList_Games.this, ActivityEdit_Create_Game.class);
                 intentEditarPartido.putExtra("idGame", game.getId());
                 startActivityForResult(intentEditarPartido, EDIT_GAME);
@@ -169,7 +179,6 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
                         games.add(game);
                     }
 
-                    // Notificar al adapter que los datos han cambiado
                     gameAdapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");

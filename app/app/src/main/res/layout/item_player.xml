@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#C1C1C1"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
         app:cardPreventCornerOverlap="true"
@@ -39,10 +39,10 @@
 
             <TextView
                 android:id="@+id/txtNumeroRanking"
-                android:layout_width="54dp"
-                android:layout_height="64dp"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
                 android:layout_marginStart="44dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="TextView"
                 android:textColor="#FF9800"
                 android:textSize="30dp"
@@ -55,7 +55,6 @@
                 android:layout_width="118dp"
                 android:layout_height="147dp"
                 android:layout_marginStart="16dp"
-                android:background="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
@@ -48,10 +50,11 @@ public class ActivitySignupUser extends AppCompatActivity {
         imgApp.setImageResource(R.drawable.padinfo_logo);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
+        setDayNight();
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Cancelar");
+                showToast("No has registrado ningún usuario");
                 finish();
             }
         });
@@ -86,6 +89,15 @@ public class ActivitySignupUser extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private boolean validationEmail(String email) {
@@ -138,8 +150,12 @@ public class ActivitySignupUser extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseEntity> call, retrofit2.Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
-                    Log.v(TAG, "No va (userExists) -> response");
-                    showToast("Código error: " + response.code());
+                    if (response.code() == 502) {
+                        showToast("El servidor no funciona");
+                    } else {
+                        Log.v(TAG, "No va (userExists) -> response");
+                        showToast("Código error: " + response.code());
+                    }
                     return;
                 }
 

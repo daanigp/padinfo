@@ -1,6 +1,7 @@
 package com.daanigp.padinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,8 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
         imgTournament = (ImageView) findViewById(R.id.imgTournament);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Tournament.this).getToken();
+        imgTournament.setImageResource(R.drawable.campo_padel);
+
 
         // Para los partidos que se quieren editar
         idTournament = getIntent().getLongExtra("idTournament", 0);
@@ -50,6 +53,8 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
             autocompleteTournamentInfo();
             edit = true;
         }
+
+        setDayNight();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +71,7 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
                 String name, city;
                 name = txtNameT.getText().toString();
                 city = txtCityT.getText().toString();
+                image = "campo_padel";
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(city)) {
                     showToast("Debes rellenar todos los datos");
@@ -86,6 +92,15 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private boolean isEmptyOrNull(String str){
