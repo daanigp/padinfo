@@ -55,6 +55,7 @@
     <string name="add_points">Add points</string>
     <string name="del_points">Delete points</string>
     <string name="tema">Dark theme</string>
+    <string name="generoMasc">Male</string>
 
     <string-array name="generos">
         <item>MALE</item>

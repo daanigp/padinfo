@@ -98,7 +98,10 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast(players.get(position).getName());
+        //showToast(players.get(position).getName());
+        Intent viewTournmanet = new Intent(ActivityList_Ranking.this, ActivityPlayer.class);
+        viewTournmanet.putExtra("idPlayer", players.get(position).getId());
+        startActivity(viewTournmanet);
     }
 
     @Override
