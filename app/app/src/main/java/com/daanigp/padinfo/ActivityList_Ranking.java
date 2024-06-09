@@ -115,7 +115,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int opcionID = item.getItemId();
 
-        if (opcionID == R.id.itemCreateTournament)  {
+        if (opcionID == R.id.itemCreatePlayer)  {
             Intent intentAddGame = new Intent(ActivityList_Ranking.this, ActivityEdit_Create_Player.class);
             startActivityForResult(intentAddGame, CREATE_PLAYER);
             return true;
