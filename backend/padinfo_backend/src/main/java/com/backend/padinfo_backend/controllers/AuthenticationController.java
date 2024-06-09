@@ -8,6 +8,11 @@ import com.backend.padinfo_backend.mappers.UserInfoMapper;
 import com.backend.padinfo_backend.model.entity.UserInfo;
 import com.backend.padinfo_backend.model.service.Authentication.IAuthenticationService;
 import com.backend.padinfo_backend.model.service.UserInfo.UserInfoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Autentificacion_padinfo", description = "Autentificación para el uso de la app de padinfo")
+@Tag(name = "Autentificacion padinfo", description = "Autentificación para el uso de la app de padinfo")
 public class AuthenticationController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -30,6 +35,12 @@ public class AuthenticationController {
     @Autowired
     private UserInfoService userInfoService;
 
+
+    @Operation(summary = "Método que registra un nuevo usuario en la base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Registra el usuario",
+                    content = @Content(schema = @Schema(implementation = Response.class)))
+    })
     @PostMapping("/signup")
     public ResponseEntity<Response> register(@RequestBody CreateUserDTO createUserDTO) {
         UserInfo user = userInfoMapper.fromDTO(createUserDTO);
@@ -41,6 +52,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(Response.noErrorResponse(message), HttpStatus.OK);
     }
 
+    @Operation(summary = "Método que devuelve un token cuando un usuario se loguea correctamente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario logueado",
+                    content = @Content(schema = @Schema(implementation = String.class)))
+    })
     @PostMapping("/login")
     public ResponseEntity<String> authenticate(@RequestBody LoginUserDTO loginUserDTO) {
         UserInfo loginUser = userInfoMapper.fromDTO(loginUserDTO);
@@ -49,10 +65,5 @@ public class AuthenticationController {
         String jwtToken = jwtTokenProvider.generateToken(authenticatedUser);
 
         return ResponseEntity.ok(jwtToken);
-    }
-
-    @GetMapping("/hola")
-    public String saludo() {
-        return "AAAAA";
     }
 }

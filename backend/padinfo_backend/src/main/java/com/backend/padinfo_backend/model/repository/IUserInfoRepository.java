@@ -16,16 +16,12 @@ public interface IUserInfoRepository extends CrudRepository<UserInfo, Long> {
 
     Optional<UserInfo> findByUsername(String username);
 
-    // 5. Obtener el usuario conectado
     Integer selectUserIsConnectedByUserId(Long id);
 
-    // 13. Obtener el UserInfo segun nombre de usuario
     UserInfo selectUserInfoByUsername(String user);
 
-    // Obtener si existe un usuario con username x
     boolean existsByUsername(String username);
 
-    // Obtener los roles de un usuario con id x
     List<Long> getRolesByUserId(Long id);
 
 }
