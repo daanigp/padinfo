@@ -156,7 +156,9 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()) {
-                    if (response.code() == 404) {
+                    if (response.code() == 401) {
+                        showToast("Usuario o contraseña incorrectos.");
+                    } else if (response.code() == 404) {
                         showToast("Usuario o contraseña incorrectos.");
                     } else if (response.code() == 502) {
                         showToast("El servidor no funciona");
@@ -201,8 +203,12 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getIdUser) -> response");
-                    showToast("Código error: " + response.code());
+                    if (response.code() == 500) {
+                        showToast("Usuario o contraseña incorrectos");
+                    } else {
+                        Log.v(TAG, "No va (getIdUser) -> response");
+                        showToast("Código error: " + response.code());
+                    }
                     return;
                 }
 

@@ -82,7 +82,6 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        showToast(tournamnets.get(position).getName());
         Intent viewTournmanet = new Intent(ActivityList_Tournament.this, ActivityTournament.class);
         viewTournmanet.putExtra("idTournament", tournamnets.get(position).getId());
         startActivity(viewTournmanet);

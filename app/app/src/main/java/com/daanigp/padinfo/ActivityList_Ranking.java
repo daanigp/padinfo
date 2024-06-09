@@ -98,7 +98,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //showToast(players.get(position).getName());
         Intent viewTournmanet = new Intent(ActivityList_Ranking.this, ActivityPlayer.class);
         viewTournmanet.putExtra("idPlayer", players.get(position).getId());
         startActivity(viewTournmanet);
@@ -161,15 +160,11 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
         if(requestCode == CREATE_PLAYER) {
             if (resultCode == RESULT_OK) {
-                adapter.notifyDataSetChanged();
                 getPlayers(selectGender());
-                chekUserType();
             }
         } else if (requestCode == EDIT_PLAYER) {
             if (resultCode == RESULT_OK) {
-                adapter.notifyDataSetChanged();
                 getPlayers(selectGender());
-                chekUserType();
             }
         }
     }
@@ -234,12 +229,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                         player.setGender(p.getGender());
                         player.setRankingPosition(p.getRankingPosition());
                         player.setImageURL(p.getImageURL());
-
-                        Log.v(TAG, "id -> " + p.getId());
-                        Log.v(TAG, "nombre -> " + p.getName());
-                        Log.v(TAG, "puntos -> " + p.getPoints());
-                        Log.v(TAG, "posicion -> " + p.getRankingPosition());
-                        Log.v(TAG, "IMAGEN URL -> " + p.getImageURL());
 
                         players.add(player);
                     }

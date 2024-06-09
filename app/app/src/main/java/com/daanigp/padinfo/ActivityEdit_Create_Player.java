@@ -49,6 +49,8 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Player.this).getToken();
         imgPlayer.setImageResource(R.drawable.player_img);
 
+        image = "";
+
         idPlayer = getIntent().getLongExtra("idPlayer", 0);
         if (idPlayer != 0) {
             autocompletePlayerInfo();
@@ -71,14 +73,14 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
             public void onClick(View v) {
                 String name, points, rankingPos, gender;
                 name = txtName.getText().toString();
-                points = txtPoints.getText().toString() + " puntos";
+                points = txtPoints.getText().toString();
                 rankingPos = txtRankingPos.getText().toString();
                 gender = selectGender();
-                image = "player_img";
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(points) || isEmptyOrNull(rankingPos)) {
                     showToast("Debes rellenar todos los datos");
                 } else {
+                    points += " puntos";
                     CreateUpdatePlayer player = new CreateUpdatePlayer();
                     player.setName(name);
                     player.setGender(gender);
@@ -161,6 +163,8 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
     }
 
     private void saveNewPlayer(CreateUpdatePlayer player) {
+        player.setImageURL("player_img");
+
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<Player> call = padinfoApi.createPlayer(token, player);
 

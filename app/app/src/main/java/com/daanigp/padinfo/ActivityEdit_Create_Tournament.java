@@ -45,7 +45,7 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Tournament.this).getToken();
         imgTournament.setImageResource(R.drawable.campo_padel);
-
+        image = "";
 
         // Para los partidos que se quieren editar
         idTournament = getIntent().getLongExtra("idTournament", 0);
@@ -71,7 +71,6 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
                 String name, city;
                 name = txtNameT.getText().toString();
                 city = txtCityT.getText().toString();
-                image = "campo_padel";
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(city)) {
                     showToast("Debes rellenar todos los datos");
@@ -139,6 +138,8 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
     }
 
     private void saveNewTournament(CreateUpdateTournament tournament) {
+        tournament.setImageURL("campo_padel");
+
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
         Call<Tournament> call = padinfoApi.createTournament(token, tournament);
 

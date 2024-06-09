@@ -237,65 +237,69 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                 equipoGanador = 0;
 
-                if (checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1") && checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2")) {
-                    if (setWonByTeam1(ptosSet1Eq1, ptosSet1Eq2)) { // 1 - 0
-                        if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
-                            binding.txtPtosSet3Eq1P.setText("0");
-                            binding.txtPtosSet3Eq2P.setText("0");
-                            equipoGanador = 1;
+                if (!isNullOrEmpty(nomJugador1) && !isNullOrEmpty(nomJugador2) && !isNullOrEmpty(nomJugador3) && !isNullOrEmpty(nomJugador4)) {
+                    if (checkSetPoints(ptosSet1Eq1, ptosSet1Eq2, "SET 1") && checkSetPoints(ptosSet2Eq1, ptosSet2Eq2, "SET 2")) {
+                        if (setWonByTeam1(ptosSet1Eq1, ptosSet1Eq2)) { // 1 - 0
+                            if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
+                                binding.txtPtosSet3Eq1P.setText("0");
+                                binding.txtPtosSet3Eq2P.setText("0");
+                                equipoGanador = 1;
 
-                            save = true;
-                        } else { // 1 - 1
-                            puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
-                            puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
-                            ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
-                            ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
+                                save = true;
+                            } else { // 1 - 1
+                                puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
+                                puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
+                                ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
+                                ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
 
-                            if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
-                                if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    equipoGanador = 1;
-                                } else { // 1 - 2
-                                    equipoGanador = 2;
+                                if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
+                                    if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
+                                        equipoGanador = 1;
+                                    } else { // 1 - 2
+                                        equipoGanador = 2;
+                                    }
+
+                                    save = true;
                                 }
+                            }
+                        } else { // 0 - 1
+                            if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 1 - 1
+                                puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
+                                puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
+                                ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
+                                ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
+
+                                if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
+                                    if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
+                                        equipoGanador = 1;
+                                    } else { // 1 - 2
+                                        equipoGanador = 2;
+                                    }
+
+                                    save = true;
+                                }
+                            } else { // 0 - 2
+                                binding.txtPtosSet3Eq1P.setText("0");
+                                binding.txtPtosSet3Eq2P.setText("0");
+                                equipoGanador = 2;
 
                                 save = true;
                             }
                         }
-                    } else { // 0 - 1
-                        if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 1 - 1
-                            puntosSet3Eq1 = binding.txtPtosSet3Eq1P.getText().toString();
-                            puntosSet3Eq2 = binding.txtPtosSet3Eq2P.getText().toString();
-                            ptosSet3Eq1 = Integer.parseInt(puntosSet3Eq1);
-                            ptosSet3Eq2 = Integer.parseInt(puntosSet3Eq2);
 
-                            if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
-                                if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    equipoGanador = 1;
-                                } else { // 1 - 2
-                                    equipoGanador = 2;
-                                }
+                    }
 
-                                save = true;
-                            }
-                        } else { // 0 - 2
-                            binding.txtPtosSet3Eq1P.setText("0");
-                            binding.txtPtosSet3Eq2P.setText("0");
-                            equipoGanador = 2;
-
-                            save = true;
+                    if (save) {
+                        if (editar) {
+                            UpdateGame updateGame = new UpdateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador);
+                            updateGame(updateGame);
+                        } else {
+                            CreateGame newGame = new CreateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador, userId);
+                            saveGame(newGame);
                         }
                     }
-
-                }
-
-                if (save) {
-                    if (editar) {
-                        UpdateGame updateGame = new UpdateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador);
-                        updateGame(updateGame);
-                    } else {
-                        CreateGame newGame = new CreateGame(nomJugador1, nomJugador2, nomJugador3, nomJugador4, ptosSet1Eq1, ptosSet1Eq2, ptosSet2Eq1, ptosSet2Eq2, ptosSet3Eq1, ptosSet3Eq2, equipoGanador, userId);
-                        saveGame(newGame);
-                    }
+                } else {
+                    showToast("Debes rellenar todos los campos");
                 }
             }
         });
@@ -308,6 +312,10 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
     }
 
     public void setDayNight() {
@@ -346,9 +354,9 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
             return true;
         } else if (ptos1 < 6 && ptos2 == 6) {
             return true;
-        } else if (ptos1 == 7 && ptos2 >= 5) {
+        } else if (ptos1 == 7 && (ptos2 >= 5 && ptos2 <7)) {
             return true;
-        } else if (ptos1 >= 5 && ptos2 == 7) {
+        } else if ((ptos1 >= 5 && ptos1 <7) && ptos2 == 7) {
             return true;
         } else {
             showToast("No se puede guardar el " + set +".");
