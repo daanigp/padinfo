@@ -64,7 +64,7 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + RankingDataSource.rankingFem.get(position).getName());
+        showToast(RankingDataSource.rankingFem.get(position).getName());
     }
 
     public void setDayNight() {
@@ -122,7 +122,6 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
                         }
                     });
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");

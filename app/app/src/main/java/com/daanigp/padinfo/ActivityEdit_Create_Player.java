@@ -231,7 +231,7 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (autocompletePlayerInfo)", t);
-                showToast("Código error: " + t.getMessage());
+                showToast("Error: " + t.getMessage());
                 txtName.setText("vacío");
                 txtPoints.setText("0");
                 txtRankingPos.setText("0");

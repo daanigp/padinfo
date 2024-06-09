@@ -74,7 +74,7 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + players.get(position).getName());
+        showToast(players.get(position).getName());
     }
 
     private void getPlayers() {
@@ -112,7 +112,6 @@ public class ActivityRanking_Masc extends AppCompatActivity implements AdapterVi
                         }
                     });
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");

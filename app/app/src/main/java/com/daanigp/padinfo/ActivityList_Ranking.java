@@ -55,8 +55,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_ranking);
 
         btnVolverMenu = (Button) findViewById(R.id.btnVolverMenu);
-        //btnRankFem = (Button) findViewById(R.id.btnRankFem);
-        //btnRankMasc = (Button) findViewById(R.id.btnRankMasc);
         spinner = (Spinner) findViewById(R.id.spinnerGenderP);
 
         players = new ArrayList<>();
@@ -142,7 +140,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
         switch (id) {
             case R.id.itemEditar:
-                showToast("EDITAR -> " + player.getId());
                 Intent intentEditTournament = new Intent(ActivityList_Ranking.this, ActivityEdit_Create_Player.class);
                 intentEditTournament.putExtra("idPlayer", player.getId());
                 startActivityForResult(intentEditTournament, EDIT_PLAYER);
@@ -251,7 +248,6 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                         }
                     });
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");
@@ -306,7 +302,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
                 if (res.getMessege().equalsIgnoreCase("Borrado")) {
                     players.remove(player);
                     adapter.notifyDataSetChanged();
-                    showToast("Jugador/a eliminado.");
+                    showToast("Jugador eliminado.");
                 } else {
                     showToast("No se ha podido eliminar el jugador.");
                 }

@@ -123,7 +123,6 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
 
         switch (id) {
             case R.id.itemEditar:
-                showToast("EDITAR -> " + tournament.getId());
                 Intent intentEditTournament = new Intent(ActivityList_Tournament.this, ActivityEdit_Create_Tournament.class);
                 intentEditTournament.putExtra("idTournament", tournament.getId());
                 startActivityForResult(intentEditTournament, EDIT_TOURNAMENT);
@@ -200,7 +199,6 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
                         tournamnets.add(tor);
                     }
 
-                    // Notificar al adapter que los datos han cambiado
                     adapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");

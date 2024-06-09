@@ -110,7 +110,6 @@ public class ActivityLogin extends AppCompatActivity {
             public void onClick(View v) {
                 txtUsuario.setText("");
                 txtPassword.setText("");
-                showToast("Registro");
                 Intent intentRegistro = new Intent(ActivityLogin.this, ActivitySignupUser.class);
                 startActivity(intentRegistro);
             }
@@ -119,7 +118,7 @@ public class ActivityLogin extends AppCompatActivity {
         btnInicioInvitado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("INICIO DE SESIÓN COMO INVITADO");
+                showToast("Has iniciado sesión como invitado");
                 txtUsuario.setText("");
                 txtPassword.setText("");
                 CreateUser createUser = new CreateUser();
@@ -172,7 +171,6 @@ public class ActivityLogin extends AppCompatActivity {
                 String token = response.body();
 
                 if (token != null) {
-                    // Save the token and username in SharedPreferences
                     token = "Bearer " + token;
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveToken(token);
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(user);
@@ -213,7 +211,6 @@ public class ActivityLogin extends AppCompatActivity {
                 if (user != null) {
                     long id = user.getId();
 
-                    // Save the userID and in SharedPreferences
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(id);
                     Log.v(TAG, "INICIO SESION - id -> " + id);
                     checkUserConnectivity(id, callback);
@@ -248,10 +245,8 @@ public class ActivityLogin extends AppCompatActivity {
                 if (isConnectedAPI == null) {
                     showToast("Error en la respuesta del servidor");
                 } else if (isConnectedAPI == 0) {
-                    //isConnected = false;
                     callback.onConnectivityChecked(false);
                 } else {
-                    //isConnected = true;
                     callback.onConnectivityChecked(true);
                 }
 

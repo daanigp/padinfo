@@ -54,7 +54,7 @@ public class ActivitySignupUser extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Cancelar");
+                showToast("No has registrado ningún usuario");
                 finish();
             }
         });
@@ -150,8 +150,12 @@ public class ActivitySignupUser extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseEntity> call, retrofit2.Response<ResponseEntity> response) {
                 if (!response.isSuccessful()) {
-                    Log.v(TAG, "No va (userExists) -> response");
-                    showToast("Código error: " + response.code());
+                    if (response.code() == 502) {
+                        showToast("El servidor no funciona");
+                    } else {
+                        Log.v(TAG, "No va (userExists) -> response");
+                        showToast("Código error: " + response.code());
+                    }
                     return;
                 }
 

@@ -115,7 +115,6 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
 
         switch (id) {
             case R.id.itemEditar:
-                showToast("EDITAR -> " + game.getId());
                 Intent intentEditarPartido = new Intent(ActivityList_Games.this, ActivityEdit_Create_Game.class);
                 intentEditarPartido.putExtra("idGame", game.getId());
                 startActivityForResult(intentEditarPartido, EDIT_GAME);
@@ -180,7 +179,6 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
                         games.add(game);
                     }
 
-                    // Notificar al adapter que los datos han cambiado
                     gameAdapter.notifyDataSetChanged();
                 } else {
                     showToast("Error en la respuesta del servidor");

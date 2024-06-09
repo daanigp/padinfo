@@ -242,7 +242,6 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                         if (setWonByTeam1(ptosSet2Eq1, ptosSet2Eq2)) { // 2 - 0
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
-                            //showToast("Equipo 1 gana el PARTIDO.");
                             equipoGanador = 1;
 
                             save = true;
@@ -254,10 +253,8 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                             if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
                                 if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    //showToast("Equipo 1 gana el PARTIDO.");
                                     equipoGanador = 1;
                                 } else { // 1 - 2
-                                    //showToast("Equipo 2 gana el PARTIDO.");
                                     equipoGanador = 2;
                                 }
 
@@ -273,10 +270,8 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                             if (checkSetPoints(ptosSet3Eq1, ptosSet3Eq2, "SET 3")) {
                                 if (setWonByTeam1(ptosSet3Eq1, ptosSet3Eq2)) { // 2 - 1
-                                    //showToast("Equipo 1 gana el PARTIDO.");
                                     equipoGanador = 1;
                                 } else { // 1 - 2
-                                    //showToast("Equipo 2 gana el PARTIDO.");
                                     equipoGanador = 2;
                                 }
 
@@ -285,7 +280,6 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                         } else { // 0 - 2
                             binding.txtPtosSet3Eq1P.setText("0");
                             binding.txtPtosSet3Eq2P.setText("0");
-                            //showToast("Equipo 2 gana el PARTIDO.");
                             equipoGanador = 2;
 
                             save = true;
@@ -462,7 +456,6 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
                         maxIdGame = 1;
                     }
                 }
-                showToast("ID MAX GAME -> " + maxIdGame);
             }
 
             @Override

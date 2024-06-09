@@ -119,28 +119,24 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
                 startActivity(intentPartidos);
                 return true;
             case R.id.itemCerrarSesion:
-                showToast("Cerrar Sessión");
+                showToast("Cerrando sesión...");
+
                 putUserDisconnected();
                 SharedPreferencesManager.getInstance(Activity_Initiate.this).clear();
                 Intent intentInicioSes = new Intent(Activity_Initiate.this, ActivityLogin.class);
                 startActivity(intentInicioSes);
                 return true;
             case R.id.itemInicioSesion:
-                showToast("Iniciar Sessión");
-
                 SharedPreferencesManager.getInstance(Activity_Initiate.this).clear();
                 Intent intentInicioSesion = new Intent(Activity_Initiate.this, ActivityLogin.class);
                 startActivityForResult(intentInicioSesion, USER_LOGIN);
                 return true;
             case R.id.itemDeleteAccount:
-                showToast("Eliminar cuenta");
                 showPopupMenu();
                 return true;
             case R.id.itemSalir:
                 showToast("Saliendo de la aplicación...");
 
-                //usuarioRegistrado = false;
-                //invalidateOptionsMenu();
                 putUserDisconnected();
                 SharedPreferencesManager.getInstance(Activity_Initiate.this).clear();
                 finishAffinity();
@@ -156,7 +152,6 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         if (requestCode == USER_LOGIN) {
             if (resultCode == RESULT_OK) {
                 getRolesByUserId();
-                //selectTypeMenuByUserRole();
                 invalidateOptionsMenu();
             }
         }
@@ -211,7 +206,6 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         clickableSpanPremierPadel = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
                 Intent intentPremierPadel = new Intent(Intent.ACTION_VIEW, Uri.parse(premierPadel));
                 startActivity(intentPremierPadel);
             }
@@ -223,7 +217,6 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         clickableSpanRankMasc = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
                 Intent intentRankMasc = new Intent(Intent.ACTION_VIEW, Uri.parse(rankingMasculino));
                 startActivity(intentRankMasc);
             }
@@ -235,22 +228,19 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         clickableSpanRankFem = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                // Acción al hacer clic en el enlace (por ejemplo, abrir en un navegador)
                 Intent intentRankFem = new Intent(Intent.ACTION_VIEW, Uri.parse(rankingFemenino));
                 startActivity(intentRankFem);
             }
         };
         rankFemSpanneable.setSpan(clickableSpanRankFem, textoRankFem.length(), textoRankFemCompleto.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        // Creamos un SpannableStringBuilder, para poner los enlaces uno encima del otro
         SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(premierPadelSpanneable);
-        builder.append("\n"); // Nueva línea entre los enlaces
+        builder.append("\n");
         builder.append(rankMascSpanneable);
-        builder.append("\n"); // Nueva línea entre los enlaces
+        builder.append("\n");
         builder.append(rankFemSpanneable);
 
-        // Añadimos los spanneables al text view
         txtInfoApp_webs.setText(builder);
         txtInfoApp_webs.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -299,10 +289,8 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
                 List<Long> rolIdAPI = response.body();
 
                 if (rolIdAPI != null && !rolIdAPI.isEmpty()) {
-                    // Save the rolesID and in SharedPreferences
                     SharedPreferencesManager.getInstance(Activity_Initiate.this).saveRolesId(rolIdAPI);
                     rolesId = (ArrayList<Long>) rolIdAPI;
-                    showToast("ROles -> " + rolesId);
 
                     Log.e(TAG, "Listado ROLES -> " + rolesId);
 
