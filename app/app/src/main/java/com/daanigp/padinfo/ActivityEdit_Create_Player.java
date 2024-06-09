@@ -47,6 +47,7 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btnSaveP);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Player.this).getToken();
+        imgPlayer.setImageResource(R.drawable.player_img);
 
         idPlayer = getIntent().getLongExtra("idPlayer", 0);
         if (idPlayer != 0) {
@@ -73,6 +74,7 @@ public class ActivityEdit_Create_Player extends AppCompatActivity {
                 points = txtPoints.getText().toString() + " puntos";
                 rankingPos = txtRankingPos.getText().toString();
                 gender = selectGender();
+                image = "player_img";
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(points) || isEmptyOrNull(rankingPos)) {
                     showToast("Debes rellenar todos los datos");

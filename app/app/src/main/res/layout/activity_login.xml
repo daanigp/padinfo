@@ -57,11 +57,12 @@
         android:layout_height="55dp"
         android:layout_marginTop="20dp"
         android:background="#C1C1C1"
-        android:backgroundTint="#C1C1C1"
         android:ems="10"
         android:hint="@string/usu"
         android:inputType="text"
+        android:paddingLeft="10dp"
         android:textColor="#000000"
+        android:textColorHint="#353535"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swithTema" />
@@ -75,7 +76,9 @@
         android:ems="10"
         android:hint="@string/contra"
         android:inputType="textPassword"
+        android:paddingLeft="10dp"
         android:textColor="#000000"
+        android:textColorHint="#353535"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTxtUsuario" />
@@ -104,7 +107,11 @@
         android:layout_marginStart="120dp"
         android:layout_marginTop="20dp"
         android:background="#C1C1C1"
+        android:paddingLeft="10dp"
         android:text="@string/tema"
+        android:textColor="#000000"
+        android:thumbTint="#03A9F4"
+        android:trackTint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgApp" />
 

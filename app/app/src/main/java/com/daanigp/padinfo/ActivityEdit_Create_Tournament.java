@@ -44,6 +44,8 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
         imgTournament = (ImageView) findViewById(R.id.imgTournament);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Tournament.this).getToken();
+        imgTournament.setImageResource(R.drawable.campo_padel);
+
 
         // Para los partidos que se quieren editar
         idTournament = getIntent().getLongExtra("idTournament", 0);
@@ -69,6 +71,7 @@ public class ActivityEdit_Create_Tournament extends AppCompatActivity {
                 String name, city;
                 name = txtNameT.getText().toString();
                 city = txtCityT.getText().toString();
+                image = "campo_padel";
 
                 if (isEmptyOrNull(name) || isEmptyOrNull(city)) {
                     showToast("Debes rellenar todos los datos");

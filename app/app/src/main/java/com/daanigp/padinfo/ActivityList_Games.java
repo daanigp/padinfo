@@ -97,7 +97,7 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE EL PARTIDO -> " + games.get(position).getId());
+        showToast("EQUIPO GANADOR -> " + games.get(position).getWinnerTeam());
     }
 
     @Override

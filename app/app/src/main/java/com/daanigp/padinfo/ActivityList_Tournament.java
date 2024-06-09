@@ -82,7 +82,7 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + tournamnets.get(position).getName());
+        showToast(tournamnets.get(position).getName());
     }
 
     @Override
@@ -275,10 +275,8 @@ public class ActivityList_Tournament extends AppCompatActivity implements Adapte
     }
 
     private void updateContextMenu() {
-        // Este método se puede llamar cuando necesitas actualizar el menú contextual
-        // por ejemplo, después de obtener roles del servidor.
-        View view = findViewById(R.id.listaTorneos); // Reemplaza con el ID de la vista que tiene el menú contextual
-        unregisterForContextMenu(view); // Desregistrar el menú contextual anterior
-        registerForContextMenu(view); // Registrar de nuevo el menú contextual
+        View view = findViewById(R.id.listaTorneos);
+        unregisterForContextMenu(view);
+        registerForContextMenu(view);
     }
 }

@@ -8,6 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#C1C1C1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nombre jugador 1"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textColorHint="#353535" />
 
             <EditText
                 android:id="@+id/editTxtNombreJug2_p"
@@ -41,7 +44,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nombre jugador 2"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textColorHint="#353535" />
 
             <TextView
                 android:id="@+id/textViewPuntosEq1_p"
@@ -66,6 +71,7 @@
                     android:text="@string/set1"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -87,7 +93,8 @@
                     android:layout_weight="1"
                     android:hint="0"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet1_1_p"
@@ -115,6 +122,7 @@
                     android:text="@string/set2"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -136,7 +144,8 @@
                     android:layout_weight="1"
                     android:hint="0"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet2_1_p"
@@ -165,6 +174,7 @@
                     android:text="@string/set3"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -186,7 +196,8 @@
                     android:layout_weight="1"
                     android:hint="0"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet3_1_p"
@@ -216,7 +227,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nombre jugador 3"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textColorHint="#353535" />
 
             <EditText
                 android:id="@+id/editTxtNombreJug4_p"
@@ -224,7 +237,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nombre jugador 4"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000"
+                android:textColorHint="#353535" />
 
             <TextView
                 android:id="@+id/textViewPuntosEq2_p"
@@ -249,6 +264,7 @@
                     android:text="@string/set1"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -270,7 +286,8 @@
                     android:layout_weight="1"
                     android:hint="0"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet1_2_p"
@@ -298,6 +315,7 @@
                     android:text="@string/set2"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -319,7 +337,8 @@
                     android:layout_weight="1"
                     android:hint="0"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet2_2_p"
@@ -347,6 +366,7 @@
                     android:text="@string/set3"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="#000000"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -368,7 +388,8 @@
                     android:layout_weight="1"
                     android:hint="0"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet3_2_p"

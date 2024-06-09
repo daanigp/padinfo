@@ -100,7 +100,7 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast("HAS PULSADO SOBRE -> " + players.get(position).getName());
+        showToast(players.get(position).getName());
     }
 
     @Override
@@ -326,10 +326,8 @@ public class ActivityList_Ranking extends AppCompatActivity implements AdapterVi
     }
 
     private void updateContextMenu() {
-        // Este método se puede llamar cuando necesitas actualizar el menú contextual
-        // por ejemplo, después de obtener roles del servidor.
-        View view = findViewById(R.id.listRanking); // Reemplaza con el ID de la vista que tiene el menú contextual
-        unregisterForContextMenu(view); // Desregistrar el menú contextual anterior
-        registerForContextMenu(view); // Registrar de nuevo el menú contextual
+        View view = findViewById(R.id.listRanking);
+        unregisterForContextMenu(view);
+        registerForContextMenu(view);
     }
 }

@@ -53,7 +53,7 @@ public class ActivityEdit_User extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("No has hehco ningún cambio.");
+                showToast("No has hecho ningún cambio.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
