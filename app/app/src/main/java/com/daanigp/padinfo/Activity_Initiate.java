@@ -377,12 +377,13 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         long idUser = SharedPreferencesManager.getInstance(Activity_Initiate.this).getUserId();
 
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<ResponseEntity> call = padinfoApi.deletePlayerById(token, idUser);
+        Call<ResponseEntity> call = padinfoApi.deleteUserById(token, idUser);
 
         call.enqueue(new Callback<ResponseEntity>() {
             @Override
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (delete) -> response - Activity_Initiate" + response.message());
                     showToast("1-Código error - (deleteAccount): " + response.code());
                     return;
                 }

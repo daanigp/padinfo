@@ -158,6 +158,12 @@ public interface IPadinfo_API {
         @Path("id") long id
     );
 
+    @DELETE("users/deleteUser/{id}")
+    Call<ResponseEntity> deleteUserById(
+            @Header("Authorization") String token,
+            @Path("id") long id
+    );
+
 
 
 
