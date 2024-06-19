@@ -1,5 +1,6 @@
 package com.daanigp.padinfo.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -104,20 +105,6 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
         completeTheWebsInfo();
         putVideoTopHighlights();
 
-        video.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (!mc.isShowing()) {
-                        mc.show();
-                    } else {
-                        mc.hide();
-                    }
-                }
-                return true;
-            }
-        });
-
         return root;
     }
 
@@ -209,6 +196,7 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
         txtInfoApp_webs.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void putVideoTopHighlights() {
         mc = new MediaController(getContext());
         mc.setMediaPlayer(this);
@@ -221,12 +209,27 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
         video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                HomeFragment.this.mp = mp;
                 h.post(new Runnable() {
                     @Override
                     public void run() {
                         mc.show();
                     }
                 });
+            }
+        });
+
+        video.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (!mc.isShowing()) {
+                        mc.show();
+                    } else {
+                        mc.hide();
+                    }
+                }
+                return true;
             }
         });
     }
