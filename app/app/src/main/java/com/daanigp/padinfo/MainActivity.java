@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
             selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
             bottomNavigation.setSelectedItemId(selectedItemId);
         }
+
+        setDayNight();
+        //getRolesByUserId();
     }
 
     @Override
@@ -136,6 +140,15 @@ public class MainActivity extends AppCompatActivity {
                 getRolesByUserId();
                 invalidateOptionsMenu();
             }
+        }
+    }
+
+    public void setDayNight() {
+        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+        if (theme == 0) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
