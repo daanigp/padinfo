@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp" >
+
+        <ImageView
+            android:id="@+id/imgPerfil"
+            android:layout_width="167dp"
+            android:layout_height="154dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/padinfo_logo" />
+
+        <TextView
+            android:id="@+id/txtNombreUsuario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgPerfil"
+            android:layout_width="298dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
+            android:background="#C1C1C1"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/nombreTxt"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="229dp" />
+
+        <TextView
+            android:id="@+id/txtApellidos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNombreUsuario"
+            android:layout_width="298dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="28dp"
+            android:background="#C1C1C1"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/apellidosTxt"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtApellidos"
+            android:layout_width="298dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="28dp"
+            android:background="#C1C1C1"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/emailTxt"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="599dp" />
+
+        <Button
+            android:id="@+id/btnEditar"
+            android:layout_width="133dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="128dp"
+            android:backgroundTint="#2196F3"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/editar"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:cornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

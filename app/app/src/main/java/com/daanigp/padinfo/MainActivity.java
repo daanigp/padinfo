@@ -1,0 +1,327 @@
+package com.daanigp.padinfo;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Fragments.HomeFragment;
+import com.daanigp.padinfo.Fragments.PlayerListFragment;
+import com.daanigp.padinfo.Fragments.ProfileFragment;
+import com.daanigp.padinfo.Fragments.TournamentListFragment;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainActivity extends AppCompatActivity {
+
+    public static int USER_LOGIN = 1;
+    private static final String TAG = "MAIN_ACTIVITY";
+    private static final String SELECTED_ITEM_KEY = "KEY_SELECTED_ITEM";
+    int selectedItemId;
+    BottomNavigationView bottomNavigation;
+    View message_layout;
+    private  boolean registredUser = true;
+    ArrayList<Long> rolesId = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(m0nNavigationItemSelectedListener);
+
+        if (registredUser) {
+            loadMenuUser_Admin();
+        } else {
+            loadMenuGuest();
+        }
+
+        if (savedInstanceState == null) {
+            bottomNavigation.setSelectedItemId(R.id.home);
+        } else {
+            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
+            bottomNavigation.setSelectedItemId(selectedItemId);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_ITEM_KEY, bottomNavigation.getSelectedItemId());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (registredUser) {
+            getMenuInflater().inflate(R.menu.dinamicmenu_user_admin, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.dinamicmenu_guest, menu);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int opcionID = item.getItemId();
+
+        switch (opcionID) {
+            case R.id.itemRegistrarPartidos:
+                showToast("Partidos");
+
+                Intent intentPartidos = new Intent(MainActivity.this, ActivityList_Games.class);
+                startActivity(intentPartidos);
+                return true;
+            case R.id.itemCerrarSesion:
+                showToast("Cerrando sesión...");
+
+                putUserDisconnected();
+                SharedPreferencesManager.getInstance(MainActivity.this).clear();
+                Intent intentInicioSes = new Intent(MainActivity.this, ActivityLogin.class);
+                startActivity(intentInicioSes);
+                return true;
+            case R.id.itemInicioSesion:
+                SharedPreferencesManager.getInstance(MainActivity.this).clear();
+                Intent intentInicioSesion = new Intent(MainActivity.this, ActivityLogin.class);
+                startActivityForResult(intentInicioSesion, USER_LOGIN);
+                return true;
+            case R.id.itemDeleteAccount:
+                showPopupMenu();
+                return true;
+            case R.id.itemSalir:
+                showToast("Saliendo de la aplicación...");
+
+                putUserDisconnected();
+                SharedPreferencesManager.getInstance(MainActivity.this).clear();
+                finishAffinity();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == USER_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                getRolesByUserId();
+                invalidateOptionsMenu();
+            }
+        }
+    }
+
+    private void getRolesByUserId() {
+        String token = SharedPreferencesManager.getInstance(MainActivity.this).getToken();
+        long userId = SharedPreferencesManager.getInstance(MainActivity.this).getUserId();
+
+        Log.v(TAG, "TOKEN -> " + token);
+        Log.v(TAG, "userId -> " + userId);
+
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<List<Long>> call = padinfoApi.getRolesByUserId(token, userId);
+
+        call.enqueue(new Callback<List<Long>>() {
+            @Override
+            public void onResponse(Call<List<Long>> call, Response<List<Long>> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getRolesByUserId) -> response - getRolesByUserId - MainActivity" + response.body());
+                    showToast("Código error: " + response.code());
+                    return;
+                }
+
+                List<Long> rolIdAPI = response.body();
+
+                if (rolIdAPI != null && !rolIdAPI.isEmpty()) {
+                    SharedPreferencesManager.getInstance(MainActivity.this).saveRolesId(rolIdAPI);
+                    rolesId = (ArrayList<Long>) rolIdAPI;
+
+                    Log.e(TAG, "Listado ROLES -> " + rolesId);
+
+                    selectTypeMenuByUserRole();
+
+                    invalidateOptionsMenu();
+                } else {
+                    showToast("No hay roles asociados al id : " + userId);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Long>> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void selectTypeMenuByUserRole() {
+        if (rolesId.size() > 0 && (rolesId.contains(1L) || rolesId.contains(2L))) {
+            registredUser = true;
+            Log.e(TAG, "USUARIO REGISTRADO -> TRUE");
+        } else {
+            registredUser = false;
+            Log.e(TAG, "USUARIO REGISTRADO -> FALSE");
+        }
+    }
+
+    private final BottomNavigationView.OnNavigationItemSelectedListener m0nNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    loadFragment(new HomeFragment());
+                    return true;
+                case R.id.tournamentList:
+                    loadFragment(new TournamentListFragment());
+                    return true;
+                case R.id.playersList:
+                    loadFragment(new PlayerListFragment());
+                    return true;
+                case R.id.profile:
+                    loadFragment(new ProfileFragment());
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    private void loadMenuUser_Admin() {
+        bottomNavigation.getMenu().clear();
+        bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_admin_user);
+        loadFragment(new HomeFragment()); // Cargar fragmento inicial del menú 1
+    }
+
+    private void loadMenuGuest() {
+        bottomNavigation.getMenu().clear();
+        bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_guest);
+        loadFragment(new HomeFragment()); // Cargar fragmento inicial del menú 2
+    }
+
+    public void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.commit();
+    }
+
+    private void putUserDisconnected() {
+        long id = SharedPreferencesManager.getInstance(MainActivity.this).getUserId();
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if(!response.isSuccessful()) {
+                    showToast("1-Código error - (putUserDisconnected): " + response.code());
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
+                    showToast("Error en la respuesta del servidor");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (putUserDisconnected)", t);
+                showToast("2- Código error - (putUserDisconnected): " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void showPopupMenu() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar cuenta");
+        builder.setMessage("¿Estás seguro de eliminar la cuenta?");
+
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAccount();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
+            }
+        });
+
+        builder.show();
+    }
+
+    private void deleteAccount() {
+        String token = SharedPreferencesManager.getInstance(MainActivity.this).getToken();
+        long idUser = SharedPreferencesManager.getInstance(MainActivity.this).getUserId();
+
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deleteUserById(token, idUser);
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (delete) -> response - MainActivity" + response.message());
+                    showToast("1-Código error - (deleteAccount): " + response.code());
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res.getMessege().equalsIgnoreCase("Usuario eliminado correctamente")) {
+                    showToast(res.getMessege());
+                    finish();
+                } else {
+                    showToast("No se ha podido eliminar el usuario.");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (deleteAccount)", t);
+                showToast("2- Código error - (deleteAccount): " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, MainActivity.this, message_layout);
+        toast.CreateToast();
+    }
+
+}

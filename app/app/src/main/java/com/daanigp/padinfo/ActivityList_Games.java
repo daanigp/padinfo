@@ -79,7 +79,7 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(ActivityList_Games.this, Activity_Initiate.class);
+                Intent back = new Intent(ActivityList_Games.this, MainActivity.class);
                 startActivity(back);
             }
         });

@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">padinfo</string>
+
+    <string name="home">Inicio</string>
+    <string name="tournamentsList">Listado de torneos</string>
+    <string name="playersList">Listado de jugadores</string>
+    <string name="profile">Perfil</string>
+
     <string name="bienvenida">TEXTO DE BIENVENIDA</string>
     <string name="info">AQUÍ VA LA INFO DE LA APP</string>
     <string name="imgLogo">Logo de la app</string>
@@ -60,4 +66,6 @@
         <item>MASC</item>
         <item>FEM</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

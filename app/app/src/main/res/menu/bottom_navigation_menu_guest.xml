@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/tournamentList"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/tournamentsList" />
+
+    <item
+        android:id="@+id/playersList"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:title="@string/playersList" />
+</menu>

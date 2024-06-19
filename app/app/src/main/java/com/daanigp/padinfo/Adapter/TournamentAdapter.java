@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public class TournamentAdapter extends ArrayAdapter<Tournament> {
     private int mResource;
-    private ArrayList<Tournament> torneos2023;
+    private ArrayList<Tournament> tournaments;
 
     public TournamentAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Tournament> objects) {
         super(context, resource, objects);
         mResource = resource;
-        torneos2023 = objects;
+        tournaments = objects;
     }
 
     @NonNull
@@ -36,7 +36,7 @@ public class TournamentAdapter extends ArrayAdapter<Tournament> {
         TextView txtCiudad = fila.findViewById(R.id.txtCiudad);
         ImageView imgTorneo = fila.findViewById(R.id.imgTorneo);
 
-        Tournament tournament = torneos2023.get(position);
+        Tournament tournament = tournaments.get(position);
 
         txtNombreTorneo.setText(tournament.getName());
         txtCiudad.setText(tournament.getCity());

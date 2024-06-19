@@ -94,7 +94,7 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         int opcionID = item.getItemId();
 
         switch (opcionID) {
-            case R.id.itemPerfil:
+            /*case R.id.itemPerfil:
                 showToast("Perfil");
 
                 Intent intentPerfilUsuario = new Intent(Activity_Initiate.this, ActivityUserProfile.class);
@@ -111,7 +111,7 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
 
                 Intent intentRanking = new Intent(Activity_Initiate.this, ActivityList_Ranking.class);
                 startActivity(intentRanking);
-                return true;
+                return true;*/
             case R.id.itemRegistrarPartidos:
                 showToast("Partidos");
 

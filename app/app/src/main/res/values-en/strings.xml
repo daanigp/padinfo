@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">padinfo</string>
+
+    <string name="home">Home</string>
+    <string name="tournamentsList">Tournaments List</string>
+    <string name="playersList">Players List</string>
+    <string name="profile">Profile</string>
+
     <string name="bienvenida">WELCOME TEXT</string>
     <string name="info">APP INFORMATION</string>
     <string name="imgLogo">App logo</string>

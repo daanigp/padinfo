@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
@@ -121,7 +122,7 @@ public class ActivityLogin extends AppCompatActivity {
                 showToast("Has iniciado sesión como invitado");
                 txtUsuario.setText("");
                 txtPassword.setText("");
-                CreateUser createUser = new CreateUser();
+                /*CreateUser createUser = new CreateUser();
                 int num = randomNum(10000);
                 createUser.setUsername("guest" + num);
                 createUser.setPassword("1234");
@@ -129,7 +130,9 @@ public class ActivityLogin extends AppCompatActivity {
                 createUser.setName("Guest");
                 createUser.setLastname("" + num);
                 createUser.setRolIds(Collections.singletonList(3L));
-                signUpGuest(createUser);
+                signUpGuest(createUser);*/
+                Intent intentAppInicio = new Intent(ActivityLogin.this, MainActivity.class);
+                startActivity(intentAppInicio);
             }
         });
     }
