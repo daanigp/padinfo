@@ -3,8 +3,9 @@
     <string name="app_name">padinfo</string>
 
     <string name="home">Home</string>
-    <string name="tournamentsList">Tournaments List</string>
-    <string name="playersList">Players List</string>
+    <string name="tournamentsList">Tournaments</string>
+    <string name="playersList">Players</string>
+    <string name="gamesList">Games</string>
     <string name="profile">Profile</string>
 
     <string name="bienvenida">WELCOME TEXT</string>

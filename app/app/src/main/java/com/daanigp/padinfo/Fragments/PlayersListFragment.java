@@ -11,15 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.daanigp.padinfo.ActivityPlayer;
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
-import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.DataSource.RankingDataSource;
-import com.daanigp.padinfo.DataSource.TournamentDataSource;
 import com.daanigp.padinfo.Entity.Player;
-import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
@@ -36,10 +32,10 @@ import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PlayerListFragment#newInstance} factory method to
+ * Use the {@link PlayersListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PlayerListFragment extends Fragment {
+public class PlayersListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +46,7 @@ public class PlayerListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PlayerListFragment() {
+    public PlayersListFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +56,11 @@ public class PlayerListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PlayerListFragment.
+     * @return A new instance of fragment PlayersListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PlayerListFragment newInstance(String param1, String param2) {
-        PlayerListFragment fragment = new PlayerListFragment();
+    public static PlayersListFragment newInstance(String param1, String param2) {
+        PlayersListFragment fragment = new PlayersListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

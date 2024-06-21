@@ -2,21 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:icon="@android:drawable/ic_dialog_map"
+        android:icon="@drawable/ic_home"
         android:title="@string/home" />
 
     <item
         android:id="@+id/tournamentList"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@drawable/ic_trophy"
         android:title="@string/tournamentsList" />
 
     <item
         android:id="@+id/playersList"
-        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:icon="@drawable/ic_players"
         android:title="@string/playersList" />
 
     <item
+        android:id="@+id/gamesList"
+        android:icon="@drawable/ic_padel"
+        android:title="@string/gamesList" />
+
+    <item
         android:id="@+id/profile"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/ic_profile"
         android:title="@string/profile" />
 </menu>

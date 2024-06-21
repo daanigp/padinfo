@@ -2,8 +2,9 @@
     <string name="app_name">padinfo</string>
 
     <string name="home">Inicio</string>
-    <string name="tournamentsList">Listado de torneos</string>
-    <string name="playersList">Listado de jugadores</string>
+    <string name="tournamentsList">Torneos</string>
+    <string name="playersList">Jugadores</string>
+    <string name="gamesList">Partidos</string>
     <string name="profile">Perfil</string>
 
     <string name="bienvenida">TEXTO DE BIENVENIDA</string>

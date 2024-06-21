@@ -11,15 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.daanigp.padinfo.ActivityList_Tournament;
 import com.daanigp.padinfo.ActivityTournament;
 import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.DataSource.TournamentDataSource;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
-import com.daanigp.padinfo.MainActivity;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -34,10 +31,10 @@ import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TournamentListFragment#newInstance} factory method to
+ * Use the {@link TournamentsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TournamentListFragment extends Fragment {
+public class TournamentsListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,7 +45,7 @@ public class TournamentListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TournamentListFragment() {
+    public TournamentsListFragment() {
         // Required empty public constructor
     }
 
@@ -58,11 +55,11 @@ public class TournamentListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TournamentListFragment.
+     * @return A new instance of fragment TournamentsListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TournamentListFragment newInstance(String param1, String param2) {
-        TournamentListFragment fragment = new TournamentListFragment();
+    public static TournamentsListFragment newInstance(String param1, String param2) {
+        TournamentsListFragment fragment = new TournamentsListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

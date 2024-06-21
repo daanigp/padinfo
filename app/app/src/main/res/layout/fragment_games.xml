@@ -3,12 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.TournamentsListFragment">
+    tools:context=".Fragments.GamesListFragment">
 
-    <ListView
-        android:id="@+id/TournamentListMenu"
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"/>
+        android:layout_marginTop="40dp"
+        android:textSize="30sp"
+        android:textColor="@color/green_light"
+        android:textAlignment="center"
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

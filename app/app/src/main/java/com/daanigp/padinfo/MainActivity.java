@@ -8,23 +8,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Fragments.GamesListFragment;
 import com.daanigp.padinfo.Fragments.HomeFragment;
-import com.daanigp.padinfo.Fragments.PlayerListFragment;
+import com.daanigp.padinfo.Fragments.PlayersListFragment;
 import com.daanigp.padinfo.Fragments.ProfileFragment;
-import com.daanigp.padinfo.Fragments.TournamentListFragment;
+import com.daanigp.padinfo.Fragments.TournamentsListFragment;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -214,10 +211,13 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(new HomeFragment());
                     return true;
                 case R.id.tournamentList:
-                    loadFragment(new TournamentListFragment());
+                    loadFragment(new TournamentsListFragment());
                     return true;
                 case R.id.playersList:
-                    loadFragment(new PlayerListFragment());
+                    loadFragment(new PlayersListFragment());
+                    return true;
+                case R.id.gamesList:
+                    loadFragment(new GamesListFragment());
                     return true;
                 case R.id.profile:
                     loadFragment(new ProfileFragment());
