@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daanigp.padinfo.DataSource.RankingDataSource;
 import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +51,8 @@ public class ActivityPlayer extends AppCompatActivity {
 
         idPlayer = getIntent().getLongExtra("idPlayer", 0);
         if (idPlayer != 0) {
-            autoCompletePlayerInfo();
+            //autoCompletePlayerInfo();
+            completeInfo();
         } else {
             img.setImageResource(R.drawable.player_img);
             showToast("Fallo en el sistema - No se ha podido cargar ningún jugador");
@@ -79,6 +83,24 @@ public class ActivityPlayer extends AppCompatActivity {
         } else {
             return "Masculino";
         }
+    }
+
+    public void completeInfo() {
+        ArrayList<Player> players = RankingDataSource.rankingFem;
+        Player p = null;
+
+        for(Player player: players) {
+            if (player.getId() == idPlayer) {
+                p = player;
+            }
+        }
+
+        name.setText(p.getName());
+        gender.setText(p.getGender());
+        points.setText(p.getPoints());
+        rankPos.setText(String.valueOf(p.getRankingPosition()));
+        int imageResourceId = getResources().getIdentifier(p.getImageURL(), "drawable", getPackageName());
+        img.setImageResource(imageResourceId);
     }
 
     private void autoCompletePlayerInfo() {

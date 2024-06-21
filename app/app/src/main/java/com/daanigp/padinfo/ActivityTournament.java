@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daanigp.padinfo.DataSource.TournamentDataSource;
 import com.daanigp.padinfo.Entity.Tournament;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +48,8 @@ public class ActivityTournament extends AppCompatActivity {
 
         idTournament = getIntent().getLongExtra("idTournament", 0);
         if (idTournament != 0) {
-            autoCompleteTournamentInfo();
+            //autoCompleteTournamentInfo();
+            completeInfo();
         } else {
             img.setImageResource(R.drawable.campo_padel);
             showToast("Fallo en el sistema - No se ha podido cargar ningún torneo");
@@ -69,6 +73,22 @@ public class ActivityTournament extends AppCompatActivity {
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+    }
+
+    public void completeInfo() {
+        ArrayList<Tournament> tournaments = TournamentDataSource.tournaments;
+        Tournament t = null;
+
+        for(Tournament tourn: tournaments) {
+            if (tourn.getId() == idTournament) {
+                t = tourn;
+            }
+        }
+
+        nameTournament.setText(t.getName());
+        city.setText(t.getCity());
+        int imageResourceId = getResources().getIdentifier(t.getImageURL(), "drawable", getPackageName());
+        img.setImageResource(imageResourceId);
     }
 
     private void autoCompleteTournamentInfo(){

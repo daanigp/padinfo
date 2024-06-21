@@ -1,9 +1,11 @@
 package com.daanigp.padinfo.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,24 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.ActivityList_Tournament;
+import com.daanigp.padinfo.ActivityTournament;
 import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.DataSource.TournamentDataSource;
 import com.daanigp.padinfo.Entity.Tournament;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.MainActivity;
 import com.daanigp.padinfo.R;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,9 +79,12 @@ public class TournamentListFragment extends Fragment {
         }
     }
 
+    private static final String TAG = "TOURNAMENTLIST_FRAGMENT";
     private ArrayList<Tournament> tournaments = new ArrayList<>();
     private ListView lista;
     private TournamentAdapter adapter;
+    private View message_layout;
+    private String token;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +92,11 @@ public class TournamentListFragment extends Fragment {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_tournament_list, container, false);
 
-        TournamentDataSource.Initialize();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+        token = SharedPreferencesManager.getInstance(getContext()).getToken();
 
-        tournaments = TournamentDataSource.tournaments;
+        tournamentDataSource();
+        //getTournaments();
 
         lista = root.findViewById(R.id.TournamentListMenu);
         adapter = new TournamentAdapter(getContext(), R.layout.item_tournament, tournaments);
@@ -86,10 +105,64 @@ public class TournamentListFragment extends Fragment {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), tournaments.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Intent viewTournmanet = new Intent(getContext(), ActivityTournament.class);
+                viewTournmanet.putExtra("idTournament", tournaments.get(position).getId());
+                startActivity(viewTournmanet);
             }
         });
 
         return root;
+    }
+
+    private void tournamentDataSource() {
+        TournamentDataSource.Initialize();
+
+        tournaments = TournamentDataSource.tournaments;
+    }
+
+    private void getTournaments(){
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<List<Tournament>> call = padinfoApi.getTournaments(token);
+
+        call.enqueue(new Callback<List<Tournament>>() {
+            @Override
+            public void onResponse(Call<List<Tournament>> call, Response<List<Tournament>> response) {
+                if(!response.isSuccessful()) {
+                    Log.e(TAG, "No va getTournaments - response" + response);
+                    showToast("Código error: " + response.code());
+                    return;
+                }
+
+                List<Tournament> tournamentsApi = response.body();
+
+                if (tournamentsApi != null) {
+                    tournaments.clear();
+
+                    for (Tournament t : tournamentsApi) {
+                        Tournament tor = new Tournament();
+                        tor.setId(t.getId());
+                        tor.setName(t.getName());
+                        tor.setCity(t.getCity());
+                        tor.setImageURL((t.getImageURL()));
+                        tournaments.add(tor);
+                    }
+
+                    adapter.notifyDataSetChanged();
+                } else {
+                    showToast("Error en la respuesta del servidor");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tournament>> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - getTournaments", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, getActivity(), message_layout);
+        toast.CreateToast();
     }
 }

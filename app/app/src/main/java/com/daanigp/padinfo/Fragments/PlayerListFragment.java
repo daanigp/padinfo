@@ -1,9 +1,11 @@
 package com.daanigp.padinfo.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +13,26 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daanigp.padinfo.ActivityPlayer;
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
 import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.DataSource.RankingDataSource;
 import com.daanigp.padinfo.DataSource.TournamentDataSource;
 import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Entity.Tournament;
+import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,9 +81,12 @@ public class PlayerListFragment extends Fragment {
         }
     }
 
+    private static final String TAG = "PLAYERSLIST_FRAGMENT";
     private ArrayList<Player> players = new ArrayList<>();
     private ListView lista;
     private PlayerAdapter adapter;
+    private String token;
+    private View message_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,9 +94,10 @@ public class PlayerListFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_player_list, container, false);
 
-        RankingDataSource.InitializeFem();
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+        token = SharedPreferencesManager.getInstance(getContext()).getToken();
 
-        players = RankingDataSource.rankingFem;
+        playersDataSource();
 
         lista = root.findViewById(R.id.PlayersListMenu);
         adapter = new PlayerAdapter(getContext(), R.layout.item_player, players);
@@ -89,10 +106,76 @@ public class PlayerListFragment extends Fragment {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), players.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Intent viewPlayer = new Intent(getContext(), ActivityPlayer.class);
+                viewPlayer.putExtra("idPlayer", players.get(position).getId());
+                startActivity(viewPlayer);
             }
         });
 
         return root;
+    }
+
+    private void playersDataSource() {
+        RankingDataSource.InitializeFem();
+
+        players = RankingDataSource.rankingFem;
+    }
+
+    private void getPlayers(String gender) {
+        Log.v(TAG, "TOKEN -> " + token);
+
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<List<Player>> call = padinfoApi.getPlayersByGender(token, gender);
+
+        call.enqueue(new Callback<List<Player>>() {
+            @Override
+            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (getPlayers) -> response");
+                    showToast("Código error: " + response.code());
+                    return;
+                }
+
+                List<Player> playersAPI = response.body();
+
+                if (playersAPI != null) {
+                    players.clear();
+
+                    for (Player p: playersAPI) {
+                        Player player = new Player();
+                        player.setId(p.getId());
+                        player.setName(p.getName());
+                        player.setPoints(p.getPoints());
+                        player.setGender(p.getGender());
+                        player.setRankingPosition(p.getRankingPosition());
+                        player.setImageURL(p.getImageURL());
+
+                        players.add(player);
+                    }
+
+                    players.sort(new Comparator<Player>() {
+                        @Override
+                        public int compare(Player p1, Player p2) {
+                            return Integer.compare(p1.getRankingPosition(), p2.getRankingPosition());
+                        }
+                    });
+
+                    adapter.notifyDataSetChanged();
+                } else {
+                    showToast("Error en la respuesta del servidor");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Player>> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getPlayers)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, getActivity(), message_layout);
+        toast.CreateToast();
     }
 }
