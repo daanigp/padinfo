@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/itemInicioSesion"
+        android:icon="@drawable/ic_login"
         android:title="@string/inicioSesionMenu" />
     <item
         android:id="@+id/itemSalir"
+        android:icon="@drawable/ic_leave"
         android:title="@string/salir" />
 </menu>

@@ -95,12 +95,12 @@ public class MainActivity extends AppCompatActivity {
         int opcionID = item.getItemId();
 
         switch (opcionID) {
-            case R.id.itemRegistrarPartidos:
+            /*case R.id.itemRegistrarPartidos:
                 showToast("Partidos");
 
                 Intent intentPartidos = new Intent(MainActivity.this, ActivityList_Games.class);
                 startActivity(intentPartidos);
-                return true;
+                return true;*/
             case R.id.itemCerrarSesion:
                 showToast("Cerrando sesión...");
 

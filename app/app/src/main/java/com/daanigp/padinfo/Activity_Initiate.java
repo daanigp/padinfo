@@ -112,12 +112,12 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
                 Intent intentRanking = new Intent(Activity_Initiate.this, ActivityList_Ranking.class);
                 startActivity(intentRanking);
                 return true;*/
-            case R.id.itemRegistrarPartidos:
+            /*case R.id.itemRegistrarPartidos:
                 showToast("Partidos");
 
                 Intent intentPartidos = new Intent(Activity_Initiate.this, ActivityList_Games.class);
                 startActivity(intentPartidos);
-                return true;
+                return true;*/
             case R.id.itemCerrarSesion:
                 showToast("Cerrando sesión...");
 
