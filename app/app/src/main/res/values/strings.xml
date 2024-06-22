@@ -7,6 +7,8 @@
     <string name="playersList">Jugadores</string>
     <string name="gamesList">Partidos</string>
     <string name="profile">Perfil</string>
+    <string name="settings">Ajustes</string>
+    <string name="infoAbout">Info</string>
 
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
@@ -23,7 +25,7 @@
     <string name="inicioSesionMenu">Iniciar sesión</string>
     <string name="registroUsuario">REGISTRARSE</string>
     <string name="inicioUsuarioInvitado">USUARIO INVITADO</string>
-    <string name="cerrarSesion">Cerrar sesión</string>
+    <string name="logout">Cerrar sesión</string>
     <string name="eliminarCuenta">Eliminar cuenta</string>
     <string name="salir">Salir</string>
     <string name="volver">VOLVER</string>

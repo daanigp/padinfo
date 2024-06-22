@@ -4,29 +4,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Fragments.AboutFragment;
 import com.daanigp.padinfo.Fragments.GamesListFragment;
 import com.daanigp.padinfo.Fragments.HomeFragment;
 import com.daanigp.padinfo.Fragments.PlayersListFragment;
 import com.daanigp.padinfo.Fragments.ProfileFragment;
+import com.daanigp.padinfo.Fragments.SettingsFragment;
 import com.daanigp.padinfo.Fragments.TournamentsListFragment;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +43,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DrawerLayout drawerLayout;
 
     public static int USER_LOGIN = 1;
     private static final String TAG = "MAIN_ACTIVITY";
@@ -51,6 +61,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -64,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             bottomNavigation.setSelectedItemId(R.id.home);
+
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_container, new HomeFragment())
+                    .commit();
+            navigationView.setCheckedItem(R.id.nav_home);
         } else {
             selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
             bottomNavigation.setSelectedItemId(selectedItemId);
@@ -71,6 +99,48 @@ public class MainActivity extends AppCompatActivity {
 
         setDayNight();
         //getRolesByUserId();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, new HomeFragment())
+                        .commit();
+                break;
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, new SettingsFragment())
+                        .commit();
+                break;
+            case R.id.nav_info:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, new AboutFragment())
+                        .commit();
+                break;
+            case R.id.nav_logout:
+                showToast("LOGOUT");
+                break;
+            case R.id.nav_delete_account:
+                showToast("DELETE ACCOUNT");
+                break;
+            case R.id.nav_leave:
+                showToast("LEAVE");
+                break;
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

@@ -10,7 +10,7 @@
                 <menu>
                         <item
                             android:id="@+id/itemCerrarSesion"
-                            android:title="@string/cerrarSesion"
+                            android:title="@string/logout"
                             android:icon="@drawable/ic_logout" />
                         <item
                             android:id="@+id/itemDeleteAccount"
