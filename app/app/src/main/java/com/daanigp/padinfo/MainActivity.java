@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bottomNavigation.setSelectedItemId(R.id.home);
 
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, new HomeFragment())
-                    .commit();
+            /*getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment())
+                    .commit();*/
             navigationView.setCheckedItem(R.id.nav_home);
         } else {
             selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
@@ -105,19 +105,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, new HomeFragment())
-                        .commit();
+                FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
+                transaction1.replace(R.id.frame_container, new HomeFragment());
+                transaction1.commit();
                 break;
             case R.id.nav_settings:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, new SettingsFragment())
-                        .commit();
+                FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
+                transaction2.replace(R.id.frame_container, new SettingsFragment());
+                transaction2.commit();
                 break;
             case R.id.nav_info:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, new AboutFragment())
-                        .commit();
+                FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
+                transaction3.replace(R.id.frame_container, new AboutFragment());
+                transaction3.commit();
                 break;
             case R.id.nav_logout:
                 showToast("LOGOUT");
