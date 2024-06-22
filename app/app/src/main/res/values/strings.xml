@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">padinfo</string>
 
+    <string name="more">Más</string>
     <string name="home">Inicio</string>
     <string name="tournamentsList">Torneos</string>
     <string name="playersList">Jugadores</string>
     <string name="gamesList">Partidos</string>
     <string name="profile">Perfil</string>
+
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 
     <string name="bienvenida">TEXTO DE BIENVENIDA</string>
     <string name="info">AQUÍ VA LA INFO DE LA APP</string>

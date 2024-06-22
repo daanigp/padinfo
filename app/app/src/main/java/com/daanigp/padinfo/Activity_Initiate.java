@@ -62,6 +62,7 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialite);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         txtWelcome = (TextView) findViewById(R.id.txtBienvenida);
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
