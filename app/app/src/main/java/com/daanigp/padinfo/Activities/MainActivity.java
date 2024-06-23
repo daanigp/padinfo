@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +36,7 @@ import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View message_layout;
     private  boolean registredUser = true;
     ArrayList<Long> rolesId = new ArrayList<>();
+    private ShapeableImageView imgPerfil;
+    private TextView txtUsuario, txtEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +77,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        // Obtener el headerView del NavigationView
+        View headerView = navigationView.getHeaderView(0);
 
+        txtUsuario = headerView.findViewById(R.id.usuario_nav_header);
+        txtEmail = headerView.findViewById(R.id.email_nav_header);
+        imgPerfil = headerView.findViewById(R.id.img_profile_nav_menu);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(m0nNavigationItemSelectedListener);
+
+        if (savedInstanceState == null) {
+            bottomNavigation.setSelectedItemId(R.id.home);
+            navigationView.setCheckedItem(R.id.nav_home);
+        } else {
+            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
+            bottomNavigation.setSelectedItemId(selectedItemId);
+        }
 
         if (registredUser) {
             loadMenuUser_Admin();
@@ -84,18 +102,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadMenuGuest();
         }
 
-        if (savedInstanceState == null) {
-            bottomNavigation.setSelectedItemId(R.id.home);
-
-
-            /*getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment())
-                    .commit();*/
-            navigationView.setCheckedItem(R.id.nav_home);
-        } else {
-            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
-            bottomNavigation.setSelectedItemId(selectedItemId);
+        if (imgPerfil != null) {
+            imgPerfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("LA IMAGEN LOQUET");
+                }
+            });
         }
+
+        txtUsuario.setText("DANI123");
+        txtEmail.setText("daani@gmail.com");
 
         setDayNight();
         //getRolesByUserId();
