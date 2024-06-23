@@ -5,7 +5,7 @@
     android:id="@+id/swtich"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityLogin">
+    tools:context=".Activities.ActivityLogin">
 
     <Button
         android:id="@+id/btnInicioInvitado"

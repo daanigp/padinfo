@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.daanigp.padinfo.ActivityPlayer;
+import com.daanigp.padinfo.Activities.ActivityPlayer;
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
 import com.daanigp.padinfo.DataSource.RankingDataSource;
 import com.daanigp.padinfo.Entity.Player;

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daanigp.padinfo.ActivityUserProfile;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 

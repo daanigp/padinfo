@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.daanigp.padinfo.ActivityTournament;
+import com.daanigp.padinfo.Activities.ActivityTournament;
 import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.DataSource.TournamentDataSource;
 import com.daanigp.padinfo.Entity.Tournament;

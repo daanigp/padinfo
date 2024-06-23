@@ -1,10 +1,9 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +29,7 @@ import com.daanigp.padinfo.Fragments.ProfileFragment;
 import com.daanigp.padinfo.Fragments.SettingsFragment;
 import com.daanigp.padinfo.Fragments.TournamentsListFragment;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;

@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,13 +11,12 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
-import com.daanigp.padinfo.DataSource.RankingDataSource;
 import com.daanigp.padinfo.Entity.Player;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,44 +26,42 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRanking_Fem extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ActivityRanking_Masc extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "ActivityRanking_Fem";
+    private static final String TAG = "ActivityRanking_Masc";
     Button btnVolver;
     ArrayList<Player> players;
     String token;
     PlayerAdapter adapter;
     View message_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ranking_fem);
+        setContentView(R.layout.activity_ranking_masc);
 
         players = new ArrayList<>();
-        token = SharedPreferencesManager.getInstance(ActivityRanking_Fem.this).getToken();
+        token = SharedPreferencesManager.getInstance(ActivityRanking_Masc.this).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+
+        Log.v(TAG, "TOKEN -> " + token);
 
         setDayNight();
         getPlayers();
 
-        ListView lista = (ListView) findViewById(R.id.rankFemList);
+        ListView lista = (ListView) findViewById(R.id.rankMascList);
         adapter = new PlayerAdapter(this, R.layout.item_player, players);
 
         lista.setAdapter(adapter);
         lista.setOnItemClickListener(this);
 
-        btnVolver = (Button) findViewById(R.id.btnVolverRankings);
+        btnVolver = (Button) findViewById(R.id.btnVolverRanking);
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        showToast(RankingDataSource.rankingFem.get(position).getName());
     }
 
     public void setDayNight() {
@@ -76,28 +73,28 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
         }
     }
 
-    private void getPlayers() {
-        Log.v(TAG, "TOKEN -> " + token);
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        showToast(players.get(position).getName());
+    }
 
+    private void getPlayers() {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<List<Player>> call = padinfoApi.getPlayersByGender(token, "fem");
+        Call<List<Player>> call = padinfoApi.getPlayersByGender(token, "masc");
 
         call.enqueue(new Callback<List<Player>>() {
             @Override
             public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getPlayersFEM) -> response");
+                    Log.v(TAG, "No va (getPlayersMASC) -> response");
                     showToast("Código error: " + response.code());
                     return;
                 }
 
-                Log.v(TAG, "JSON recibido: " + new Gson().toJson(response.body()));
-
                 List<Player> playersAPI = response.body();
 
                 if (playersAPI != null) {
-
-                    for (Player p: playersAPI) {
+                    for(Player p: playersAPI) {
                         Player player = new Player();
                         player.setId(p.getId());
                         player.setName(p.getName());
@@ -105,12 +102,6 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
                         player.setGender(p.getGender());
                         player.setRankingPosition(p.getRankingPosition());
                         player.setImageURL(p.getImageURL());
-
-                        Log.v(TAG, "id -> " + p.getId());
-                        Log.v(TAG, "nombre -> " + p.getName());
-                        Log.v(TAG, "puntos -> " + p.getPoints());
-                        Log.v(TAG, "posicion -> " + p.getRankingPosition());
-                        Log.v(TAG, "IMAGEN URL -> " + p.getImageURL());
 
                         players.add(player);
                     }
@@ -130,14 +121,14 @@ public class ActivityRanking_Fem extends AppCompatActivity implements AdapterVie
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit - (getPlayersFEM)", t);
+                Log.e(TAG, "Error en la llamada Retrofit - (getPlayersMASC)", t);
                 showToast("Código error: " + t.getMessage());
             }
         });
     }
 
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityRanking_Fem.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityRanking_Masc.this, message_layout);
         toast.CreateToast();
     }
 }
