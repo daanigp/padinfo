@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -108,8 +110,22 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final ScrollView scrollView = view.findViewById(R.id.scrollView_home);
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.scrollTo(0, 0);
+            }
+        });
+    }
+
     private void completeAppInfo() {
-        username = SharedPreferencesManager.getInstance(getContext()).getUsername();
+        //username = SharedPreferencesManager.getInstance(getContext()).getUsername();
+        username = "DANI123";
         txtWelcome.setText("¡Bienvenido " + username + "!");
 
         InputStream ins = getResources().openRawResource(R.raw.info_app);
@@ -205,17 +221,10 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
         video.setMediaController(mc);
         video.setVideoURI(Uri.parse("android.resource://"+getContext().getPackageName()+"/"+R.raw.best_shots));
 
-        Handler h = new Handler();
         video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 HomeFragment.this.mp = mp;
-                h.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mc.show();
-                    }
-                });
             }
         });
 
@@ -224,7 +233,7 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (!mc.isShowing()) {
-                        mc.show();
+                        mc.show(3000);
                     } else {
                         mc.hide();
                     }
