@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.daanigp.padinfo.R;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.io.BufferedReader;
@@ -121,8 +122,8 @@ public class HomeFragment extends Fragment implements MediaController.MediaPlaye
     }
 
     private void completeAppInfo() {
-        //username = SharedPreferencesManager.getInstance(getContext()).getUsername();
-        username = "DANI123";
+        username = SharedPreferencesManager.getInstance(getContext()).getUsername();
+        //username = "DANI123";
         txtWelcome.setText("¡Bienvenido " + username + "!");
 
         InputStream ins = getResources().openRawResource(R.raw.info_app);

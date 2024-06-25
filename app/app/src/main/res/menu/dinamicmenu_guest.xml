@@ -11,7 +11,7 @@
             <item
                 android:id="@+id/itemInicioSesion"
                 android:icon="@drawable/ic_login"
-                android:title="@string/inicioSesionMenu" />
+                android:title="@string/loginMenu" />
             <item
                 android:id="@+id/itemSalir"
                 android:icon="@drawable/ic_leave"

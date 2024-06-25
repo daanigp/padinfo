@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">padinfo</string>
 
+    <string name="loginTxt">Inicio de sesión</string>
+    <string name="mantenimiento">En mantenimiento</string>
+
     <string name="more">Más</string>
     <string name="home">Inicio</string>
     <string name="tournamentsList">Torneos</string>
@@ -22,7 +25,7 @@
     <string name="editUsuario">Editar usuario</string>
     <string name="registrarPartidos">Listado de partidos</string>
     <string name="iniciarSesion">INICIAR SESIÓN</string>
-    <string name="inicioSesionMenu">Iniciar sesión</string>
+    <string name="loginMenu">Iniciar sesión</string>
     <string name="registroUsuario">REGISTRARSE</string>
     <string name="inicioUsuarioInvitado">USUARIO INVITADO</string>
     <string name="logout">Cerrar sesión</string>
@@ -73,6 +76,4 @@
         <item>MASC</item>
         <item>FEM</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

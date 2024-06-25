@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">padinfo</string>
 
+    <string name="loginTxt">Login</string>
+    <string name="mantenimiento">In maintenance</string>
+
     <string name="more">More</string>
     <string name="home">Home</string>
     <string name="tournamentsList">Tournaments</string>
@@ -23,7 +26,7 @@
     <string name="editUsuario">Edit user</string>
     <string name="registrarPartidos">Games list</string>
     <string name="iniciarSesion">LOG IN</string>
-    <string name="inicioSesionMenu">Log in</string>
+    <string name="loginMenu">Log in</string>
     <string name="registroUsuario">SIGN UP</string>
     <string name="inicioUsuarioInvitado">USER GUEST</string>
     <string name="logout">Close session</string>

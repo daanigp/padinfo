@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,10 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int selectedItemId;
     BottomNavigationView bottomNavigation;
     View message_layout;
-    private  boolean registredUser = true;
+    private boolean registredUser;
     ArrayList<Long> rolesId = new ArrayList<>();
     private ShapeableImageView imgPerfil;
     private TextView txtUsuario, txtEmail;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
@@ -102,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadMenuGuest();
         }
 
+        String img = SharedPreferencesManager.getInstance(this).getImage();
+
+        int imageResourceId = getResources().getIdentifier(img, "drawable", getPackageName());
+        imgPerfil.setImageResource(imageResourceId);
         if (imgPerfil != null) {
             imgPerfil.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,11 +118,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
         }
 
-        txtUsuario.setText("DANI123");
-        txtEmail.setText("daani@gmail.com");
+        String username = SharedPreferencesManager.getInstance(this).getUsername();
+        String email = SharedPreferencesManager.getInstance(this).getEmail();
+
+        Log.v(TAG, "username -> " + username);
+        Log.v(TAG, "email -> " + email);
+        txtUsuario.setText(username);
+        if (email == null) {
+            txtEmail.setText("A");
+        } else {
+            txtEmail.setText(email);
+        }
 
         setDayNight();
-        //getRolesByUserId();
+        getRolesByUserId();
     }
 
     @Override
@@ -144,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_leave:
                 showToast("LEAVE");
+                break;
+            case R.id.nav_login:
+                showToast("LOGIN");
                 break;
         }
 
@@ -177,17 +196,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int opcionID = item.getItemId();
 
         switch (opcionID) {
-            /*case R.id.itemRegistrarPartidos:
+            case R.id.itemRegistrarPartidos:
                 showToast("Partidos");
 
                 Intent intentPartidos = new Intent(MainActivity.this, ActivityList_Games.class);
                 startActivity(intentPartidos);
-                return true;*/
+                return true;
             case R.id.itemCerrarSesion:
                 showToast("Cerrando sesión...");
 
@@ -214,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -284,8 +303,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (rolesId.size() > 0 && (rolesId.contains(1L) || rolesId.contains(2L))) {
             registredUser = true;
             Log.e(TAG, "USUARIO REGISTRADO -> TRUE");
+            showToast("USUARIO REGISTRADO -> TRUE");
         } else {
             registredUser = false;
+            showToast("USUARIO REGISTRADO -> FALSE");
             Log.e(TAG, "USUARIO REGISTRADO -> FALSE");
         }
     }
@@ -315,12 +336,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     };
 
     private void loadMenuUser_Admin() {
+        navigationView.inflateMenu(R.menu.nav_menu_admin_user);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_admin_user);
         loadFragment(new HomeFragment()); // Cargar fragmento inicial del menú 1
     }
 
     private void loadMenuGuest() {
+        navigationView.inflateMenu(R.menu.nav_menu_guest);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_guest);
         loadFragment(new HomeFragment()); // Cargar fragmento inicial del menú 2

@@ -15,7 +15,7 @@
         android:padding="5dp"
         android:scaleType="fitXY"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-        app:srcCompat="@drawable/imgperfil_basic"
+        app:srcCompat="@drawable/padinfo_logo"
         app:strokeColor="@color/green_avocado"
         app:strokeWidth="4dp" />
 

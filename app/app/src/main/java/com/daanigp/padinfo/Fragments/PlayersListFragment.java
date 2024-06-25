@@ -93,7 +93,8 @@ public class PlayersListFragment extends Fragment {
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(getContext()).getToken();
 
-        playersDataSource();
+        //playersDataSource();
+        getPlayers("fem");
 
         lista = root.findViewById(R.id.PlayersListMenu);
         adapter = new PlayerAdapter(getContext(), R.layout.item_player, players);

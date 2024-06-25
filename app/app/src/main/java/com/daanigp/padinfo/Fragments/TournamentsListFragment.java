@@ -92,8 +92,8 @@ public class TournamentsListFragment extends Fragment {
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(getContext()).getToken();
 
-        tournamentDataSource();
-        //getTournaments();
+        //tournamentDataSource();
+        getTournaments();
 
         lista = root.findViewById(R.id.TournamentListMenu);
         adapter = new TournamentAdapter(getContext(), R.layout.item_tournament, tournaments);
