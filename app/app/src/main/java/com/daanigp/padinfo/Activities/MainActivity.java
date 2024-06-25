@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+        setDayNight();
+        getRolesByUserId();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -86,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         txtUsuario = headerView.findViewById(R.id.usuario_nav_header);
         txtEmail = headerView.findViewById(R.id.email_nav_header);
         imgPerfil = headerView.findViewById(R.id.img_profile_nav_menu);
-        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(m0nNavigationItemSelectedListener);
@@ -98,40 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
             bottomNavigation.setSelectedItemId(selectedItemId);
         }
-
-        if (registredUser) {
-            loadMenuUser_Admin();
-        } else {
-            loadMenuGuest();
-        }
-
-        String img = SharedPreferencesManager.getInstance(this).getImage();
-
-        int imageResourceId = getResources().getIdentifier(img, "drawable", getPackageName());
-        imgPerfil.setImageResource(imageResourceId);
-        if (imgPerfil != null) {
-            imgPerfil.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showToast("LA IMAGEN LOQUET");
-                }
-            });
-        }
-
-        String username = SharedPreferencesManager.getInstance(this).getUsername();
-        String email = SharedPreferencesManager.getInstance(this).getEmail();
-
-        Log.v(TAG, "username -> " + username);
-        Log.v(TAG, "email -> " + email);
-        txtUsuario.setText(username);
-        if (email == null) {
-            txtEmail.setText("A");
-        } else {
-            txtEmail.setText(email);
-        }
-
-        setDayNight();
-        getRolesByUserId();
     }
 
     @Override
@@ -153,16 +122,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transaction3.commit();
                 break;
             case R.id.nav_logout:
-                showToast("LOGOUT");
+                showToast("Cerrando sesión...");
+
+                putUserDisconnected();
+                SharedPreferencesManager.getInstance(MainActivity.this).clear();
+                Intent intentInicioSes = new Intent(MainActivity.this, ActivityLogin.class);
+                startActivity(intentInicioSes);
                 break;
             case R.id.nav_delete_account:
-                showToast("DELETE ACCOUNT");
+                showPopupMenu();
                 break;
             case R.id.nav_leave:
-                showToast("LEAVE");
+                showToast("Saliendo de la aplicación...");
+
+                putUserDisconnected();
+                SharedPreferencesManager.getInstance(MainActivity.this).clear();
+                finishAffinity();
                 break;
             case R.id.nav_login:
                 showToast("LOGIN");
+                deleteAccount();
+                SharedPreferencesManager.getInstance(MainActivity.this).clear();
+                Intent intentInicioSesion = new Intent(MainActivity.this, ActivityLogin.class);
+                startActivityForResult(intentInicioSesion, USER_LOGIN);
                 break;
         }
 
@@ -185,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         outState.putInt(SELECTED_ITEM_KEY, bottomNavigation.getSelectedItemId());
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (registredUser) {
             getMenuInflater().inflate(R.menu.dinamicmenu_user_admin, menu);
@@ -194,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return true;
-    }
+    }*/
 
     /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -309,6 +291,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showToast("USUARIO REGISTRADO -> FALSE");
             Log.e(TAG, "USUARIO REGISTRADO -> FALSE");
         }
+
+        loadMenus();
+    }
+
+    private void loadMenus() {
+        if (registredUser) {
+            Log.e(TAG, "REGISTRAO ->" + registredUser);
+            loadMenuUser_Admin();
+            navigationView.inflateMenu(R.menu.nav_menu_admin_user);
+            loadUserInfo();
+        } else {
+            Log.e(TAG, "NOO REGISTRAO ->" + registredUser);
+            loadMenuGuest();
+            navigationView.inflateMenu(R.menu.nav_menu_guest);
+        }
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener m0nNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -336,23 +333,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     };
 
     private void loadMenuUser_Admin() {
-        navigationView.inflateMenu(R.menu.nav_menu_admin_user);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_admin_user);
         loadFragment(new HomeFragment()); // Cargar fragmento inicial del menú 1
     }
 
     private void loadMenuGuest() {
-        navigationView.inflateMenu(R.menu.nav_menu_guest);
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_guest);
         loadFragment(new HomeFragment()); // Cargar fragmento inicial del menú 2
     }
 
     public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
+        if (!isFinishing() && !isDestroyed()) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_container, fragment);
+            transaction.commitAllowingStateLoss();
+        }
     }
 
     private void putUserDisconnected() {
@@ -417,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
                 if(!response.isSuccessful()) {
-                    Log.v(TAG, "No va (delete) -> response - MainActivity" + response.message());
+                    Log.v(TAG, "No va (delete) -> response - MainActivity" + response.message() + " - " + response.code());
                     showToast("1-Código error - (deleteAccount): " + response.code());
                     return;
                 }
@@ -440,6 +437,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 t.printStackTrace();
             }
         });
+    }
+
+    private void loadUserInfo() {
+        String img = SharedPreferencesManager.getInstance(this).getImage();
+
+        int imageResourceId = getResources().getIdentifier(img, "drawable", getPackageName());
+        imgPerfil.setImageResource(imageResourceId);
+        if (imgPerfil != null) {
+            imgPerfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showToast("IMÁGEN DE PERFIL");
+                }
+            });
+        }
+
+        String username = SharedPreferencesManager.getInstance(this).getUsername();
+        String email = SharedPreferencesManager.getInstance(this).getEmail();
+        txtUsuario.setText(username);
+        txtEmail.setText(email);
     }
 
     private void showToast(String message) {

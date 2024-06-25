@@ -104,7 +104,7 @@ public class ActivityLogin extends AppCompatActivity {
                         }
                     });
                 }*/
-                login("guest4567", "1234");
+                login("pabloADMIN", "1234");
             }
         });
 
@@ -181,9 +181,9 @@ public class ActivityLogin extends AppCompatActivity {
                     token = "Bearer " + token;
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveToken(token);
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(user);
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(7);
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail("guest4567@gmail.com");
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage("imgperfil_basic");
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(3);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail("pablo@gmail.com");
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage("admin_img");
 
 
 
