@@ -3,12 +3,17 @@ package com.daanigp.padinfo.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -73,6 +78,7 @@ public class GamesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -114,6 +120,8 @@ public class GamesListFragment extends Fragment {
             }
         });
 
+        registerForContextMenu(lista);
+
         btnAddGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +132,32 @@ public class GamesListFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.contextmenu_edit_delete, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Game game = (Game) lista.getItemAtPosition(info.position);
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.itemEditar:
+                showToast("EDITAR -> " + game.getId());
+                return true;
+            case R.id.itemEliminar:
+                showToast("ELIMINAR -> " + game.getId());
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     private void getGames() {
@@ -176,7 +210,6 @@ public class GamesListFragment extends Fragment {
             }
         });
     }
-
 
     private void showToast(String message) {
         Toast_Personalized toast = new Toast_Personalized(message, getActivity(), message_layout);
