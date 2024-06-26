@@ -1,20 +1,15 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
@@ -23,6 +18,7 @@ import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.InterfaceCallbacks.ConnectivityCallback;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 import com.daanigp.padinfo.Entity.Security.LoginUser;
@@ -30,7 +26,6 @@ import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -42,27 +37,32 @@ public class ActivityLogin extends AppCompatActivity {
     private static final String TAG = "ActivityLogin";
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
-    ImageView imgApp;
+    //ImageView imgApp;
     Switch switchTema;
     View message_layout;
     private boolean isFirstTime = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_2);
 
         btnInicioSesion = (Button) findViewById(R.id.btnIniciarSesion);
         btnRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
         btnInicioInvitado = (Button) findViewById(R.id.btnInicioInvitado);
-        txtUsuario = (EditText) findViewById(R.id.editTxtUsuario);
-        txtPassword = (EditText) findViewById(R.id.editTxtContrasenya);
-        imgApp = (ImageView) findViewById(R.id.imgApp);
-        switchTema = findViewById(R.id.swithTema);
+        txtUsuario = (EditText) findViewById(R.id.editTxtUsuario_login);
+        txtPassword = (EditText) findViewById(R.id.editTxtContrasenya_login);
+        //imgApp = (ImageView) findViewById(R.id.imgApp);
+        //switchTema = findViewById(R.id.swithTema);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
-        imgApp.setImageResource(R.drawable.padinfo_logo);
+        //imgApp.setImageResource(R.drawable.padinfo_logo);
 
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
+
+        /**
+         * EN MANTENIMIENTO (SWITCH)
+         */
+
+        /*int theme = SharedPreferencesManager.getInstance(this).getTheme();
         if (theme==1) {
             switchTema.setChecked(false);
         } else {
@@ -80,7 +80,9 @@ public class ActivityLogin extends AppCompatActivity {
                 }
                 setDayNight();
             }
-        });
+        });*/
+
+        setDayNight();
 
         btnInicioSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +90,7 @@ public class ActivityLogin extends AppCompatActivity {
                 String user, pwd;
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
-                if (user.isEmpty() || pwd.isEmpty()) {
+                /*if (user.isEmpty() || pwd.isEmpty()) {
                     showToast("Debes rellenar todos los campos");
                 } else {
                     getIdUser(user, new ConnectivityCallback() {
@@ -101,7 +103,8 @@ public class ActivityLogin extends AppCompatActivity {
                             }
                         }
                     });
-                }
+                }*/
+                login("pabloADMIN", "1234");
             }
         });
 
@@ -130,6 +133,8 @@ public class ActivityLogin extends AppCompatActivity {
                 createUser.setLastname("" + num);
                 createUser.setRolIds(Collections.singletonList(3L));
                 signUpGuest(createUser);
+                //Intent intentAppInicio = new Intent(ActivityLogin.this, MainActivity.class);
+                //startActivity(intentAppInicio);
             }
         });
     }
@@ -176,8 +181,14 @@ public class ActivityLogin extends AppCompatActivity {
                     token = "Bearer " + token;
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveToken(token);
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(user);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(3);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail("pablo@gmail.com");
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage("admin_img");
 
-                    Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Initiate.class);
+
+
+                    //Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Initiate.class);
+                    Intent intentAppInicio = new Intent(ActivityLogin.this, MainActivity.class);
                     intentAppInicio.putExtra("token", token);
                     startActivity(intentAppInicio);
                 } else {
@@ -218,6 +229,8 @@ public class ActivityLogin extends AppCompatActivity {
                     long id = user.getId();
 
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(id);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail(user.getEmail());
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail(user.getImageURL());
                     Log.v(TAG, "INICIO SESION - id -> " + id);
                     checkUserConnectivity(id, callback);
                 } else {

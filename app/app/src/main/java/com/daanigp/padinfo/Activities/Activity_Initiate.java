@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import android.widget.VideoView;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
@@ -40,7 +40,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,6 +61,7 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialite);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         txtWelcome = (TextView) findViewById(R.id.txtBienvenida);
         txtInfoApp = (TextView) findViewById(R.id.txtInfoApp);
@@ -94,7 +94,7 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
         int opcionID = item.getItemId();
 
         switch (opcionID) {
-            case R.id.itemPerfil:
+            /*case R.id.itemPerfil:
                 showToast("Perfil");
 
                 Intent intentPerfilUsuario = new Intent(Activity_Initiate.this, ActivityUserProfile.class);
@@ -111,13 +111,13 @@ public class Activity_Initiate extends AppCompatActivity implements MediaControl
 
                 Intent intentRanking = new Intent(Activity_Initiate.this, ActivityList_Ranking.class);
                 startActivity(intentRanking);
-                return true;
-            case R.id.itemRegistrarPartidos:
+                return true;*/
+            /*case R.id.itemRegistrarPartidos:
                 showToast("Partidos");
 
                 Intent intentPartidos = new Intent(Activity_Initiate.this, ActivityList_Games.class);
                 startActivity(intentPartidos);
-                return true;
+                return true;*/
             case R.id.itemCerrarSesion:
                 showToast("Cerrando sesión...");
 

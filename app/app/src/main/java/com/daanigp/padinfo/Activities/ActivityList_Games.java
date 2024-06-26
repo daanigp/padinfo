@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +21,7 @@ import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
@@ -79,7 +80,7 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(ActivityList_Games.this, Activity_Initiate.class);
+                Intent back = new Intent(ActivityList_Games.this, MainActivity.class);
                 startActivity(back);
             }
         });

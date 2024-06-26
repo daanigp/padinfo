@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;

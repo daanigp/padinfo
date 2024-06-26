@@ -3,15 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/itemListado"
-        android:title="@string/torneos2023" />
-    <item
-        android:id="@+id/itemTop5"
-        android:title="@string/top5" />
-    <item
-        android:id="@+id/itemInicioSesion"
-        android:title="@string/inicioSesionMenu" />
-    <item
-        android:id="@+id/itemSalir"
-        android:title="@string/salir" />
+        android:id="@+id/btnMore"
+        android:title="@string/more"
+        android:icon="@drawable/ic_more"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/itemInicioSesion"
+                android:icon="@drawable/ic_login"
+                android:title="@string/loginMenu" />
+            <item
+                android:id="@+id/itemSalir"
+                android:icon="@drawable/ic_leave"
+                android:title="@string/salir" />
+        </menu>
+    </item>
+
 </menu>

@@ -2,6 +2,7 @@ package com.daanigp.padinfo.SharedPreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,6 +18,8 @@ public class SharedPreferencesManager {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_ROLES_ID = "rolesID";
     private static final String KEY_THEME = "theme";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_IMAGE = "image";
 
     private static SharedPreferencesManager instance;
     private static Context context;
@@ -91,13 +94,38 @@ public class SharedPreferencesManager {
     public void saveTheme(int theme) {
         SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(KEY_THEME, theme);
+        //editor.putInt(KEY_THEME, theme);
+        editor.putInt(KEY_THEME, 1);
         editor.apply();
     }
 
     public int getTheme() {
         SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPref.getInt(KEY_THEME, 1);
+    }
+
+    public void saveEmail(String email) {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(KEY_EMAIL, email);
+        editor.apply();
+    }
+
+    public String getEmail() {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getString(KEY_EMAIL, null);
+    }
+
+    public void saveImage(String img) {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(KEY_IMAGE, img);
+        editor.apply();
+    }
+
+    public String getImage() {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getString(KEY_IMAGE, null);
     }
 
     public void clear() {
@@ -107,6 +135,8 @@ public class SharedPreferencesManager {
         editor.remove(KEY_TOKEN);
         editor.remove(KEY_USERNAME);
         editor.remove(KEY_ROLES_ID);
+        editor.remove(KEY_EMAIL);
+        editor.remove(KEY_IMAGE);
         editor.apply();
     }
 

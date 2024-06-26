@@ -21,12 +21,12 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
     private static final String TAG = "ActivityRanking_Fem";
 
     private int mResource;
-    private ArrayList<Player> rankingPlayers;
+    private ArrayList<Player> players;
 
     public PlayerAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Player> objects) {
         super(context, resource, objects);
         mResource = resource;
-        rankingPlayers = objects;
+        players = objects;
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
         TextView txtNombrePlayer = fila.findViewById(R.id.txtNombrePlayer);
         ImageView imgPlayer = fila.findViewById(R.id.imgPlayer);
 
-        Player player = rankingPlayers.get(position);
+        Player player = players.get(position);
 
         txtNumeroRanking.setText(String.valueOf(player.getRankingPosition()));
         txtPuntos.setText(player.getPoints());

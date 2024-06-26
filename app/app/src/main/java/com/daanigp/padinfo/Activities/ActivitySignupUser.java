@@ -1,4 +1,4 @@
-package com.daanigp.padinfo;
+package com.daanigp.padinfo.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -15,6 +15,7 @@ import com.daanigp.padinfo.Entity.Security.CreateUser;
 import com.daanigp.padinfo.InterfaceCallbacks.UserExistanceCallback;
 import com.daanigp.padinfo.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
