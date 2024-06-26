@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bottomNavigation.setSelectedItemId(R.id.home);
             navigationView.setCheckedItem(R.id.nav_home);
         } else {
-            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY, R.id.home);
+            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY);
             bottomNavigation.setSelectedItemId(selectedItemId);
         }
     }
@@ -285,10 +285,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (rolesId.size() > 0 && (rolesId.contains(1L) || rolesId.contains(2L))) {
             registredUser = true;
             Log.e(TAG, "USUARIO REGISTRADO -> TRUE");
-            showToast("USUARIO REGISTRADO -> TRUE");
         } else {
             registredUser = false;
-            showToast("USUARIO REGISTRADO -> FALSE");
             Log.e(TAG, "USUARIO REGISTRADO -> FALSE");
         }
 

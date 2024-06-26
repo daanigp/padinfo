@@ -72,6 +72,11 @@
     <string name="tema">Tema oscuro</string>
     <string name="generoMasc">Male</string>
 
+    <string name="filter">Filtro</string>
+    <string name="genderMenu">Género</string>
+    <string name="genderMascMenu">Masculino</string>
+    <string name="genderFemMenu">Femenino</string>
+
     <string-array name="generos">
         <item>MASC</item>
         <item>FEM</item>
