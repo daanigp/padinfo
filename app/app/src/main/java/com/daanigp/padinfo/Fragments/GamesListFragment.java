@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.daanigp.padinfo.Activities.ActivityEdit_Create_Game;
 import com.daanigp.padinfo.Activities.ActivityList_Games;
@@ -88,6 +89,7 @@ public class GamesListFragment extends Fragment {
     private static final String TAG = "ActivityList_Games";
     public static int CREATE_GAME = 3;
     public static int EDIT_GAME = 4;
+    private TextView txtListaVacia;
     private Button btnAddGame;
     private ArrayList<Game> games = new ArrayList<>();
     private ListView lista;
@@ -103,6 +105,7 @@ public class GamesListFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_games, container, false);
 
         btnAddGame = root.findViewById(R.id.btnNewGame);
+        txtListaVacia = root.findViewById(R.id.txtListaPartidosVacia);
         userId = SharedPreferencesManager.getInstance(getContext()).getUserId();
         token = SharedPreferencesManager.getInstance(getContext()).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
@@ -112,6 +115,7 @@ public class GamesListFragment extends Fragment {
         lista = (ListView) root.findViewById(R.id.listaPartidos);
         gameAdapter = new GameAdapter(getContext(), R.layout.item_game, games);
 
+        lista.setEmptyView(txtListaVacia);
         lista.setAdapter(gameAdapter);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
