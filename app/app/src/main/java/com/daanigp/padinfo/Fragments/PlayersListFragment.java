@@ -103,7 +103,7 @@ public class PlayersListFragment extends Fragment {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent viewPlayer = new Intent(getContext(), ActivityPlayer.class);
+                Intent viewPlayer = new Intent(getActivity(), ActivityPlayer.class);
                 viewPlayer.putExtra("idPlayer", players.get(position).getId());
                 startActivity(viewPlayer);
             }

@@ -102,7 +102,7 @@ public class TournamentsListFragment extends Fragment {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent viewTournmanet = new Intent(getContext(), ActivityTournament.class);
+                Intent viewTournmanet = new Intent(getActivity(), ActivityTournament.class);
                 viewTournmanet.putExtra("idTournament", tournaments.get(position).getId());
                 startActivity(viewTournmanet);
             }

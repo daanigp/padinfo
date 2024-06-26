@@ -305,6 +305,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.e(TAG, "NOO REGISTRAO ->" + registredUser);
             loadMenuGuest();
             navigationView.inflateMenu(R.menu.nav_menu_guest);
+            txtUsuario.setText("");
+            txtEmail.setText("");
         }
     }
 

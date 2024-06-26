@@ -49,8 +49,8 @@ public class ActivityTournament extends AppCompatActivity {
 
         idTournament = getIntent().getLongExtra("idTournament", 0);
         if (idTournament != 0) {
-            //autoCompleteTournamentInfo();
-            completeInfo();
+            autoCompleteTournamentInfo();
+            //completeInfo();
         } else {
             img.setImageResource(R.drawable.campo_padel);
             showToast("Fallo en el sistema - No se ha podido cargar ningún torneo");

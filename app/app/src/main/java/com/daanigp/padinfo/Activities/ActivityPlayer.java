@@ -52,8 +52,8 @@ public class ActivityPlayer extends AppCompatActivity {
 
         idPlayer = getIntent().getLongExtra("idPlayer", 0);
         if (idPlayer != 0) {
-            //autoCompletePlayerInfo();
-            completeInfo();
+            autoCompletePlayerInfo();
+            //completeInfo();
         } else {
             img.setImageResource(R.drawable.player_img);
             showToast("Fallo en el sistema - No se ha podido cargar ningún jugador");
