@@ -93,7 +93,8 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
 
     public static int USER_LOGIN = 1;
     private static final String TAG = "MAIN_ACTIVITY";
-    private static final String SELECTED_ITEM_KEY = "KEY_SELECTED_ITEM";
+    private static final String SELECTED_ITEM_NAVIGATION_BOTTOM_KEY = "KEY_NAVIGATION_BOTTOM";
+    private static final String SELECTED_ITEM_NAVIGATION_VIEW_KEY = "KEY_NAVIGATION_VIEW";
     private int selectedItemId;
     private BottomNavigationView bottomNavigation;
     private View message_layout;
@@ -137,7 +138,7 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
             bottomNavigation.setSelectedItemId(R.id.home);
             navigationView.setCheckedItem(R.id.nav_home);
         } else {
-            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_KEY);
+            selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_NAVIGATION_BOTTOM_KEY);
             bottomNavigation.setSelectedItemId(selectedItemId);
         }
 
@@ -160,18 +161,21 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
                 FragmentTransaction transaction1 = manager.beginTransaction();
                 transaction1.setReorderingAllowed(true);
                 transaction1.replace(R.id.fcv_main_container, new MainFragment());
+                transaction1.addToBackStack("principal");
                 transaction1.commit();
                 break;
             case R.id.nav_settings:
                 FragmentTransaction transaction2 = manager.beginTransaction();
                 transaction2.setReorderingAllowed(true);
                 transaction2.replace(R.id.fcv_main_container, new SettingsFragment());
+                transaction2.addToBackStack("principal");
                 transaction2.commit();
                 break;
             case R.id.nav_info:
                 FragmentTransaction transaction3 = manager.beginTransaction();
                 transaction3.setReorderingAllowed(true);
                 transaction3.replace(R.id.fcv_main_container, new AboutFragment());
+                transaction3.addToBackStack("principal");
                 transaction3.commit();
                 break;
             case R.id.nav_logout:
@@ -221,7 +225,7 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SELECTED_ITEM_KEY, bottomNavigation.getSelectedItemId());
+        outState.putInt(SELECTED_ITEM_NAVIGATION_BOTTOM_KEY, bottomNavigation.getSelectedItemId());
     }
 
     /*@Override
@@ -383,19 +387,17 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
     private void loadMenuUser_Admin() {
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_admin_user);
-        loadFragmentMenu(new HomeFragment()); // Cargar fragmento inicial del menú 1
+        loadFragmentBottomMenu(new HomeFragment()); // Cargar fragmento inicial del menú 1
     }
 
     private void loadMenuGuest() {
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_guest);
-        loadFragmentMenu(new HomeFragment()); // Cargar fragmento inicial del menú 2
+        loadFragmentBottomMenu(new HomeFragment()); // Cargar fragmento inicial del menú 2
     }
 
-    public void loadFragmentMenu(Fragment fragment) {
-        Log.e("TAG", "Falla antes del loadFRagmetnMenu -> " + getActivity());
+    public void loadFragmentBottomMenu(Fragment fragment) {
         FragmentManager manager = requireActivity().getSupportFragmentManager();
-        Log.e("TAG", "Falla antes del fragmentManager -> " + getActivity());
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
         transaction.commitAllowingStateLoss();
@@ -506,6 +508,9 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
                 @Override
                 public void onClick(View v) {
                     showToast("IMÁGEN DE PERFIL");
+                    loadFragmentBottomMenu(new ProfileFragment());
+                    bottomNavigation.setSelectedItemId(R.id.profile);
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
             });
         }
