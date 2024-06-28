@@ -1,19 +1,17 @@
-package com.daanigp.padinfo.Activities;
+package com.daanigp.padinfo.Fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.NotificationCompat;
-
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.daanigp.padinfo.Entity.CreateGame;
@@ -24,39 +22,85 @@ import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
-import com.daanigp.padinfo.databinding.ActivityGameBinding;
+import com.daanigp.padinfo.databinding.FragmentEditCreateGameBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityEdit_Create_Game extends AppCompatActivity {
-    private static final String TAG = "ActivityEdit_Create_Game";
-    private final String CANAL_ID = "33";
-    ActivityGameBinding binding;
-    boolean editar;
-    long idEditGame, maxIdGame, idGame;
-    String token;
-    long userId;
-    View message_layout;
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link Edit_CreateGameFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class Edit_CreateGameFragment extends Fragment {
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_IDGAME = "idGame";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private long idGame;
+
+    public Edit_CreateGameFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param idGame Game id.
+     * @return A new instance of fragment Edit_CreateGameFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static Edit_CreateGameFragment newInstance(long idGame) {
+        Edit_CreateGameFragment fragment = new Edit_CreateGameFragment();
+        Bundle args = new Bundle();
+        Log.e("TAG", "ID game -> " + idGame);
+        args.putLong(ARG_IDGAME, idGame);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        if (getArguments() != null) {
+            idGame = getArguments().getLong(ARG_IDGAME);
+        }
+    }
 
-        userId = SharedPreferencesManager.getInstance(ActivityEdit_Create_Game.this).getUserId();
-        token = SharedPreferencesManager.getInstance(ActivityEdit_Create_Game.this).getToken();
+    private static final String TAG = "ActivityEdit_Create_Game";
+    private final String CANAL_ID = "33";
+    private FragmentEditCreateGameBinding binding;
+    private boolean editar;
+    private long maxIdGame;
+    private String token;
+    private long userId;
+    private View message_layout;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         //root = inflater.inflate(R.layout.fragment_edit__create, container, false);
+        binding = FragmentEditCreateGameBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        userId = SharedPreferencesManager.getInstance(getActivity()).getUserId();
+        token = SharedPreferencesManager.getInstance(getActivity()).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
-        binding = ActivityGameBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-
-        setDayNight();
+        //setDayNight();
         // Para los partidos que se quieren editar
-        idEditGame = getIntent().getLongExtra("idGame", 0);
-        if (idEditGame != 0) {
+        if (idGame != 0) {
             putValuesForIdGame();
             editar = true;
         }
@@ -309,23 +353,15 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showToast("No has guardado nada.");
-                setResult(RESULT_CANCELED);
-                finish();
+                /*FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.remove(getFragmentManager().findFragmentById(R.id.fcv_main_container)).commit();*/
+                //getFragmentManager().beginTransaction().remove(Edit_CreateGameFragment.this).commit();
             }
         });
     }
 
     private boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty();
-    }
-
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     private void addPoints(int points, TextView txtPuntos, TextView txtSet){
@@ -371,7 +407,7 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
     private void updateGame(UpdateGame updateGame) {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<Game> call = padinfoApi.updateGame(token, idEditGame, updateGame);
+        Call<Game> call = padinfoApi.updateGame(token, idGame, updateGame);
 
         call.enqueue(new Callback<Game>() {
             @Override
@@ -386,8 +422,9 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                 if (gameAPIupdated != null) {
                     showToast("Partido actualizado con éxito");
-                    setResult(RESULT_OK);
-                    finish();
+                    /*FragmentManager manager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.remove(Edit_CreateGameFragment.this).commit();*/
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }
@@ -423,10 +460,11 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
 
                     showToast("Partido creado con éxito");
 
-                    showNotification(true, true, newGame);
+                    //showNotification(true, true, newGame);
 
-                    setResult(RESULT_OK);
-                    finish();
+                    /*FragmentManager manager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.remove(Edit_CreateGameFragment.this).commit();*/
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }
@@ -440,45 +478,9 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
         });
     }
 
-
-    private void getMaxIdGame(){
-        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<Long> call = padinfoApi.getMaximmumIdGame(token);
-
-        call.enqueue(new Callback<Long>() {
-            @Override
-            public void onResponse(Call<Long> call, Response<Long> response) {
-                if (!response.isSuccessful()) {
-                    Log.v(TAG, "No va (getMaxIdGame) -> response");
-                    showToast("Código error: " + response.code());
-                    return;
-                }
-
-                if (response.body() == null) {
-                    maxIdGame = 1;
-                } else {
-                    Long maxIdAPI = response.body();
-
-                    if (maxIdAPI != null && maxIdAPI > 0) {
-                        maxIdGame = maxIdAPI + 1;
-                    } else {
-                        maxIdGame = 1;
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Long> call, Throwable t) {
-                Log.e(TAG, "Error en la llamada Retrofit - (getMaxIdGame)", t);
-                showToast("Código error: " + t.getMessage());
-            }
-        });
-    }
-
-
     private void putValuesForIdGame() {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
-        Call<Game> call = padinfoApi.getGameByIdGame(token, idEditGame);
+        Call<Game> call = padinfoApi.getGameByIdGame(token, idGame);
 
         call.enqueue(new Callback<Game>() {
             @Override
@@ -525,8 +527,8 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
         });
     }
 
-    private void showNotification(boolean expandible, boolean actividad, CreateGame newGame) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CANAL_ID);
+    /*private void showNotification(boolean expandible, boolean actividad, CreateGame newGame) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), CANAL_ID);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
 
         if (expandible && actividad) {
@@ -549,7 +551,7 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
             builder.setStyle(estilo);
             builder.setAutoCancel(true);
 
-            Intent intent = new Intent(ActivityEdit_Create_Game.this, ActivityList_Games.class);
+            Intent intent = new Intent(getActivity(), ActivityList_Games.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -557,7 +559,8 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
             builder.setContentIntent(pendingIntent);
         }
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager;
+        notificationManager = (NotificationManager) android.app.Activity.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel canal = new NotificationChannel(CANAL_ID, "Titulo del canal", NotificationManager.IMPORTANCE_DEFAULT);
@@ -567,9 +570,16 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
         Notification notification = builder.build();
         notificationManager.notify(Integer.parseInt(CANAL_ID), notification);
     }
-
+*/
     private void showToast(String message) {
-        Toast_Personalized toast = new Toast_Personalized(message, ActivityEdit_Create_Game.this, message_layout);
+        Toast_Personalized toast = new Toast_Personalized(message, getActivity(), message_layout);
         toast.CreateToast();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // Liberar la referencia al binding
     }
 }

@@ -1,31 +1,33 @@
 package com.daanigp.padinfo.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.daanigp.padinfo.Activities.ActivityEdit_Create_Game;
-import com.daanigp.padinfo.Activities.ActivityList_Games;
 import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -97,6 +99,7 @@ public class GamesListFragment extends Fragment {
     private String token;
     private long userId;
     private View message_layout;
+    private LinearLayout layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,6 +109,7 @@ public class GamesListFragment extends Fragment {
 
         btnAddGame = root.findViewById(R.id.btnNewGame);
         txtListaVacia = root.findViewById(R.id.txtListaPartidosVacia);
+        layout = root.findViewById(R.id.layoutListado);
         userId = SharedPreferencesManager.getInstance(getContext()).getUserId();
         token = SharedPreferencesManager.getInstance(getContext()).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
@@ -129,11 +133,11 @@ public class GamesListFragment extends Fragment {
         btnAddGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentAddGame = new Intent(getActivity(), ActivityEdit_Create_Game.class);
-                startActivityForResult(intentAddGame, CREATE_GAME);
+                /*Intent intentAddGame = new Intent(getActivity(), ActivityEdit_Create_Game.class);
+                startActivityForResult(intentAddGame, CREATE_GAME);*/
+                loadEdit_CreateGameFragment(0);
             }
         });
-
 
         return root;
     }
@@ -155,12 +159,39 @@ public class GamesListFragment extends Fragment {
         switch (id) {
             case R.id.itemEditar:
                 showToast("EDITAR -> " + game.getId());
+                /*Intent intentEditarPartido = new Intent(getActivity(), ActivityEdit_Create_Game.class);
+                intentEditarPartido.putExtra("idGame", game.getId());
+                startActivityForResult(intentEditarPartido, EDIT_GAME);*/
+                loadEdit_CreateGameFragment(game.getId());
                 return true;
             case R.id.itemEliminar:
                 showToast("ELIMINAR -> " + game.getId());
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    private void loadEdit_CreateGameFragment(long idGame) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fcv_main_container, Edit_CreateGameFragment.newInstance(idGame));
+        transaction.setReorderingAllowed(true);
+        transaction.addToBackStack("principal");
+        transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREATE_GAME) {
+            if (resultCode == RESULT_OK) {
+                getGames();
+            }
+        } else if (requestCode == EDIT_GAME) {
+            if (resultCode == RESULT_OK) {
+                getGames();
+            }
         }
     }
 

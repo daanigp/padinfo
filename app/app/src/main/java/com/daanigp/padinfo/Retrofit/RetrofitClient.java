@@ -1,7 +1,6 @@
 package com.daanigp.padinfo.Retrofit;
 
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
-import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

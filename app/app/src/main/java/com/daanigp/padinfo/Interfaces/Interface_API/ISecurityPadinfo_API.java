@@ -1,4 +1,4 @@
-package com.daanigp.padinfo.Interface_API;
+package com.daanigp.padinfo.Interfaces.Interface_API;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;

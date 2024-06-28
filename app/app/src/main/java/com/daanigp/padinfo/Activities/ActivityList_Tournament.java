@@ -21,7 +21,7 @@ import android.widget.ListView;
 import com.daanigp.padinfo.Adapter.TournamentAdapter;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Tournament;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
