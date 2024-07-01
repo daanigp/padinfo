@@ -78,6 +78,8 @@
     <string name="genderFemMenu">Femenino</string>
     <string name="listaVaciaPartidos">No hay ningún partido almacenado</string>
 
+
+
     <string-array name="generos">
         <item>MASC</item>
         <item>FEM</item>
