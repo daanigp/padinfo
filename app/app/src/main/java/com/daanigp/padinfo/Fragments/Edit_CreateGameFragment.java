@@ -349,15 +349,15 @@ public class Edit_CreateGameFragment extends Fragment {
             }
         });
 
-        binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
+        /*binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("No has guardado nada.");
-                /*FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.remove(getFragmentManager().findFragmentById(R.id.fcv_main_container)).commit();*/
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.remove(getFragmentManager().findFragmentById(R.id.fcv_main_container)).commit();
                 //getFragmentManager().beginTransaction().remove(Edit_CreateGameFragment.this).commit();
             }
-        });
+        });*/
     }
 
     private boolean isNullOrEmpty(String str) {
@@ -422,6 +422,17 @@ public class Edit_CreateGameFragment extends Fragment {
 
                 if (gameAPIupdated != null) {
                     showToast("Partido actualizado con éxito");
+
+                    binding.editTxtNombreJug1P.setText("");
+                    binding.editTxtNombreJug2P.setText("");
+                    binding.editTxtNombreJug3P.setText("");
+                    binding.editTxtNombreJug4P.setText("");
+                    binding.txtPtosSet1Eq1P.setText("0");
+                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet3Eq1P.setText("0");
+                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet2Eq2P.setText("0");
+                    binding.txtPtosSet3Eq2P.setText("0");
                     /*FragmentManager manager = getActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = manager.beginTransaction();
                     transaction.remove(Edit_CreateGameFragment.this).commit();*/
@@ -461,6 +472,17 @@ public class Edit_CreateGameFragment extends Fragment {
                     showToast("Partido creado con éxito");
 
                     //showNotification(true, true, newGame);
+
+                    binding.editTxtNombreJug1P.setText("");
+                    binding.editTxtNombreJug2P.setText("");
+                    binding.editTxtNombreJug3P.setText("");
+                    binding.editTxtNombreJug4P.setText("");
+                    binding.txtPtosSet1Eq1P.setText("0");
+                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet3Eq1P.setText("0");
+                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet2Eq2P.setText("0");
+                    binding.txtPtosSet3Eq2P.setText("0");
 
                     /*FragmentManager manager = getActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = manager.beginTransaction();

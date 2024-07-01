@@ -305,14 +305,14 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
             }
         });
 
-        binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
+        /*binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("No has guardado nada.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
-        });
+        });*/
     }
 
     private boolean isNullOrEmpty(String str) {

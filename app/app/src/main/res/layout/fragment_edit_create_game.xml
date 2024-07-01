@@ -407,28 +407,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnCancelarPartido"
-                    android:layout_width="133dp"
-                    android:layout_height="55dp"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="#FF0000"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/cancelar"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    app:cornerRadius="0dp" />
-
-                <Button
                     android:id="@+id/btnGuardarPartido"
-                    android:layout_width="133dp"
+                    android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_margin="25dp"
                     android:backgroundTint="#4CAF50"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -436,7 +418,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    app:cornerRadius="0dp" />
+                    app:cornerRadius="15dp" />
 
             </LinearLayout>
 
