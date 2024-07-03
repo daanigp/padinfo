@@ -1,11 +1,21 @@
 package com.daanigp.padinfo.Fragments;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.daanigp.padinfo.Activities.Activity_Main;
 import com.daanigp.padinfo.Entity.CreateGame;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.UpdateGame;
@@ -439,7 +450,7 @@ public class Edit_CreateGameFragment extends Fragment {
                     binding.txtPtosSet1Eq1P.setText("0");
                     binding.txtPtosSet2Eq1P.setText("0");
                     binding.txtPtosSet3Eq1P.setText("0");
-                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet1Eq2P.setText("0");
                     binding.txtPtosSet2Eq2P.setText("0");
                     binding.txtPtosSet3Eq2P.setText("0");
                     /*FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -480,7 +491,7 @@ public class Edit_CreateGameFragment extends Fragment {
 
                     showToast("Partido creado con éxito");
 
-                    //showNotification(true, true, newGame);
+                    showNotification(true, true, newGame);
 
                     binding.editTxtNombreJug1P.setText("");
                     binding.editTxtNombreJug2P.setText("");
@@ -489,7 +500,7 @@ public class Edit_CreateGameFragment extends Fragment {
                     binding.txtPtosSet1Eq1P.setText("0");
                     binding.txtPtosSet2Eq1P.setText("0");
                     binding.txtPtosSet3Eq1P.setText("0");
-                    binding.txtPtosSet2Eq1P.setText("0");
+                    binding.txtPtosSet1Eq2P.setText("0");
                     binding.txtPtosSet2Eq2P.setText("0");
                     binding.txtPtosSet3Eq2P.setText("0");
 
@@ -558,7 +569,7 @@ public class Edit_CreateGameFragment extends Fragment {
         });
     }
 
-    /*private void showNotification(boolean expandible, boolean actividad, CreateGame newGame) {
+    private void showNotification(boolean expandible, boolean actividad, CreateGame newGame) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), CANAL_ID);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
 
@@ -575,23 +586,24 @@ public class Edit_CreateGameFragment extends Fragment {
             lines[5] = "SET 2 -> " + newGame.getSet2PointsT1() + " - " + newGame.getSet2PointsT2();
             lines[6] = "SET 3 -> " + newGame.getSet3PointsT1() + " - " + newGame.getSet3PointsT2();
 
-            for (int i = 0; i < lines.length; i++) {
-                estilo.addLine(lines[i]);
+            for (String line: lines) {
+                estilo.addLine(line);
             }
 
             builder.setStyle(estilo);
             builder.setAutoCancel(true);
 
-            Intent intent = new Intent(getActivity(), ActivityList_Games.class);
+            Intent intent = new Intent(getActivity(), Activity_Main.class);
+            // Tiene que regresar al fragment del listado de partidos
+            intent.putExtra("navigateToFragment", "gamesListFragment");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             builder.setContentIntent(pendingIntent);
         }
 
-        NotificationManager notificationManager;
-        notificationManager = (NotificationManager) android.app.Activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel canal = new NotificationChannel(CANAL_ID, "Titulo del canal", NotificationManager.IMPORTANCE_DEFAULT);
@@ -601,7 +613,6 @@ public class Edit_CreateGameFragment extends Fragment {
         Notification notification = builder.build();
         notificationManager.notify(Integer.parseInt(CANAL_ID), notification);
     }
-*/
     private void showToast(String message) {
         Toast_Personalized toast = new Toast_Personalized(message, getActivity(), message_layout);
         toast.CreateToast();

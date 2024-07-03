@@ -1,5 +1,6 @@
 package com.daanigp.padinfo.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.daanigp.padinfo.Fragments.HomeFragment;
 import com.daanigp.padinfo.Fragments.MainFragment;
 import com.daanigp.padinfo.Interfaces.BackPressHandler;
 import com.daanigp.padinfo.R;
@@ -27,11 +29,34 @@ public class Activity_Main extends AppCompatActivity {
 
        //setDayNight();
 
+        if (savedInstanceState != null) {
+            Log.e("TAG", "carga EL MAIN FRAGMENT DESDE EL IF DE saveInstanceState");
+            loadFragment(new MainFragment());
+        } else {
+            handleIntent(getIntent());
+        }
+
+
+    }
+
+    private void loadFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         //fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.add(R.id.fcv_main_container, new MainFragment());
+        fragmentTransaction.add(R.id.fcv_main_container, fragment);
         fragmentTransaction.commit();
+    }
 
+    private void handleIntent(Intent intent) {
+        if (intent != null && intent.hasExtra("navigateToFragment")) {
+            String fragmentToNavigate = intent.getStringExtra("navigateToFragment");
+            if (fragmentToNavigate.equalsIgnoreCase("gamesListFragment")) {
+                Log.e("TAG", "carga main fragment en activity main con parámetro");
+                loadFragment(MainFragment.newInstance("gamesListFragment"));
+            }
+        } else {
+            Log.e("TAG", "carga EL MAIN FRAGMENT DESDE EL IF DEL INTENT");
+            loadFragment(new MainFragment());
+        }
     }
 
     @Override

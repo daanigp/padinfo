@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -24,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.daanigp.padinfo.Activities.ActivityEdit_Create_Game;
 import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
@@ -105,7 +103,7 @@ public class GamesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_games, container, false);
+        View root = inflater.inflate(R.layout.fragment_games_list, container, false);
 
         btnAddGame = root.findViewById(R.id.btnNewGame);
         txtListaVacia = root.findViewById(R.id.txtListaPartidosVacia);
