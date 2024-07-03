@@ -51,7 +51,6 @@ public class Edit_CreateGameFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_IDGAME = "idGame";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private long idGame;
@@ -71,8 +70,9 @@ public class Edit_CreateGameFragment extends Fragment {
     public static Edit_CreateGameFragment newInstance(long idGame) {
         Edit_CreateGameFragment fragment = new Edit_CreateGameFragment();
         Bundle args = new Bundle();
-        Log.e("TAG", "ID game -> " + idGame);
+
         args.putLong(ARG_IDGAME, idGame);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -503,10 +503,7 @@ public class Edit_CreateGameFragment extends Fragment {
                     binding.txtPtosSet1Eq2P.setText("0");
                     binding.txtPtosSet2Eq2P.setText("0");
                     binding.txtPtosSet3Eq2P.setText("0");
-
-                    /*FragmentManager manager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.remove(Edit_CreateGameFragment.this).commit();*/
+                    
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }

@@ -51,12 +51,10 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ID_BOTTOM_MENU = "idBottomNavigationMenu";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String idBottomMenu;
 
     public MainFragment() {
         // Required empty public constructor
@@ -73,7 +71,9 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
     public static MainFragment newInstance(String param1) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+
+        args.putString(ID_BOTTOM_MENU, param1);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,8 +82,7 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            idBottomMenu = getArguments().getString(ID_BOTTOM_MENU);
         }
     }
 
@@ -140,18 +139,7 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
             getRolesByUserId();
-            /*if (mParam1 == null || mParam1.isEmpty()) {
-                Log.e("TAG", "mParam == " + mParam1 + " y se selecciona el id de HOME");
-                bottomNavigation.setSelectedItemId(R.id.home);
-            } else {
-                if (mParam1.equalsIgnoreCase("gamesListFragment")) {
-                    Log.e("TAG", "mParam == " + mParam1 + " y se selecciona el id de GAMESLIST");
-                    bottomNavigation.setSelectedItemId(R.id.gamesList);
-                }
-            }
-            navigationView.setCheckedItem(R.id.nav_home);*/
         } else {
-            Log.e("TAG", "saveInstanceState != null en main fragment");
             selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_NAVIGATION_BOTTOM_KEY);
             bottomNavigation.setSelectedItemId(selectedItemId);
         }
@@ -390,14 +378,11 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
     private void loadMenuUser_Admin() {
         bottomNavigation.getMenu().clear();
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_menu_admin_user);
-        if (mParam1 == null || mParam1.isEmpty()) {
-            Log.e("TAG", "mParam1 == null en main fragment -> " + mParam1);
+        if (idBottomMenu == null || idBottomMenu.isEmpty()) {
             bottomNavigation.setSelectedItemId(R.id.home);
             loadFragmentBottomMenu(new HomeFragment()); // Cargar fragmento inicial del menú 1
         } else {
-            Log.e("TAG", "mParam1 no es nulo -> " + mParam1);
-            if (mParam1.equalsIgnoreCase("gamesListFragment")) {
-                Log.e("TAG", "ABRE BIEN EL FRAGMENTO DEL LISTADO DE PARTIDOS");
+            if (idBottomMenu.equalsIgnoreCase("gamesListFragment")) {
                 bottomNavigation.setSelectedItemId(R.id.gamesList);
                 loadFragment(new GamesListFragment());
             }

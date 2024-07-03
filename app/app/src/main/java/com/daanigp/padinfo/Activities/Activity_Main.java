@@ -30,7 +30,6 @@ public class Activity_Main extends AppCompatActivity {
        //setDayNight();
 
         if (savedInstanceState != null) {
-            Log.e("TAG", "carga EL MAIN FRAGMENT DESDE EL IF DE saveInstanceState");
             loadFragment(new MainFragment());
         } else {
             handleIntent(getIntent());
@@ -50,11 +49,9 @@ public class Activity_Main extends AppCompatActivity {
         if (intent != null && intent.hasExtra("navigateToFragment")) {
             String fragmentToNavigate = intent.getStringExtra("navigateToFragment");
             if (fragmentToNavigate.equalsIgnoreCase("gamesListFragment")) {
-                Log.e("TAG", "carga main fragment en activity main con parámetro");
                 loadFragment(MainFragment.newInstance("gamesListFragment"));
             }
         } else {
-            Log.e("TAG", "carga EL MAIN FRAGMENT DESDE EL IF DEL INTENT");
             loadFragment(new MainFragment());
         }
     }
