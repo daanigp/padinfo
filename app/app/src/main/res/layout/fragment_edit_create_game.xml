@@ -4,59 +4,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.Edit_CreateGameFragment">
+    tools:context=".Fragments.Edit_CreateGameFragment"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarEditCreateGame"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:elevation="4dp"
+        android:background="@color/green_dark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:padding="15dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/textViewEq1_p"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/eq1"
-                android:textColor="#4CAF50"
+                android:textColor="@color/green_normal_2"
                 android:textSize="20dp"
                 android:textStyle="bold|italic" />
 
             <EditText
                 android:id="@+id/editTxtNombreJug1_p"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:ems="10"
                 android:hint="Nombre jugador 1"
                 android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#353535" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_hint" />
 
             <EditText
                 android:id="@+id/editTxtNombreJug2_p"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:ems="10"
                 android:hint="Nombre jugador 2"
                 android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#353535" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_hint" />
 
             <TextView
                 android:id="@+id/textViewPuntosEq1_p"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/puntosEq1"
-                android:textColor="#4CAF50"
+                android:textColor="@color/green_normal_2"
                 android:textSize="16dp"
                 android:textStyle="bold|italic" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_set1_1_p"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -64,10 +76,11 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/set1"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -76,38 +89,40 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/green_dark"
                     android:contentDescription="@string/add_points"
                     android:src="@android:drawable/ic_input_add"
                     android:tintMode="multiply"
-                    app:tint="#4CAF50" />
+                    app:tint="@color/green_normal_2" />
 
                 <TextView
                     android:id="@+id/txtPtosSet1Eq1_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:hint="0"
                     android:text="0"
                     android:textAlignment="center"
-                    android:textColor="#000000" />
+                    android:textSize="20sp"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet1_1_p"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/green_dark"
                     android:contentDescription="@string/del_points"
                     android:src="@android:drawable/ic_input_delete"
                     android:tintMode="multiply"
-                    app:tint="#4CAF50" />
+                    app:tint="@color/green_normal_2" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout_set2_1_p"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -115,10 +130,11 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/set2"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -127,39 +143,41 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/green_dark"
                     android:contentDescription="@string/add_points"
                     android:src="@android:drawable/ic_input_add"
                     android:tintMode="multiply"
-                    app:tint="#4CAF50" />
+                    app:tint="@color/green_normal_2" />
 
                 <TextView
                     android:id="@+id/txtPtosSet2Eq1_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:hint="0"
                     android:text="0"
+                    android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="#000000" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet2_1_p"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/green_dark"
                     android:contentDescription="@string/del_points"
                     android:src="@android:drawable/ic_input_delete"
                     android:tintMode="multiply"
-                    app:tint="#4CAF50" />
+                    app:tint="@color/green_normal_2" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout_set3_1_p"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -167,10 +185,11 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/set3"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -179,32 +198,34 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/green_dark"
                     android:contentDescription="@string/add_points"
                     android:src="@android:drawable/ic_input_add"
                     android:tintMode="multiply"
-                    app:tint="#4CAF50" />
+                    app:tint="@color/green_normal_2" />
 
                 <TextView
                     android:id="@+id/txtPtosSet3Eq1_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:hint="0"
                     android:text="0"
+                    android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="#000000" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet3_1_p"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/green_dark"
                     android:contentDescription="@string/del_points"
                     android:src="@android:drawable/ic_input_delete"
                     android:tintMode="multiply"
-                    app:tint="#4CAF50" />
+                    app:tint="@color/green_normal_2" />
 
             </LinearLayout>
 
@@ -213,43 +234,43 @@
                 android:layout_width="162dp"
                 android:layout_height="match_parent"
                 android:text="@string/eq2"
-                android:textColor="#FF0000"
+                android:textColor="@color/red"
                 android:textSize="20dp"
                 android:textStyle="bold|italic" />
 
             <EditText
                 android:id="@+id/editTxtNombreJug3_p"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:ems="10"
                 android:hint="Nombre jugador 3"
                 android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#353535" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_hint" />
 
             <EditText
                 android:id="@+id/editTxtNombreJug4_p"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:ems="10"
                 android:hint="Nombre jugador 4"
                 android:inputType="text"
-                android:textColor="#000000"
-                android:textColorHint="#353535" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_hint" />
 
             <TextView
                 android:id="@+id/textViewPuntosEq2_p"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/puntosEq2"
-                android:textColor="#FF0000"
+                android:textColor="@color/red"
                 android:textSize="16dp"
                 android:textStyle="bold|italic" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_set1_2_p"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -257,10 +278,11 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/set1"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -269,38 +291,40 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/red_dark"
                     android:contentDescription="@string/add_points"
                     android:src="@android:drawable/ic_input_add"
                     android:tintMode="multiply"
-                    app:tint="#FF0000" />
+                    app:tint="@color/red" />
 
                 <TextView
                     android:id="@+id/txtPtosSet1Eq2_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:hint="0"
                     android:text="0"
+                    android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="#000000" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet1_2_p"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/red_dark"
                     android:contentDescription="@string/del_points"
                     android:src="@android:drawable/ic_input_delete"
                     android:tintMode="multiply"
-                    app:tint="#FF0000" />
+                    app:tint="@color/red" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout_set2_2_p"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -308,10 +332,11 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/set2"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -320,38 +345,40 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/red_dark"
                     android:contentDescription="@string/add_points"
                     android:src="@android:drawable/ic_input_add"
                     android:tintMode="multiply"
-                    app:tint="#FF0000" />
+                    app:tint="@color/red" />
 
                 <TextView
                     android:id="@+id/txtPtosSet2Eq2_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:hint="0"
                     android:text="0"
+                    android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="#000000" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet2_2_p"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/red_dark"
                     android:contentDescription="@string/del_points"
                     android:src="@android:drawable/ic_input_delete"
                     android:tintMode="multiply"
-                    app:tint="#FF0000" />
+                    app:tint="@color/red" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout_set3_2_p"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -359,10 +386,11 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/set3"
                     android:textAlignment="center"
                     android:textAllCaps="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
@@ -371,32 +399,34 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/red_dark"
                     android:contentDescription="@string/add_points"
                     android:src="@android:drawable/ic_input_add"
                     android:tintMode="multiply"
-                    app:tint="#FF0000" />
+                    app:tint="@color/red" />
 
                 <TextView
                     android:id="@+id/txtPtosSet3Eq2_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:hint="0"
                     android:text="0"
+                    android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="#000000" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnDelPtsSet3_2_p"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:backgroundTint="#020202"
+                    android:backgroundTint="@color/red_dark"
                     android:contentDescription="@string/del_points"
                     android:src="@android:drawable/ic_input_delete"
                     android:tintMode="multiply"
-                    app:tint="#FF0000" />
+                    app:tint="@color/red" />
 
             </LinearLayout>
 
@@ -411,12 +441,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_margin="25dp"
-                    android:backgroundTint="#4CAF50"
+                    android:backgroundTint="@color/green_normal_2"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/guardar"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:cornerRadius="15dp" />
 

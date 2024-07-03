@@ -77,6 +77,8 @@
     <string name="genderMascMenu">Masculino</string>
     <string name="genderFemMenu">Femenino</string>
     <string name="listaVaciaPartidos">No hay ningún partido almacenado</string>
+    <string name="titleEDIT_Game">EditarPartido</string>
+    <string name="titleCREATE_Game">CrearPartido</string>
 
 
 

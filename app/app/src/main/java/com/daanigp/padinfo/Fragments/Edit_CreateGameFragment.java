@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -100,9 +102,16 @@ public class Edit_CreateGameFragment extends Fragment {
 
         //setDayNight();
         // Para los partidos que se quieren editar
+        Toolbar toolbar = binding.toolbarEditCreateGame;
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         if (idGame != 0) {
+            //((AppCompatActivity)getActivity()).getActionBar().setTitle(R.string.titleEDIT_Game);
+            toolbar.setTitle(R.string.titleEDIT_Game);
             putValuesForIdGame();
             editar = true;
+        } else {
+            //((AppCompatActivity)getActivity()).getActionBar().setTitle(R.string.titleCREATE_Game);
+            toolbar.setTitle(R.string.titleCREATE_Game);
         }
 
         // Añadir y borrar puntos set 1 equipo 1
