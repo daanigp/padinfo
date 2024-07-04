@@ -2,6 +2,7 @@
     <string name="app_name">padinfo</string>
 
     <string name="loginTxt">Inicio de sesión</string>
+    <string name="signupTxt">Registro</string>
     <string name="mantenimiento">En mantenimiento</string>
 
     <string name="more">Más</string>
@@ -44,7 +45,7 @@
     <string name="contra">Contraseña</string>
     <string name="nombre">Nombre:</string>
     <string name="apellidos">Apellidos:</string>
-    <string name="email">Email</string>
+    <string name="email">Email:</string>
     <string name="nombreTxt">Nombre</string>
     <string name="apellidosTxt">Apellidos</string>
     <string name="emailTxt">Email</string>

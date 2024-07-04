@@ -40,13 +40,13 @@ public class ActivitySignupUser extends AppCompatActivity {
         setContentView(R.layout.activity_signup_user);
 
         imgApp = (ImageView) findViewById(R.id.imgApp2);
-        btnCancelar = (Button) findViewById(R.id.btnCancel);
-        btnRegistrar = (Button) findViewById(R.id.btnNewRegistro);
-        txtUsuario = (EditText) findViewById(R.id.editTxtNuevoUsuario);
-        txtPassword = (EditText) findViewById(R.id.editTxtNuevaContrasenya);
-        txtName = (EditText) findViewById(R.id.editTxtNombreRegistro);
-        txtLastName = (EditText) findViewById(R.id.editTxtApellidosRegistro);
-        txtEmail = (EditText) findViewById(R.id.editTxtEmailRegistro);
+        btnCancelar = (Button) findViewById(R.id.btnCancelRegistro);
+        btnRegistrar = (Button) findViewById(R.id.btnRegistroNuevoUsuario);
+        txtUsuario = (EditText) findViewById(R.id.editTxtUser_signup);
+        txtPassword = (EditText) findViewById(R.id.editTxtPassword_signup);
+        txtName = (EditText) findViewById(R.id.editTxtName_signup);
+        txtLastName = (EditText) findViewById(R.id.editTxtLastName_signup);
+        txtEmail = (EditText) findViewById(R.id.editTxtEmail_signup);
 
         imgApp.setImageResource(R.drawable.padinfo_logo);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
