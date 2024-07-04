@@ -34,15 +34,6 @@ public class GameAdapter extends ArrayAdapter<Game> {
         LayoutInflater inflater = LayoutInflater.from(this.getContext());
         View fila = inflater.inflate(mResource, parent, false);
 
-        /*TextView txtNombreJugadoresEq1 = fila.findViewById(R.id.txtNombreJugadoresEq1);
-        TextView txtNombreJugadoresEq2 = fila.findViewById(R.id.txtNombreJugadoresEq2);
-        TextView txtSet1Eq1 = fila.findViewById(R.id.txtPuntosSet1Eq1);
-        TextView txtSet2Eq1 = fila.findViewById(R.id.txtPuntosSet2Eq1);
-        TextView txtSet3Eq1 = fila.findViewById(R.id.txtPuntosSet3Eq1);
-        TextView txtSet1Eq2 = fila.findViewById(R.id.txtPuntosSet1Eq2);
-        TextView txtSet2Eq2 = fila.findViewById(R.id.txtPuntosSet2Eq2);
-        TextView txtSet3Eq2 = fila.findViewById(R.id.txtPuntosSet3Eq2);*/
-
         TextView nombresEq1 = fila.findViewById(R.id.namesPlayersTeam1);
         TextView nombresEq2 = fila.findViewById(R.id.namesPlayersTeam2);
         TextView ptsEq1 = fila.findViewById(R.id.pointsTeam1);
@@ -53,8 +44,6 @@ public class GameAdapter extends ArrayAdapter<Game> {
         ptsEq1.setTextColor(Color.argb(255, 0 ,0, 0));
         ptsEq2.setTextColor(Color.argb(255, 0 ,0, 0));
 
-
-
         String nombreJugadoresEq1, nombreJugadoresEq2;
         nombreJugadoresEq1 = games.get(position).getNamePlayer1() + "\n" + games.get(position).getNamePlayer2();
         nombreJugadoresEq2 = games.get(position).getNamePlayer3() + "\n" + games.get(position).getNamePlayer4();
@@ -64,8 +53,10 @@ public class GameAdapter extends ArrayAdapter<Game> {
 
         if (equipoGanador == 1) {
             nombresEq1.setTextColor(Color.argb(255, 0 ,255, 0));
+            nombresEq1.setTypeface(null, Typeface.BOLD);
         } else {
             nombresEq2.setTextColor(Color.argb(255, 0 ,255, 0));
+            nombresEq2.setTypeface(null, Typeface.BOLD);
         }
 
         if (games.get(position).getSet1PointsT1() > games.get(position).getSet1PointsT2()) {

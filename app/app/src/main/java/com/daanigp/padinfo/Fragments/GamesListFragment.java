@@ -162,7 +162,6 @@ public class GamesListFragment extends Fragment {
                 loadEdit_CreateGameFragment(game.getId());
                 return true;
             case R.id.itemEliminar:
-                //showToast("ELIMINAR -> " + game.getId());
                 showPopupMenu(game);
                 return true;
             default:
@@ -176,21 +175,6 @@ public class GamesListFragment extends Fragment {
         transaction.setReorderingAllowed(true);
         transaction.addToBackStack("principal");
         transaction.commitAllowingStateLoss();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == CREATE_GAME) {
-            if (resultCode == RESULT_OK) {
-                getGames();
-            }
-        } else if (requestCode == EDIT_GAME) {
-            if (resultCode == RESULT_OK) {
-                getGames();
-            }
-        }
     }
 
     private void getGames() {
@@ -271,21 +255,6 @@ public class GamesListFragment extends Fragment {
         builder.setView(v);
         dialog = builder.create();
         dialog.show();
-
-
-        /*builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteGame(g);
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
-            }
-        });*/
     }
 
     private void deleteGame(Game g) {

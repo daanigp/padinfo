@@ -31,7 +31,6 @@ public class ActivityEdit_User extends AppCompatActivity {
     String token, image;
     long userId;
     View message_layout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,7 @@ public class ActivityEdit_User extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showToast("No has hecho ningún cambio.");
-                setResult(RESULT_CANCELED);
+                //setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -169,7 +168,7 @@ public class ActivityEdit_User extends AppCompatActivity {
                 if (userAPI != null) {
                     showToast("Has guardado los cambios.");
 
-                    setResult(RESULT_OK);
+//                    setResult(RESULT_OK);
                     finish();
                 } else {
                     showToast("Error en la respuesta del servidor");
