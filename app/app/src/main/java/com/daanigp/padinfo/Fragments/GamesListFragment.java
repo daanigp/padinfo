@@ -2,11 +2,13 @@ package com.daanigp.padinfo.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
@@ -98,6 +101,7 @@ public class GamesListFragment extends Fragment {
     private long userId;
     private View message_layout;
     private LinearLayout layout;
+    private AlertDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,8 +135,6 @@ public class GamesListFragment extends Fragment {
         btnAddGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intentAddGame = new Intent(getActivity(), ActivityEdit_Create_Game.class);
-                startActivityForResult(intentAddGame, CREATE_GAME);*/
                 loadEdit_CreateGameFragment(0);
             }
         });
@@ -157,13 +159,11 @@ public class GamesListFragment extends Fragment {
         switch (id) {
             case R.id.itemEditar:
                 showToast("EDITAR -> " + game.getId());
-                /*Intent intentEditarPartido = new Intent(getActivity(), ActivityEdit_Create_Game.class);
-                intentEditarPartido.putExtra("idGame", game.getId());
-                startActivityForResult(intentEditarPartido, EDIT_GAME);*/
                 loadEdit_CreateGameFragment(game.getId());
                 return true;
             case R.id.itemEliminar:
-                showToast("ELIMINAR -> " + game.getId());
+                //showToast("ELIMINAR -> " + game.getId());
+                showPopupMenu(game);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -239,6 +239,82 @@ public class GamesListFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Game>> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (getPartidosFromDB)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void showPopupMenu(Game g) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Eliminar partido");
+        builder.setMessage("¿Estás seguro de eliminar el partido?");
+
+        View v = View.inflate(getActivity(), R.layout.alert_dialog_layout, null);
+        Button btnYes = v.findViewById(R.id.btnYes_AlertDialog_eliminarPartido);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteGame(g);
+                dialog.dismiss(); // error
+            }
+        });
+
+        Button btnNo = v.findViewById(R.id.btnNo_AlertDialog_eliminarPartido);
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
+                dialog.dismiss(); //error
+            }
+        });
+
+        builder.setView(v);
+        dialog = builder.create();
+        dialog.show();
+
+
+        /*builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteGame(g);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
+            }
+        });*/
+    }
+
+    private void deleteGame(Game g) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deleteGameByid(token, g.getId());
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    Log.v(TAG, "No va (userExists) -> response");
+                    showToast("Código error: " + response.code());
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res.getMessege().equalsIgnoreCase("Borrado")) {
+                    games.remove(g);
+                    gameAdapter.notifyDataSetChanged();
+                    showToast("Partido eliminado.");
+                } else {
+                    showToast("No se ha podido eliminar el partido.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (userExists)", t);
                 showToast("Código error: " + t.getMessage());
             }
         });

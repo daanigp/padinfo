@@ -503,7 +503,7 @@ public class Edit_CreateGameFragment extends Fragment {
                     binding.txtPtosSet1Eq2P.setText("0");
                     binding.txtPtosSet2Eq2P.setText("0");
                     binding.txtPtosSet3Eq2P.setText("0");
-                    
+
                 } else {
                     showToast("Error en la respuesta del servidor");
                 }

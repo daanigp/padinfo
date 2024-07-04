@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/btnYes_AlertDialog_eliminarPartido"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/green_normal"
+            android:text="@string/Respuesta_SI" />
+
+        <Button
+            android:id="@+id/btnNo_AlertDialog_eliminarPartido"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/red_dark"
+            android:text="@string/Respuesta_NO" />
+
+    </LinearLayout>
+
+</LinearLayout>
