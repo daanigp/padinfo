@@ -48,7 +48,7 @@ public class ActivitySignupUser extends AppCompatActivity {
         txtLastName = (EditText) findViewById(R.id.editTxtLastName_signup);
         txtEmail = (EditText) findViewById(R.id.editTxtEmail_signup);
 
-        imgApp.setImageResource(R.drawable.padinfo_logo);
+        imgApp.setImageResource(R.drawable.img_profile_frog);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         setDayNight();

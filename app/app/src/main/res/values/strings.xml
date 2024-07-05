@@ -89,6 +89,16 @@
         <item>MASC</item>
         <item>FEM</item>
     </string-array>
+
+    <string-array name="imagenes">
+        <item>Rana</item>
+        <item>Gato 1</item>
+        <item>Gato 2</item>
+        <item>Normal 1</item>
+        <item>Nutria</item>
+        <item>Perro</item>
+        <item>Raton</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

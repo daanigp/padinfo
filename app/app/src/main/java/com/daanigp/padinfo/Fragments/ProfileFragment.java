@@ -1,5 +1,6 @@
 package com.daanigp.padinfo.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daanigp.padinfo.Activities.ActivityEdit_User;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
@@ -89,6 +91,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showToast("Editar");
+                Intent intent = new Intent(getActivity(), ActivityEdit_User.class);
+                startActivity(intent);
             }
         });
         return root;
