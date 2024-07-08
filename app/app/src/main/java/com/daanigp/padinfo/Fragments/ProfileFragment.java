@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daanigp.padinfo.Activities.ActivityEdit_User;
+import com.daanigp.padinfo.Activities.ActivityUserProfile;
+import com.daanigp.padinfo.Entity.UserEntity;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,10 +73,15 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    private static int EDIT_USER = 2;
+    private static final String TAG = "PerfilFragment";
+
     private TextView txtNombre, txtApellidos, txtEmail;
     private Button btnEditar;
     private ImageView imgPerfil;
     private View message_layout;
+    private String token;
+    private long userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,12 +95,11 @@ public class ProfileFragment extends Fragment {
         btnEditar = root.findViewById(R.id.btnEditar);
         imgPerfil = root.findViewById(R.id.imgPerfil);
 
+        userId = SharedPreferencesManager.getInstance(getActivity()).getUserId();
+        token = SharedPreferencesManager.getInstance(getActivity()).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
-        txtNombre.setText("Daniel");
-        txtApellidos.setText("García Pascual");
-        txtEmail.setText("daani@gmail.com");
-        imgPerfil.setImageResource(R.drawable.admin_img);
+        autocompleteUserInfo();
 
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +110,46 @@ public class ProfileFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    private void autocompleteUserInfo() {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<UserEntity> call = padinfoApi.getUserInfoByUserID(token, userId);
+
+        call.enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                if(!response.isSuccessful()) {
+                    Log.v(TAG, "No va (autocompleteUserInfo) -> response" + response);
+                    showToast("Código error: " + response.code());
+                    return;
+                }
+
+                UserEntity user = response.body();
+
+                if (user != null) {
+                    txtNombre.setText(user.getName());
+                    txtApellidos.setText(user.getLastname());
+                    txtEmail.setText(user.getEmail());
+
+                    int imageResourceId = getActivity().getResources().getIdentifier(user.getImageURL(), "drawable", getActivity().getPackageName());
+                    imgPerfil.setImageResource(imageResourceId);
+                } else {
+                    showToast("Error en la respuesta del servidor");
+                    txtNombre.setText("vacío");
+                    txtApellidos.setText("vacío");
+                    txtEmail.setText("vacío");
+                    imgPerfil.setImageResource(R.drawable.padinfo_logo);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (autocompleteUserInfo)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
     }
 
     private void showToast(String message) {

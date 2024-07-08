@@ -114,6 +114,7 @@ public class ActivityUserProfile extends AppCompatActivity {
                     txtNombre.setText("vacío");
                     txtApellidos.setText("vacío");
                     txtEmail.setText("vacío");
+                    imgPerfil.setImageResource(R.drawable.padinfo_logo);
                 }
 
             }
