@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,148 +7,133 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ActivityPlayer">
 
-  <ImageView
-      android:id="@+id/imagePlayer_View"
-      android:layout_width="184dp"
-      android:layout_height="204dp"
-      android:layout_marginTop="44dp"
-      android:layout_marginEnd="16dp"
-      android:background="#C1C1C1"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:srcCompat="@tools:sample/avatars" />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:gravity="center_horizontal">
+          <ImageView
+              android:id="@+id/imagePlayer_View"
+              android:layout_width="185dp"
+              android:layout_height="205dp"
+              android:layout_marginTop="50dp"
+              tools:srcCompat="@tools:sample/avatars" />
 
-  <TextView
-      android:id="@+id/textViewPosicionRanking_View"
-      android:layout_width="147dp"
-      android:layout_height="45dp"
-      android:layout_marginStart="32dp"
-      android:layout_marginTop="96dp"
-      android:layout_marginEnd="32dp"
-      android:background="#C1C1C1"
-      android:text="@string/rankPosicion"
-      android:textAlignment="center"
-      android:textColor="#000000"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toStartOf="@+id/imagePlayer_View"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+          <TextView
+              android:id="@+id/txtNamePlayer_View"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:padding="10dp"
+              android:text="@string/nombreJugador"
+              android:textColor="@color/black"
+              android:textSize="30sp"
+              android:textStyle="bold" />
 
-  <TextView
-      android:id="@+id/txtRankingPos_View"
-      android:layout_width="96dp"
-      android:layout_height="48dp"
-      android:layout_marginStart="45dp"
-      android:layout_marginTop="16dp"
-      android:background="#C1C1C1"
-      android:paddingTop="10dp"
-      android:text="@string/numeroCero"
-      android:textColor="#000000"
-      android:textSize="20dp"
-      android:textStyle="bold"
-      android:textAlignment="center"
-      app:layout_constraintEnd_toStartOf="@+id/imagePlayer_View"
-      app:layout_constraintHorizontal_bias="0.153"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textViewPosicionRanking_View" />
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:gravity="center"
+              android:layout_marginTop="10dp" >
 
-  <TextView
-      android:id="@+id/txtNamePlayer_View"
-      android:layout_width="349dp"
-      android:layout_height="53dp"
-      android:layout_marginTop="30dp"
-      android:background="#C1C1C1"
-      android:paddingLeft="10dp"
-      android:paddingTop="10dp"
-      android:text="@string/nombreJugador"
-      android:textColor="#000000"
-      android:textSize="20dp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.516"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/imagePlayer_View"/>
+              <TextView
+                  android:id="@+id/textViewPosicionRanking_View"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:text="@string/rankPosicion"
+                  android:textAlignment="center"
+                  android:textColor="@color/black"
+                  android:textSize="20sp"
+                  android:textStyle="bold" />
 
-  <TextView
-      android:id="@+id/textViewPuntosPlayer_View"
-      android:layout_width="174dp"
-      android:layout_height="30dp"
-      android:layout_marginTop="30dp"
-      android:background="#C1C1C1"
-      android:paddingLeft="5dp"
-      android:paddingTop="5dp"
-      android:text="@string/puntos"
-      android:textAlignment="textStart"
-      android:textColor="#000000"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.135"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtNamePlayer_View" />
+              <TextView
+                  android:id="@+id/txtRankingPos_View"
+                  android:layout_width="200dp"
+                  android:layout_height="50dp"
+                  android:padding="10dp"
+                  android:text="@string/numeroCero"
+                  android:textAlignment="center"
+                  android:textColor="@color/black"
+                  android:textSize="20sp" />
 
-  <TextView
-      android:id="@+id/txtPoints_View"
-      android:layout_width="160dp"
-      android:layout_height="48dp"
-      android:layout_marginTop="16dp"
-      android:background="#C1C1C1"
-      android:paddingLeft="10dp"
-      android:paddingTop="10dp"
-      android:text="@string/numeroCero"
-      android:textColor="#000000"
-      android:textSize="20dp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.127"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textViewPuntosPlayer_View"/>
+          </LinearLayout>
 
-  <TextView
-      android:id="@+id/textViewGeneroP_View"
-      android:layout_width="155dp"
-      android:layout_height="28dp"
-      android:layout_marginTop="30dp"
-      android:background="#C1C1C1"
-      android:text="@string/genero"
-      android:textAlignment="center"
-      android:textColor="#000000"
-      android:textSize="18dp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtPoints_View" />
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:gravity="center"
+              android:layout_marginTop="10dp">
 
-  <TextView
-      android:id="@+id/txtGender_View"
-      android:layout_width="155dp"
-      android:layout_height="50dp"
-      android:background="#C1C1C1"
-      android:paddingLeft="10dp"
-      android:paddingTop="10dp"
-      android:text="@string/generoMasc"
-      android:textColor="#000000"
-      android:textSize="20dp"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textViewGeneroP_View" />
+              <TextView
+                  android:id="@+id/textViewPuntosPlayer_View"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:text="@string/puntos"
+                  android:textAlignment="center"
+                  android:textColor="@color/black"
+                  android:textSize="20sp"
+                  android:textStyle="bold" />
 
-  <Button
-      android:id="@+id/btnVolver_List_P"
-      android:layout_width="133dp"
-      android:layout_height="55dp"
-      android:layout_marginStart="128dp"
-      android:layout_marginTop="44dp"
-      android:backgroundTint="#FF0000"
-      android:insetTop="0dp"
-      android:insetBottom="0dp"
-      android:text="@string/volver"
-      android:textColor="#FFFFFF"
-      android:textSize="16dp"
-      android:textStyle="bold"
-      app:cornerRadius="0dp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtGender_View" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+              <TextView
+                  android:id="@+id/txtPoints_View"
+                  android:layout_width="200dp"
+                  android:layout_height="50dp"
+                  android:padding="10dp"
+                  android:text="@string/numeroCero"
+                  android:textColor="@color/black"
+                  android:textSize="20sp"
+                  android:textAlignment="center" />
+
+          </LinearLayout>
+
+          <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp">
+                      <TextView
+                          android:id="@+id/textViewGeneroP_View"
+                          android:layout_width="155dp"
+                          android:layout_height="wrap_content"
+                          android:padding="10dp"
+                          android:text="@string/genero"
+                          android:textAlignment="center"
+                          android:textColor="@color/black"
+                          android:textSize="20sp"
+                          android:textStyle="bold" />
+
+                      <TextView
+                          android:id="@+id/txtGender_View"
+                          android:layout_width="155dp"
+                          android:layout_height="wrap_content"
+                          android:padding="10dp"
+                          android:text="@string/generoMasc"
+                          android:textColor="@color/black"
+                          android:textSize="20sp"
+                          android:textAlignment="center"
+                          tools:ignore="RtlSymmetry" />
+
+          </LinearLayout>
+
+          <Button
+              android:id="@+id/btnVolver_List_P"
+              android:layout_width="135dp"
+              android:layout_height="55dp"
+              android:layout_marginTop="40dp"
+              android:layout_marginBottom="25dp"
+              android:backgroundTint="@color/red"
+              android:insetTop="0dp"
+              android:insetBottom="0dp"
+              android:text="@string/volver"
+              android:textColor="@color/white"
+              android:textSize="16sp"
+              android:textStyle="bold"
+              app:cornerRadius="0dp" />
+      
+  </LinearLayout>
+</ScrollView>

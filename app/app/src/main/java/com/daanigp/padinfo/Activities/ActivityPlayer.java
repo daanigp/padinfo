@@ -3,6 +3,7 @@ package com.daanigp.padinfo.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -96,12 +97,15 @@ public class ActivityPlayer extends AppCompatActivity {
             }
         }
 
-        name.setText(p.getName());
-        gender.setText(p.getGender());
-        points.setText(p.getPoints());
-        rankPos.setText(String.valueOf(p.getRankingPosition()));
-        int imageResourceId = getResources().getIdentifier(p.getImageURL(), "drawable", getPackageName());
-        img.setImageResource(imageResourceId);
+        if (p != null) {
+            String positionRanking = p.getRankingPosition() + "ghgiggiii";
+            name.setText(p.getName());
+            gender.setText(p.getGender());
+            points.setText(p.getPoints());
+            rankPos.setText(positionRanking);
+            int imageResourceId = getResources().getIdentifier(p.getImageURL(), "drawable", getPackageName());
+            img.setImageResource(imageResourceId);
+        }
     }
 
     private void autoCompletePlayerInfo() {
@@ -109,6 +113,7 @@ public class ActivityPlayer extends AppCompatActivity {
         Call<Player> call = padinfoApi.findPlayerById(token, idPlayer);
 
         call.enqueue(new Callback<Player>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<Player> call, Response<Player> response) {
                 if(!response.isSuccessful()) {
@@ -130,7 +135,7 @@ public class ActivityPlayer extends AppCompatActivity {
                     String pointsAPI = playerAPI.getPoints().replaceAll("[^\\d.]", "");
                     points.setText(pointsAPI);
 
-                    rankPos.setText(String.valueOf(playerAPI.getRankingPosition()));
+                    rankPos.setText(playerAPI.getRankingPosition() + "º");
                     gender.setText(selectGenderSpinner(playerAPI.getGender()));
 
                     int imageResourceId = ActivityPlayer.this.getResources().getIdentifier(playerAPI.getImageURL(), "drawable", ActivityPlayer.this.getPackageName());
