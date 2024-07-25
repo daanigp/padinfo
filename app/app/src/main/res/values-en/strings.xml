@@ -73,6 +73,19 @@
     <string name="tema">Dark theme</string>
     <string name="generoMasc">Male</string>
 
+    <string name="filter">Filter</string>
+    <string name="genderMenu">Gender</string>
+    <string name="genderMascMenu">Male</string>
+    <string name="genderFemMenu">Female</string>
+    <string name="listaVaciaPartidos">There are no matches stored.</string>
+    <string name="titleEDIT_Game">EditMatch</string>
+    <string name="titleCREATE_Game">CreateMatch</string>
+    <string name="Respuesta_SI">YES</string>
+    <string name="Respuesta_NO">NO</string>
+    <string name="ciudad">City:</string>
+
+
+
     <string-array name="generos">
         <item>MALE</item>
         <item>FEM</item>
