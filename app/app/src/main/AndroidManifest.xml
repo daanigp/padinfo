@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Padinfo"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ActivityMatch"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Activity_Main"
             android:exported="false" />
         <activity

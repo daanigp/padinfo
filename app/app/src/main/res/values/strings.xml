@@ -84,7 +84,7 @@
     <string name="Respuesta_NO">NO</string>
     <string name="ciudad">Ciudad:</string>
 
-
+    <string name="nomJugadores">JUGADORES</string>
 
     <string-array name="generos">
         <item>MASC</item>
@@ -100,6 +100,7 @@
         <item>Perro</item>
         <item>Raton</item>
     </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

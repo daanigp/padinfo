@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.daanigp.padinfo.Activities.ActivityMatch;
 import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
@@ -126,7 +127,10 @@ public class GamesListFragment extends Fragment {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showToast("WINNERS -> " + games.get(position).getWinnerTeam());
+                //showToast("WINNERS -> " + games.get(position).getWinnerTeam());
+                Intent viewMatch = new Intent(getActivity(), ActivityMatch.class);
+                viewMatch.putExtra("idMatch", games.get(position).getId());
+                startActivity(viewMatch);
             }
         });
 
