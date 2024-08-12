@@ -20,7 +20,7 @@ import android.widget.ListView;
 import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -80,7 +80,7 @@ public class ActivityList_Games extends AppCompatActivity implements AdapterView
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent back = new Intent(ActivityList_Games.this, MainActivity.class);
+                Intent back = new Intent(ActivityList_Games.this, Pruebas_Activity.class);
                 startActivity(back);
             }
         });

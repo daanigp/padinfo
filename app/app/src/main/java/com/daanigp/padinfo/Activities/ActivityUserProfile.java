@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daanigp.padinfo.Entity.UserEntity;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -114,6 +114,7 @@ public class ActivityUserProfile extends AppCompatActivity {
                     txtNombre.setText("vacío");
                     txtApellidos.setText("vacío");
                     txtEmail.setText("vacío");
+                    imgPerfil.setImageResource(R.drawable.padinfo_logo);
                 }
 
             }

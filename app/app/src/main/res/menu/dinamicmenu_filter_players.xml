@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/btnfilter_player"
+        android:title="@string/filter"
+        android:icon="@drawable/ic_filter"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/itemGender_player"
+                android:title="@string/genderMenu"
+                android:icon="@drawable/ic_gender"
+                android:iconTint="@color/white" >
+
+                <menu>
+                    <item
+                        android:id="@+id/itemMale_player"
+                        android:title="@string/genderMascMenu"
+                        android:icon="@drawable/ic_gender_male"
+                        android:iconTint="@color/white" />
+
+                    <item
+                        android:id="@+id/itemFemale_player"
+                        android:title="@string/genderFemMenu"
+                        android:icon="@drawable/ic_gender_female"
+                        android:iconTint="@color/white" />
+                </menu>
+
+            </item>
+        </menu>
+
+    </item>
+</menu>

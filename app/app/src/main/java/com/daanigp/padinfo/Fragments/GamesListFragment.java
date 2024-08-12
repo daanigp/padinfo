@@ -1,25 +1,35 @@
 package com.daanigp.padinfo.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.daanigp.padinfo.Activities.ActivityEdit_Create_Game;
-import com.daanigp.padinfo.Activities.ActivityList_Games;
+import com.daanigp.padinfo.Activities.ActivityMatch;
 import com.daanigp.padinfo.Adapter.GameAdapter;
 import com.daanigp.padinfo.Entity.Game;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -73,6 +83,7 @@ public class GamesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -82,6 +93,7 @@ public class GamesListFragment extends Fragment {
     private static final String TAG = "ActivityList_Games";
     public static int CREATE_GAME = 3;
     public static int EDIT_GAME = 4;
+    private TextView txtListaVacia;
     private Button btnAddGame;
     private ArrayList<Game> games = new ArrayList<>();
     private ListView lista;
@@ -89,14 +101,18 @@ public class GamesListFragment extends Fragment {
     private String token;
     private long userId;
     private View message_layout;
+    private LinearLayout layout;
+    private AlertDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_games, container, false);
+        View root = inflater.inflate(R.layout.fragment_games_list, container, false);
 
         btnAddGame = root.findViewById(R.id.btnNewGame);
+        txtListaVacia = root.findViewById(R.id.txtListaPartidosVacia);
+        layout = root.findViewById(R.id.layoutListado);
         userId = SharedPreferencesManager.getInstance(getContext()).getUserId();
         token = SharedPreferencesManager.getInstance(getContext()).getToken();
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
@@ -106,24 +122,63 @@ public class GamesListFragment extends Fragment {
         lista = (ListView) root.findViewById(R.id.listaPartidos);
         gameAdapter = new GameAdapter(getContext(), R.layout.item_game, games);
 
+        lista.setEmptyView(txtListaVacia);
         lista.setAdapter(gameAdapter);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showToast("WINNERS -> " + games.get(position).getWinnerTeam());
+                //showToast("WINNERS -> " + games.get(position).getWinnerTeam());
+                Intent viewMatch = new Intent(getActivity(), ActivityMatch.class);
+                viewMatch.putExtra("idMatch", games.get(position).getId());
+                startActivity(viewMatch);
             }
         });
+
+        registerForContextMenu(lista);
 
         btnAddGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentAddGame = new Intent(getActivity(), ActivityEdit_Create_Game.class);
-                startActivityForResult(intentAddGame, CREATE_GAME);
+                loadEdit_CreateGameFragment(0);
             }
         });
 
-
         return root;
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.contextmenu_edit_delete, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Game game = (Game) lista.getItemAtPosition(info.position);
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.itemEditar:
+                showToast("EDITAR -> " + game.getId());
+                loadEdit_CreateGameFragment(game.getId());
+                return true;
+            case R.id.itemEliminar:
+                showPopupMenu(game);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    private void loadEdit_CreateGameFragment(long idGame) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fcv_main_container, Edit_CreateGameFragment.newInstance(idGame));
+        transaction.setReorderingAllowed(true);
+        transaction.addToBackStack("principal");
+        transaction.commitAllowingStateLoss();
     }
 
     private void getGames() {
@@ -177,6 +232,66 @@ public class GamesListFragment extends Fragment {
         });
     }
 
+    private void showPopupMenu(Game g) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Eliminar partido");
+        builder.setMessage("¿Estás seguro de eliminar el partido?");
+
+        View v = View.inflate(getActivity(), R.layout.alert_dialog_layout, null);
+        Button btnYes = v.findViewById(R.id.btnYes_AlertDialog_eliminarPartido);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteGame(g);
+                dialog.dismiss(); // error
+            }
+        });
+
+        Button btnNo = v.findViewById(R.id.btnNo_AlertDialog_eliminarPartido);
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("¡CALMA! No has eliminado nada, todo sigue igual.");
+                dialog.dismiss(); //error
+            }
+        });
+
+        builder.setView(v);
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    private void deleteGame(Game g) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.deleteGameByid(token, g.getId());
+
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    Log.v(TAG, "No va (userExists) -> response");
+                    showToast("Código error: " + response.code());
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res.getMessege().equalsIgnoreCase("Borrado")) {
+                    games.remove(g);
+                    gameAdapter.notifyDataSetChanged();
+                    showToast("Partido eliminado.");
+                } else {
+                    showToast("No se ha podido eliminar el partido.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (userExists)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
 
     private void showToast(String message) {
         Toast_Personalized toast = new Toast_Personalized(message, getActivity(), message_layout);

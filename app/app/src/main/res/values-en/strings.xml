@@ -73,8 +73,35 @@
     <string name="tema">Dark theme</string>
     <string name="generoMasc">Male</string>
 
+    <string name="filter">Filter</string>
+    <string name="genderMenu">Gender</string>
+    <string name="genderMascMenu">Male</string>
+    <string name="genderFemMenu">Female</string>
+    <string name="listaVaciaPartidos">There are no matches stored.</string>
+    <string name="titleEDIT_Game">EditMatch</string>
+    <string name="titleCREATE_Game">CreateMatch</string>
+    <string name="Respuesta_SI">YES</string>
+    <string name="Respuesta_NO">NO</string>
+    <string name="ciudad">City:</string>
+
+
+
     <string-array name="generos">
         <item>MALE</item>
         <item>FEM</item>
     </string-array>
+
+
+    <string-array name="imagenes">
+        <item>Frog</item>
+        <item>Cat 1</item>
+        <item>Cat 2</item>
+        <item>Normal 1</item>
+        <item>Otter</item>
+        <item>Dog</item>
+        <item>Mouse</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

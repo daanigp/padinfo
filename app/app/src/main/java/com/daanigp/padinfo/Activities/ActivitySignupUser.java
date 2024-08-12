@@ -12,9 +12,9 @@ import android.widget.ImageView;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
-import com.daanigp.padinfo.InterfaceCallbacks.UserExistanceCallback;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
-import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.Interfaces.InterfaceCallbacks.UserExistanceCallback;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
@@ -22,11 +22,15 @@ import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ActivitySignupUser extends AppCompatActivity {
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_\\-\\.~]{2,}@[a-zA-Z0-9_\\-\\.~]{2,}\\.[a-z]{2,4}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
     private static final String TAG = "ActivitySignupUser";
     ImageView imgApp;
     Button btnCancelar, btnRegistrar;
@@ -40,15 +44,15 @@ public class ActivitySignupUser extends AppCompatActivity {
         setContentView(R.layout.activity_signup_user);
 
         imgApp = (ImageView) findViewById(R.id.imgApp2);
-        btnCancelar = (Button) findViewById(R.id.btnCancel);
-        btnRegistrar = (Button) findViewById(R.id.btnNewRegistro);
-        txtUsuario = (EditText) findViewById(R.id.editTxtNuevoUsuario);
-        txtPassword = (EditText) findViewById(R.id.editTxtNuevaContrasenya);
-        txtName = (EditText) findViewById(R.id.editTxtNombreRegistro);
-        txtLastName = (EditText) findViewById(R.id.editTxtApellidosRegistro);
-        txtEmail = (EditText) findViewById(R.id.editTxtEmailRegistro);
+        btnCancelar = (Button) findViewById(R.id.btnCancelRegistro);
+        btnRegistrar = (Button) findViewById(R.id.btnRegistroNuevoUsuario);
+        txtUsuario = (EditText) findViewById(R.id.editTxtUser_signup);
+        txtPassword = (EditText) findViewById(R.id.editTxtPassword_signup);
+        txtName = (EditText) findViewById(R.id.editTxtName_signup);
+        txtLastName = (EditText) findViewById(R.id.editTxtLastName_signup);
+        txtEmail = (EditText) findViewById(R.id.editTxtEmail_signup);
 
-        imgApp.setImageResource(R.drawable.padinfo_logo);
+        imgApp.setImageResource(R.drawable.img_profile_frog);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
         setDayNight();
@@ -84,8 +88,8 @@ public class ActivitySignupUser extends AppCompatActivity {
                     });
                 } else {
                     txtEmail.setText("");
-                    showToast("Recuerda: los emails válidos son:\n" +
-                            "'@gmail.com', '@gmail.es', @hotmail.com', @hotmail.es'.");
+                    showToast("Recuerda: para que el email sea válido debe ser algo similar a:\n" +
+                            "nombre@nombreDominio.es o nombre123@nombreDominio.com");
                 }
             }
         });
@@ -102,11 +106,12 @@ public class ActivitySignupUser extends AppCompatActivity {
     }
 
     private boolean validationEmail(String email) {
-        if (email.endsWith("@gmail.com") || email.endsWith("@gmail.es") || email.endsWith("@hotmail.com") || email.endsWith("@hotmail.es")) {
-            return true;
-        } else {
+        if (email == null) {
             return false;
         }
+
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
     }
 
     private void signup(CreateUser createUser) {

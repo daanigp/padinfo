@@ -3,10 +3,14 @@ package com.daanigp.padinfo.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +20,7 @@ import com.daanigp.padinfo.Activities.ActivityPlayer;
 import com.daanigp.padinfo.Adapter.PlayerAdapter;
 import com.daanigp.padinfo.DataSource.RankingDataSource;
 import com.daanigp.padinfo.Entity.Player;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -71,18 +75,21 @@ public class PlayersListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+    private static final String SELECTED_GENDER_KEY = "KEY_SELECTED_GENDER";
     private static final String TAG = "PLAYERSLIST_FRAGMENT";
     private ArrayList<Player> players = new ArrayList<>();
     private ListView lista;
     private PlayerAdapter adapter;
     private String token;
     private View message_layout;
+    private String gender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,9 +99,6 @@ public class PlayersListFragment extends Fragment {
 
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(getContext()).getToken();
-
-        //playersDataSource();
-        getPlayers("fem");
 
         lista = root.findViewById(R.id.PlayersListMenu);
         adapter = new PlayerAdapter(getContext(), R.layout.item_player, players);
@@ -109,13 +113,58 @@ public class PlayersListFragment extends Fragment {
             }
         });
 
+        if (savedInstanceState == null) {
+            //playersDataSource("masc");
+            getPlayers("masc");
+        } else {
+            //playersDataSource(gender);
+            gender = savedInstanceState.getString(SELECTED_GENDER_KEY);
+            getPlayers(gender);
+        }
+
         return root;
     }
 
-    private void playersDataSource() {
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SELECTED_GENDER_KEY, gender);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.dinamicmenu_filter_players, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.itemMale_player:
+                showToast("MASCULINO");
+                gender = "masc";
+                getPlayers(gender);
+                return true;
+            case R.id.itemFemale_player:
+                showToast("FEMENINO");
+                gender = "fem";
+                getPlayers(gender);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void playersDataSource(String g) {
         RankingDataSource.InitializeFem();
 
-        players = RankingDataSource.rankingFem;
+        if (g.equalsIgnoreCase("masc")) {
+            players = RankingDataSource.rankingMasc;
+            adapter.notifyDataSetChanged();
+        } else {
+            players = RankingDataSource.rankingFem;
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void getPlayers(String gender) {

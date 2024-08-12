@@ -10,6 +10,7 @@
         android:id="@+id/PlayersListMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbarThumbVertical="@drawable/scrollbar_vertical"
         android:layout_marginBottom="80dp"/>
 
 </FrameLayout>

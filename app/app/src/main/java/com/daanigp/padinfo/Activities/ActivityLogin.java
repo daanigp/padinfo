@@ -9,15 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Switch;
 
 import com.daanigp.padinfo.Entity.Respone.ResponseEntity;
 import com.daanigp.padinfo.Entity.Security.CreateUser;
 import com.daanigp.padinfo.Entity.UserEntity;
-import com.daanigp.padinfo.InterfaceCallbacks.ConnectivityCallback;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
-import com.daanigp.padinfo.Interface_API.ISecurityPadinfo_API;
+import com.daanigp.padinfo.Interfaces.InterfaceCallbacks.ConnectivityCallback;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.ISecurityPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.Retrofit.RetrofitSecurityClient;
@@ -133,7 +132,7 @@ public class ActivityLogin extends AppCompatActivity {
                 createUser.setLastname("" + num);
                 createUser.setRolIds(Collections.singletonList(3L));
                 signUpGuest(createUser);
-                //Intent intentAppInicio = new Intent(ActivityLogin.this, MainActivity.class);
+                //Intent intentAppInicio = new Intent(ActivityLogin.this, ActivityMain.class);
                 //startActivity(intentAppInicio);
             }
         });
@@ -188,7 +187,7 @@ public class ActivityLogin extends AppCompatActivity {
 
 
                     //Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Initiate.class);
-                    Intent intentAppInicio = new Intent(ActivityLogin.this, MainActivity.class);
+                    Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Main.class);
                     intentAppInicio.putExtra("token", token);
                     startActivity(intentAppInicio);
                 } else {

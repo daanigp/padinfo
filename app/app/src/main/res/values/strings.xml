@@ -2,6 +2,7 @@
     <string name="app_name">padinfo</string>
 
     <string name="loginTxt">Inicio de sesión</string>
+    <string name="signupTxt">Registro</string>
     <string name="mantenimiento">En mantenimiento</string>
 
     <string name="more">Más</string>
@@ -44,7 +45,7 @@
     <string name="contra">Contraseña</string>
     <string name="nombre">Nombre:</string>
     <string name="apellidos">Apellidos:</string>
-    <string name="email">Email</string>
+    <string name="email">Email:</string>
     <string name="nombreTxt">Nombre</string>
     <string name="apellidosTxt">Apellidos</string>
     <string name="emailTxt">Email</string>
@@ -72,8 +73,34 @@
     <string name="tema">Tema oscuro</string>
     <string name="generoMasc">Male</string>
 
+    <string name="filter">Filtro</string>
+    <string name="genderMenu">Género</string>
+    <string name="genderMascMenu">Masculino</string>
+    <string name="genderFemMenu">Femenino</string>
+    <string name="listaVaciaPartidos">No hay ningún partido almacenado.</string>
+    <string name="titleEDIT_Game">EditarPartido</string>
+    <string name="titleCREATE_Game">CrearPartido</string>
+    <string name="Respuesta_SI">SI</string>
+    <string name="Respuesta_NO">NO</string>
+    <string name="ciudad">Ciudad:</string>
+
+    <string name="nomJugadores">JUGADORES</string>
+
     <string-array name="generos">
         <item>MASC</item>
         <item>FEM</item>
     </string-array>
+
+    <string-array name="imagenes">
+        <item>Rana</item>
+        <item>Gato 1</item>
+        <item>Gato 2</item>
+        <item>Normal 1</item>
+        <item>Nutria</item>
+        <item>Perro</item>
+        <item>Raton</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

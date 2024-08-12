@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.daanigp.padinfo.Entity.CreateGame;
 import com.daanigp.padinfo.Entity.Game;
 import com.daanigp.padinfo.Entity.UpdateGame;
-import com.daanigp.padinfo.Interface_API.IPadinfo_API;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
@@ -305,14 +305,14 @@ public class ActivityEdit_Create_Game extends AppCompatActivity {
             }
         });
 
-        binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
+        /*binding.btnCancelarPartido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast("No has guardado nada.");
                 setResult(RESULT_CANCELED);
                 finish();
             }
-        });
+        });*/
     }
 
     private boolean isNullOrEmpty(String str) {
