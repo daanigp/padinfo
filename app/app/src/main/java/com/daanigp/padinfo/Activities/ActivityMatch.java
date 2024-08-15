@@ -1,6 +1,8 @@
 package com.daanigp.padinfo.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -9,11 +11,26 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.daanigp.padinfo.Entity.Game;
+import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;
+import com.daanigp.padinfo.Retrofit.RetrofitClient;
+import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
+import com.daanigp.padinfo.Toast.Toast_Personalized;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityMatch extends AppCompatActivity {
 
+    private static final String TAG = "ActivityMatch";
+
     TextView namesTeam1, namesTeam2, ptsS1T1, ptsS1T2, ptsS2T1, ptsS2T2, ptsS3T1, ptsS3T2;
+    View message_layout;
+
+    String token;
+    long idGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +52,92 @@ public class ActivityMatch extends AppCompatActivity {
         ptsS2T2 = findViewById(R.id.pointsSet2Team2);
         ptsS3T2 = findViewById(R.id.pointsSet3Team2);
 
-        namesTeam1.setText("AAAAAAAAAAA");
-        namesTeam2.setText("BBBBBBBBBBB");
+        message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
+        token = SharedPreferencesManager.getInstance(ActivityMatch.this).getToken();
 
-        ptsS1T1.setText("6");
-        ptsS2T1.setText("6");
-        ptsS3T1.setText("0");
-        ptsS1T2.setText("0");
-        ptsS2T2.setText("0");
-        ptsS3T2.setText("0");
+        idGame = getIntent().getLongExtra("idMatch", 0);
+        if (idGame != 0) {
+            autoCompleteMatchInfo();
+        } else {
+            Log.v(TAG, "El idGame es == 0");
+            showToast("No se ha podido cargar el partido");
+            namesTeam1.setText(" - ");
+            namesTeam2.setText(" - ");
+            ptsS1T1.setText("0");
+            ptsS2T1.setText("0");
+            ptsS3T1.setText("0");
+            ptsS1T2.setText("0");
+            ptsS2T2.setText("0");
+            ptsS3T2.setText("0");
+        }
 
+    }
+
+    private void autoCompleteMatchInfo() {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<Game> call = padinfoApi.getGameByIdGame(token, idGame);
+
+        call.enqueue(new Callback<Game>() {
+            @Override
+            public void onResponse(Call<Game> call, Response<Game> response) {
+                if(!response.isSuccessful()) {
+                    showToast("No se ha podido cargar el partido");
+                    Log.v(TAG, "No va (autoCompleteMatchInfo) -> response" + response.code());
+                    namesTeam1.setText(" - ");
+                    namesTeam2.setText(" - ");
+                    ptsS1T1.setText("0");
+                    ptsS2T1.setText("0");
+                    ptsS3T1.setText("0");
+                    ptsS1T2.setText("0");
+                    ptsS2T2.setText("0");
+                    ptsS3T2.setText("0");
+                    return;
+                }
+
+                Game gameAPI = response.body();
+
+                if (gameAPI != null) {
+                    String namesT1 = gameAPI.getNamePlayer1() + "\n" + gameAPI.getNamePlayer2();
+                    String namesT2 = gameAPI.getNamePlayer3() + "\n" + gameAPI.getNamePlayer4();
+                    namesTeam1.setText(namesT1);
+                    namesTeam2.setText(namesT2);
+                    ptsS1T1.setText(String.valueOf(gameAPI.getSet1PointsT1()));
+                    ptsS2T1.setText(String.valueOf(gameAPI.getSet2PointsT1()));
+                    ptsS3T1.setText(String.valueOf(gameAPI.getSet3PointsT1()));
+                    ptsS1T2.setText(String.valueOf(gameAPI.getSet1PointsT2()));
+                    ptsS2T2.setText(String.valueOf(gameAPI.getSet2PointsT2()));
+                    ptsS3T2.setText(String.valueOf(gameAPI.getSet3PointsT2()));
+                } else {
+                    showToast("No se ha podido cargar el partido debido a un fallo en el servidor");
+                    namesTeam1.setText(" - ");
+                    namesTeam2.setText(" - ");
+                    ptsS1T1.setText("0");
+                    ptsS2T1.setText("0");
+                    ptsS3T1.setText("0");
+                    ptsS1T2.setText("0");
+                    ptsS2T2.setText("0");
+                    ptsS3T2.setText("0");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Game> call, Throwable t) {
+                showToast("Error: " + t.getMessage());
+                Log.e(TAG, "Error en la llamada Retrofit - (autoCompleteMatchInfo)", t);
+                namesTeam1.setText(" - ");
+                namesTeam2.setText(" - ");
+                ptsS1T1.setText("0");
+                ptsS2T1.setText("0");
+                ptsS3T1.setText("0");
+                ptsS1T2.setText("0");
+                ptsS2T2.setText("0");
+                ptsS3T2.setText("0");
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast_Personalized toast = new Toast_Personalized(message, ActivityMatch.this, message_layout);
+        toast.CreateToast();
     }
 }
