@@ -81,13 +81,13 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="2dp"
                         android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 
@@ -96,11 +96,11 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_light_2"
+                    android:background="@color/green_light"
                     tools:ignore="UselessParent">
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" >
                     </FrameLayout>
@@ -112,7 +112,8 @@
                         android:text="@string/nomJugadores"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,7 +121,8 @@
                         android:padding="10dp"
                         android:text="@string/set1"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -128,7 +130,8 @@
                         android:padding="10dp"
                         android:text="@string/set2"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -136,10 +139,11 @@
                         android:padding="10dp"
                         android:text="@string/set3"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 
@@ -151,14 +155,14 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="2dp"
                         android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
 
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 
@@ -167,10 +171,10 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_avocado">
+                    android:background="@color/green_light_2">
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" >
                     </FrameLayout>
@@ -216,7 +220,7 @@
                         android:textSize="16sp" />
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 
@@ -228,13 +232,13 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="2dp"
                         android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 
@@ -243,10 +247,10 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_light">
+                    android:background="@color/green_light_2">
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" >
                     </FrameLayout>
@@ -292,7 +296,7 @@
                         android:textSize="16sp" />
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 
@@ -304,13 +308,13 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="2dp"
                         android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
 
                     <FrameLayout
-                        android:layout_width="1dp"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="#000000" />
 

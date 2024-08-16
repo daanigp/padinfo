@@ -1,5 +1,7 @@
 package com.daanigp.padinfo.Activities;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -97,16 +99,46 @@ public class ActivityMatch extends AppCompatActivity {
                 Game gameAPI = response.body();
 
                 if (gameAPI != null) {
+
+                    if (gameAPI.getWinnerTeam() == 1) {
+                        namesTeam1.setTextColor(Color.argb(255, 0 ,0, 0));
+                        namesTeam1.setTypeface(null, Typeface.BOLD);
+                        namesTeam1.setTextSize(18);
+                    } else {
+                        namesTeam2.setTextColor(Color.argb(255, 0 ,0, 0));
+                        namesTeam2.setTypeface(null, Typeface.BOLD);
+                        namesTeam2.setTextSize(18);
+                    }
+
                     String namesT1 = gameAPI.getNamePlayer1() + "\n" + gameAPI.getNamePlayer2();
                     String namesT2 = gameAPI.getNamePlayer3() + "\n" + gameAPI.getNamePlayer4();
                     namesTeam1.setText(namesT1);
                     namesTeam2.setText(namesT2);
+
+                    if (gameAPI.getSet1PointsT1() > gameAPI.getSet1PointsT2()) {
+                        ptsS1T1.setTypeface(null, Typeface.BOLD);
+                    } else {
+                        ptsS1T2.setTypeface(null, Typeface.BOLD);
+                    }
                     ptsS1T1.setText(String.valueOf(gameAPI.getSet1PointsT1()));
-                    ptsS2T1.setText(String.valueOf(gameAPI.getSet2PointsT1()));
-                    ptsS3T1.setText(String.valueOf(gameAPI.getSet3PointsT1()));
                     ptsS1T2.setText(String.valueOf(gameAPI.getSet1PointsT2()));
+
+                    if (gameAPI.getSet2PointsT1() > gameAPI.getSet2PointsT2()) {
+                        ptsS2T1.setTypeface(null, Typeface.BOLD);
+                    } else {
+                        ptsS2T2.setTypeface(null, Typeface.BOLD);
+                    }
+                    ptsS2T1.setText(String.valueOf(gameAPI.getSet2PointsT1()));
                     ptsS2T2.setText(String.valueOf(gameAPI.getSet2PointsT2()));
+
+                    if (gameAPI.getSet3PointsT1() > gameAPI.getSet3PointsT2()) {
+                        ptsS3T1.setTypeface(null, Typeface.BOLD);
+                    } else {
+                        ptsS3T2.setTypeface(null, Typeface.BOLD);
+                    }
+                    ptsS3T1.setText(String.valueOf(gameAPI.getSet3PointsT1()));
                     ptsS3T2.setText(String.valueOf(gameAPI.getSet3PointsT2()));
+
                 } else {
                     showToast("No se ha podido cargar el partido debido a un fallo en el servidor");
                     namesTeam1.setText(" - ");
