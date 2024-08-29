@@ -2,7 +2,7 @@
 Proyecto realizado por Daniel García Pascual.
 
 * Backend -> realizado con SpringBoot.
-* App -> realizado con Adnroid Studio.
+* App -> realizado con Android Studio.
 
 ---
 
