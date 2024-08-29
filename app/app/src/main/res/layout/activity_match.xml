@@ -5,15 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Activities.ActivityMatch">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="10dp"
         android:gravity="center_horizontal">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -58,18 +60,19 @@
                 android:textColor="@color/black"
                 android:background="@drawable/table_border" />
 
-        </LinearLayout>
+        </LinearLayout> -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="100dp"
             android:layout_marginBottom="40dp">
 
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="0"
+                android:stretchColumns="1"
                 tools:ignore="UselessParent">
 
                 <TableRow
@@ -78,18 +81,29 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="5px"
-                        android:layout_span="4"
+                        android:layout_height="2dp"
+                        android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
 
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_light_2"
+                    android:background="@color/green_light"
                     tools:ignore="UselessParent">
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" >
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,7 +112,8 @@
                         android:text="@string/nomJugadores"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -106,7 +121,8 @@
                         android:padding="10dp"
                         android:text="@string/set1"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -114,7 +130,8 @@
                         android:padding="10dp"
                         android:text="@string/set2"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -122,7 +139,14 @@
                         android:padding="10dp"
                         android:text="@string/set3"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
+
                 </TableRow>
 
                 <TableRow
@@ -131,28 +155,42 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="5px"
-                        android:layout_span="4"
+                        android:layout_height="2dp"
+                        android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
+
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
 
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_avocado">
+                    android:background="@color/green_light_2">
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" >
+                    </FrameLayout>
 
                     <TextView
+                        android:id="@+id/namePlayersTeam1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        android:text="@string/nomJugEq1"
                         android:gravity="center|center_vertical"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/pointsSet1Team1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="10dp"
@@ -162,6 +200,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/pointsSet2Team1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="10dp"
@@ -171,6 +210,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/pointsSet3Team1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="10dp"
@@ -178,6 +218,11 @@
                         android:gravity="center|center_vertical"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
 
                 </TableRow>
 
@@ -187,28 +232,41 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="5px"
-                        android:layout_span="4"
+                        android:layout_height="2dp"
+                        android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
 
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/green_light">
+                    android:background="@color/green_light_2">
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" >
+                    </FrameLayout>
 
                     <TextView
+                        android:id="@+id/namePlayersTeam2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        android:text="@string/nomJugEq2"
                         android:gravity="center|center_vertical"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/pointsSet1Team2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="10dp"
@@ -218,6 +276,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/pointsSet2Team2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="10dp"
@@ -227,6 +286,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/pointsSet3Team2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:padding="10dp"
@@ -234,18 +294,29 @@
                         android:gravity="center|center_vertical"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
 
                 </TableRow>
+
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="5px"
-                        android:layout_span="4"
+                        android:layout_height="2dp"
+                        android:layout_span="5"
                         android:background="#000000" >
                     </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="#000000" />
 
                 </TableRow>
 
