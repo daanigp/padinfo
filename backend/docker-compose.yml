@@ -1,0 +1,27 @@
+services:
+  app_padinfo_backend:
+    build: api
+    ports:
+      - "8080:8080"
+    environment:
+      jdbc_DB_URL: jdbc:mariadb://padinfo_db:3306/padinfo_prueba_docker?createDatabaseIfNotExist=true&serverTimezone=UTC
+      jdbc_DB_USER_NAME: app_padinfo_user
+      jdbc_DB_PASSWORD: 1234
+    restart: always
+    depends_on:
+      padinfo_db:
+        condition: service_healthy
+  padinfo_db:
+    image: mariadb:10.6
+    ports:
+      - "3310:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_DATABASE: padinfo_prueba_docker
+      MARIADB_USER: app_padinfo_user
+      MARIADB_PASSWORD: 1234
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1234"]
+      timeout: 10s
+      retries: 10

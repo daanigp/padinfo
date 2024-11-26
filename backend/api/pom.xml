@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.backend</groupId>
 	<artifactId>padinfo_backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>padinfo_backend</name>
 	<description>PADINFO_BACKEND</description>
 	<properties>
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<scope>runtime</scope>
+			<version>3.2.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
