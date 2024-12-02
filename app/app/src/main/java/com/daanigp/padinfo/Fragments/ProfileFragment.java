@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daanigp.padinfo.Activities.ActivityEdit_User;
-import com.daanigp.padinfo.Activities.ActivityUserProfile;
 import com.daanigp.padinfo.Entity.UserEntity;
 import com.daanigp.padinfo.Interfaces.Interface_API.IPadinfo_API;
 import com.daanigp.padinfo.R;

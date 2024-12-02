@@ -31,40 +31,13 @@
             android:name=".Activities.ActivityTournament"
             android:exported="false" />
         <activity
-            android:name=".Activities.ActivityEdit_Create_Player"
-            android:exported="false" />
-        <activity
             android:name=".Activities.ActivityEdit_Create_Tournament"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityEdit_Create_Game"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityList_Games"
             android:exported="false" />
         <activity
             android:name=".Activities.ActivitySignupUser"
             android:exported="false" />
         <activity
-            android:name=".Activities.Activity_Initiate"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityUserProfile"
-            android:exported="false" />
-        <activity
             android:name=".Activities.ActivityEdit_User"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityRanking_Fem"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityRanking_Masc"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityList_Ranking"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ActivityList_Tournament"
             android:exported="false" />
         <activity
             android:name=".Activities.ActivityLogin"

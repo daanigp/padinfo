@@ -186,7 +186,6 @@ public class ActivityLogin extends AppCompatActivity {
 
 
 
-                    //Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Initiate.class);
                     Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Main.class);
                     intentAppInicio.putExtra("token", token);
                     startActivity(intentAppInicio);

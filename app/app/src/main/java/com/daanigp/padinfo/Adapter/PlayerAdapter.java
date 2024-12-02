@@ -18,7 +18,6 @@ import com.daanigp.padinfo.R;
 import java.util.ArrayList;
 
 public class PlayerAdapter extends ArrayAdapter<Player> {
-    private static final String TAG = "ActivityRanking_Fem";
 
     private int mResource;
     private ArrayList<Player> players;
