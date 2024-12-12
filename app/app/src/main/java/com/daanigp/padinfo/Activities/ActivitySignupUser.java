@@ -55,7 +55,6 @@ public class ActivitySignupUser extends AppCompatActivity {
         imgApp.setImageResource(R.drawable.img_profile_frog);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
 
-        setDayNight();
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,15 +93,6 @@ public class ActivitySignupUser extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     private boolean validationEmail(String email) {

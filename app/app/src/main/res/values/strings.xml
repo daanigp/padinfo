@@ -83,6 +83,11 @@
     <string name="Respuesta_SI">SI</string>
     <string name="Respuesta_NO">NO</string>
     <string name="ciudad">Ciudad:</string>
+    <string name="language">Idioma:</string>
+    <string name="darkTheme">Tema oscuro</string>
+    <string name="lightTheme">Tema claro</string>
+    <string name="dark_Theme_switch">oscuro</string>
+    <string name="light_Theme_switch">claro</string>
 
     <string name="nomJugadores">JUGADORES</string>
 
@@ -99,6 +104,11 @@
         <item>Nutria</item>
         <item>Perro</item>
         <item>Raton</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Español</item>
+        <item>Inglés</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

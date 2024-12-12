@@ -57,7 +57,6 @@ public class ActivityEdit_User extends AppCompatActivity {
         userId = SharedPreferencesManager.getInstance(ActivityEdit_User.this).getUserId();
         token = SharedPreferencesManager.getInstance(ActivityEdit_User.this).getToken();
 
-        setDayNight();
         autocompleteUserInfo();
 
         spinnerImg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -77,7 +76,7 @@ public class ActivityEdit_User extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showToast("No has hecho ningún cambio.");
-                //setResult(RESULT_CANCELED);
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -126,15 +125,6 @@ public class ActivityEdit_User extends AppCompatActivity {
                 return "img_profile_dog";
             default:
                 return "img_profile_rat";
-        }
-    }
-
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
@@ -257,8 +247,10 @@ public class ActivityEdit_User extends AppCompatActivity {
 
                 if (userAPI != null) {
                     showToast("Has guardado los cambios.");
+                    SharedPreferencesManager.getInstance(ActivityEdit_User.this).saveImage(updateUser.getImageURL());
+                    SharedPreferencesManager.getInstance(ActivityEdit_User.this).saveEmail(updateUser.getEmail());
 
-//                    setResult(RESULT_OK);
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     showToast("Error en la respuesta del servidor");

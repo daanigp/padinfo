@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,7 @@ public class ActivityMatch extends AppCompatActivity {
 
     TextView namesTeam1, namesTeam2, ptsS1T1, ptsS1T2, ptsS2T1, ptsS2T2, ptsS3T1, ptsS3T2;
     View message_layout;
+    Button btnBack;
 
     String token;
     long idGame;
@@ -53,6 +55,7 @@ public class ActivityMatch extends AppCompatActivity {
         ptsS1T2 = findViewById(R.id.pointsSet1Team2);
         ptsS2T2 = findViewById(R.id.pointsSet2Team2);
         ptsS3T2 = findViewById(R.id.pointsSet3Team2);
+        btnBack = findViewById(R.id.btnVolver_List_M);
 
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
         token = SharedPreferencesManager.getInstance(ActivityMatch.this).getToken();
@@ -72,6 +75,13 @@ public class ActivityMatch extends AppCompatActivity {
             ptsS2T2.setText("0");
             ptsS3T2.setText("0");
         }
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -131,13 +141,19 @@ public class ActivityMatch extends AppCompatActivity {
                     ptsS2T1.setText(String.valueOf(gameAPI.getSet2PointsT1()));
                     ptsS2T2.setText(String.valueOf(gameAPI.getSet2PointsT2()));
 
-                    if (gameAPI.getSet3PointsT1() > gameAPI.getSet3PointsT2()) {
-                        ptsS3T1.setTypeface(null, Typeface.BOLD);
+                    if (gameAPI.getSet3PointsT1() == 0 && gameAPI.getSet3PointsT2() == 0) {
+                        ptsS3T1.setText("-");
+                        ptsS3T2.setText("-");
                     } else {
-                        ptsS3T2.setTypeface(null, Typeface.BOLD);
+                        if (gameAPI.getSet3PointsT1() > gameAPI.getSet3PointsT2()) {
+                            ptsS3T1.setTypeface(null, Typeface.BOLD);
+                        } else {
+                            ptsS3T2.setTypeface(null, Typeface.BOLD);
+                        }
+                        ptsS3T1.setText(String.valueOf(gameAPI.getSet3PointsT1()));
+                        ptsS3T2.setText(String.valueOf(gameAPI.getSet3PointsT2()));
                     }
-                    ptsS3T1.setText(String.valueOf(gameAPI.getSet3PointsT1()));
-                    ptsS3T2.setText(String.valueOf(gameAPI.getSet3PointsT2()));
+
 
                 } else {
                     showToast("No se ha podido cargar el partido debido a un fallo en el servidor");

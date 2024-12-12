@@ -3,6 +3,7 @@
     <string name="app_name">padinfo</string>
 
     <string name="loginTxt">Login</string>
+    <string name="signupTxt">Sign up</string>
     <string name="mantenimiento">In maintenance</string>
 
     <string name="more">More</string>
@@ -83,8 +84,13 @@
     <string name="Respuesta_SI">YES</string>
     <string name="Respuesta_NO">NO</string>
     <string name="ciudad">City:</string>
+    <string name="language">Language:</string>
+    <string name="darkTheme">Dark theme</string>
+    <string name="lightTheme">Light theme</string>
+    <string name="dark_Theme_switch">dark</string>
+    <string name="light_Theme_switch">theme</string>
 
-
+    <string name="nomJugadores">PLAYERS</string>
 
     <string-array name="generos">
         <item>MALE</item>
@@ -100,6 +106,11 @@
         <item>Otter</item>
         <item>Dog</item>
         <item>Mouse</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Spanish</item>
+        <item>English</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

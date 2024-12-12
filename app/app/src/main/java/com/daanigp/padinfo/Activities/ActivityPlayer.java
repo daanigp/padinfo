@@ -60,23 +60,12 @@ public class ActivityPlayer extends AppCompatActivity {
             showToast("Fallo en el sistema - No se ha podido cargar ningún jugador");
         }
 
-        setDayNight();
-
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-    }
-
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     private String selectGenderSpinner(String gender) {

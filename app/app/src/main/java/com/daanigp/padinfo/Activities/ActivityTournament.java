@@ -56,8 +56,6 @@ public class ActivityTournament extends AppCompatActivity {
             showToast("Fallo en el sistema - No se ha podido cargar ningún torneo");
         }
 
-        setDayNight();
-
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,15 +63,6 @@ public class ActivityTournament extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     public void completeInfo() {

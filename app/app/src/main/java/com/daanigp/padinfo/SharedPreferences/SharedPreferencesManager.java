@@ -20,6 +20,7 @@ public class SharedPreferencesManager {
     private static final String KEY_THEME = "theme";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_IMAGE = "image";
+    private static final String KEY_LANGUAGE = "language";
 
     private static SharedPreferencesManager instance;
     private static Context context;
@@ -91,17 +92,21 @@ public class SharedPreferencesManager {
         return gson.fromJson(jsonRolesId, type);
     }
 
-    public void saveTheme(int theme) {
+    public void saveTheme(boolean theme) {
         SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        //editor.putInt(KEY_THEME, theme);
-        editor.putInt(KEY_THEME, 1);
+        editor.putBoolean(KEY_THEME, theme);
         editor.apply();
     }
 
-    public int getTheme() {
+    public boolean getTheme() {
         SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPref.getInt(KEY_THEME, 1);
+        /*
+        Default false, light theme
+        False -> Light Theme
+        True -> Dark Theme
+        */
+        return sharedPref.getBoolean(KEY_THEME, false);
     }
 
     public void saveEmail(String email) {
@@ -126,6 +131,18 @@ public class SharedPreferencesManager {
     public String getImage() {
         SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPref.getString(KEY_IMAGE, null);
+    }
+
+    public void saveLanguage(String language) {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(KEY_LANGUAGE, language);
+        editor.apply();
+    }
+
+    public String getLanguage() {
+        SharedPreferences sharedPref = context.getSharedPreferences(SH_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getString(KEY_LANGUAGE, "es");
     }
 
     public void clear() {

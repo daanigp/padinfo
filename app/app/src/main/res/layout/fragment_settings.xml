@@ -1,18 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:textSize="30sp"
-        android:textColor="@color/green_light"
-        android:textAlignment="center"
-        android:text="@string/mantenimiento" />
-</FrameLayout>
+        android:orientation="vertical" >
+
+       <androidx.appcompat.widget.Toolbar
+           android:id="@+id/toolbar_settings"
+           android:layout_width="match_parent"
+           android:layout_height="56dp"
+           android:elevation="4dp"
+           android:background="@color/green_dark"
+           android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+           app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <!--<TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="30sp"
+            android:textColor="@color/green_light"
+            android:textAlignment="center"
+            android:text="@string/mantenimiento" /> -->
+
+        <TextView
+            android:id="@+id/txtSettings"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="36sp"
+            android:textColor="@color/green_light"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="@string/settings" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_edit_text"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language"
+                android:layout_marginStart="30dp"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/spinnerLanguages"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:entries="@array/languages"
+                android:layout_marginStart="20dp"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:background="@drawable/custom_edit_text"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lightTheme"
+                android:layout_marginStart="28dp"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
+
+            <Switch
+                android:id="@+id/switchTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:thumbTint="#03A9F4"
+                android:trackTint="#000000"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:switchMinWidth="75dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/darkTheme"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/green_dark"
+        app:itemTextColor="@color/green_dark" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

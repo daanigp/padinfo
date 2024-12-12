@@ -16,18 +16,18 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.daanigp.padinfo.Fragments.HomeFragment;
 import com.daanigp.padinfo.Fragments.MainFragment;
+import com.daanigp.padinfo.Fragments.ProfileFragment;
+import com.daanigp.padinfo.Fragments.SettingsFragment;
 import com.daanigp.padinfo.Interfaces.BackPressHandler;
 import com.daanigp.padinfo.R;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 
-public class Activity_Main extends AppCompatActivity {
+public class Activity_Main extends AppCompatActivity implements ProfileFragment.OnUserInfoUpdatedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-       //setDayNight();
 
         if (savedInstanceState != null) {
             loadFragment(new MainFragment());
@@ -35,13 +35,18 @@ public class Activity_Main extends AppCompatActivity {
             handleIntent(getIntent());
         }
 
-
     }
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         //fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.add(R.id.fcv_main_container, fragment);
+        if (fragment instanceof MainFragment) {
+            Log.e("ACTIVITY_MAIN", "FRAGMENT -> MAIN FRAGMENT");
+            fragmentTransaction.add(R.id.fcv_main_container, fragment, "MAIN_FRAGMENT_TAG");
+        } else {
+            Log.e("ACTIVITY_MAIN", "FRAGMENT -> OTRO FRAGMENT");
+            fragmentTransaction.add(R.id.fcv_main_container, fragment);
+        }
         fragmentTransaction.commit();
     }
 
@@ -50,6 +55,8 @@ public class Activity_Main extends AppCompatActivity {
             String fragmentToNavigate = intent.getStringExtra("navigateToFragment");
             if (fragmentToNavigate.equalsIgnoreCase("gamesListFragment")) {
                 loadFragment(MainFragment.newInstance("gamesListFragment"));
+            } else if (fragmentToNavigate.equalsIgnoreCase("settingsFragment")) {
+                loadFragment(new SettingsFragment());
             }
         } else {
             loadFragment(new MainFragment());
@@ -68,12 +75,15 @@ public class Activity_Main extends AppCompatActivity {
         }
     }
 
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    @Override
+    public void onUserInfoUpdated() {
+        //Llamar al método para actualizar la info del menú desplegable de MainFragment
+        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("MAIN_FRAGMENT_TAG");
+        if (mainFragment != null) {
+            Log.e("ACTIVITY_MAIN", "Llamada a loadUserInfo desde Activity_Main CORRECTA");
+            mainFragment.loadUserInfo();
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            Log.e("ACTIVITY_MAIN", "Error en la llamada a loadUserInfo desde Activity_Main");
         }
     }
 }

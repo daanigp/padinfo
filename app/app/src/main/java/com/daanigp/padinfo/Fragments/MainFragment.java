@@ -181,7 +181,8 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
                 break;
             case R.id.nav_delete_account:
                 //showPopupMenu();
-                showToast("Eliminar cuenta");
+                //showToast("Eliminar cuenta");
+                showToast("Eliminar cuenta\nEn mantenimiento");
                 break;
             case R.id.nav_leave:
                 showToast("Saliendo de la aplicación...");
@@ -349,6 +350,7 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
             txtUsuario.setText("");
             txtEmail.setText("");
         }
+        navigationView.setCheckedItem(R.id.nav_home);
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener m0nNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -387,7 +389,6 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
                 loadFragment(new GamesListFragment());
             }
         }
-        navigationView.setCheckedItem(R.id.nav_home);
     }
 
     private void loadMenuGuest() {
@@ -498,7 +499,7 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
         });
     } */
 
-    private void loadUserInfo() {
+    public void loadUserInfo() {
         String img = SharedPreferencesManager.getInstance(getActivity()).getImage();
 
         int imageResourceId = requireContext().getResources().getIdentifier(img, "drawable", requireContext().getPackageName());
@@ -507,9 +508,10 @@ public class MainFragment extends Fragment implements NavigationView.OnNavigatio
             imgPerfil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showToast("IMÁGEN DE PERFIL");
-                    loadFragmentBottomMenu(new ProfileFragment());
-                    bottomNavigation.setSelectedItemId(R.id.profile);
+                    showToast("IMÁGEN DE PERFIL\nEn mantenimiento");
+                    //showToast("IMÁGEN DE PERFIL");
+                    //loadFragmentBottomMenu(new ProfileFragment());
+                    //bottomNavigation.setSelectedItemId(R.id.profile);
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
             });

@@ -1,8 +1,13 @@
 package com.daanigp.padinfo.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -21,6 +26,8 @@ import com.daanigp.padinfo.Retrofit.RetrofitClient;
 import com.daanigp.padinfo.SharedPreferences.SharedPreferencesManager;
 import com.daanigp.padinfo.Toast.Toast_Personalized;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +38,11 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+
+    //Interfaz para actualizar la información del menú desplegable
+    public interface OnUserInfoUpdatedListener {
+        void onUserInfoUpdated();
+    }
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,6 +94,7 @@ public class ProfileFragment extends Fragment {
     private String token;
     private long userId;
 
+    private OnUserInfoUpdatedListener listener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,10 +118,44 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 showToast("Editar");
                 Intent intent = new Intent(getActivity(), ActivityEdit_User.class);
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, EDIT_USER);
             }
         });
         return root;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        //Para verificar que MainActivity tenga implementada la interfaz
+        if (context instanceof OnUserInfoUpdatedListener) {
+            listener = (OnUserInfoUpdatedListener) context;
+        } else {
+            Log.e(TAG, "Error con la intervar OnUserInfoUpdatedListener");
+            throw new RuntimeException(context.toString()
+                    + " debe implementar OnUserInfoUpdatedListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_USER && resultCode == RESULT_OK) {
+            autocompleteUserInfo();
+
+            //Notificar a MainActivity que la información se ha actualizado
+            if (listener != null) {
+                listener.onUserInfoUpdated();
+            }
+        }
     }
 
     private void autocompleteUserInfo() {
@@ -130,8 +177,8 @@ public class ProfileFragment extends Fragment {
                     txtNombre.setText(user.getName());
                     txtApellidos.setText(user.getLastname());
                     txtEmail.setText(user.getEmail());
-
-                    int imageResourceId = getActivity().getResources().getIdentifier(user.getImageURL(), "drawable", getActivity().getPackageName());
+                    Log.e("PROFILEFRAGMENT", "imgURL ->  " + user.getImageURL());
+                    int imageResourceId = requireContext().getResources().getIdentifier(user.getImageURL(), "drawable", requireContext().getPackageName());
                     imgPerfil.setImageResource(imageResourceId);
                 } else {
                     showToast("Error en la respuesta del servidor");

@@ -15,53 +15,6 @@
         android:padding="10dp"
         android:gravity="center_horizontal">
 
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp" >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:text="aaa"
-                android:gravity="center"
-                android:background="@drawable/table_border" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:text="bbb"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:background="@drawable/table_border" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:padding="10dp"
-                android:text="aaa"
-                android:gravity="center"
-                android:background="@drawable/table_border" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="bbb"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:background="@drawable/table_border" />
-
-        </LinearLayout> -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -323,6 +276,21 @@
             </TableLayout>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnVolver_List_M"
+            android:layout_width="135dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="25dp"
+            android:backgroundTint="@color/red"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/volver"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="0dp" />
 
     </LinearLayout>
 

@@ -66,7 +66,6 @@ public class Pruebas_Activity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.fragment_main);
 
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
-        setDayNight();
         getRolesByUserId();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -222,15 +221,6 @@ public class Pruebas_Activity extends AppCompatActivity implements NavigationVie
                 getRolesByUserId();
                 invalidateOptionsMenu();
             }
-        }
-    }
-
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 

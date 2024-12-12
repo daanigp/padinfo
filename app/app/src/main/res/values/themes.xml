@@ -2,6 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Padinfo" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/grey_hint</item>
+        <item name="android:textColorHighlight">@color/red</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <!-- Primary brand color -->
         <item name="colorPrimary">@color/green_normal</item>
@@ -21,6 +24,18 @@
 
     <style name="Theme.Padinfo" parent="Base.Theme.Padinfo" />
 
+    <style name="TextViewSpecialStyle">
+        <item name="android:textColor">@color/green_normal</item>
+    </style>
+
+    <style name="ButtonColorSpecialStyle">
+        <item name="backgroundTint">@color/green_normal</item>
+    </style>
+
+    <style name="ButtonColorGreen">
+        <item name="backgroundTint">@color/green_normal_2</item>
+    </style>
+
     <style name="BottomNavigation">
         <item name="android:background">@color/green_dark</item>
         <item name="itemIconTint">@color/green_normal_2</item>
@@ -32,7 +47,7 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="ButtonColorGreen">
-        <item name="backgroundTint">@color/green_normal_2</item>
-    </style>
+    <color name="stroke_color">@color/green_normal</color>
+    <color name="icons_color">@color/black</color>
+
 </resources>

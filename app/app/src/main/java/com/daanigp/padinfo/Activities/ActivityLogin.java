@@ -36,12 +36,13 @@ public class ActivityLogin extends AppCompatActivity {
     private static final String TAG = "ActivityLogin";
     Button btnInicioSesion, btnRegistrarse, btnInicioInvitado;
     EditText txtUsuario, txtPassword;
-    //ImageView imgApp;
-    Switch switchTema;
     View message_layout;
     private boolean isFirstTime = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setAppTheme();
+        checkUserIsAlreadyConnected();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_2);
 
@@ -50,38 +51,7 @@ public class ActivityLogin extends AppCompatActivity {
         btnInicioInvitado = (Button) findViewById(R.id.btnInicioInvitado);
         txtUsuario = (EditText) findViewById(R.id.editTxtUsuario_login);
         txtPassword = (EditText) findViewById(R.id.editTxtContrasenya_login);
-        //imgApp = (ImageView) findViewById(R.id.imgApp);
-        //switchTema = findViewById(R.id.swithTema);
         message_layout = getLayoutInflater().inflate(R.layout.toast_customized, null);
-
-        //imgApp.setImageResource(R.drawable.padinfo_logo);
-
-
-        /**
-         * EN MANTENIMIENTO (SWITCH)
-         */
-
-        /*int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme==1) {
-            switchTema.setChecked(false);
-        } else {
-            switchTema.setChecked(true);
-        }
-        setDayNight();
-
-        switchTema.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (switchTema.isChecked()) {
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveTheme(0);
-                } else {
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveTheme(1);
-                }
-                setDayNight();
-            }
-        });*/
-
-        setDayNight();
 
         btnInicioSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +59,7 @@ public class ActivityLogin extends AppCompatActivity {
                 String user, pwd;
                 user = txtUsuario.getText().toString();
                 pwd = txtPassword.getText().toString();
-                /*if (user.isEmpty() || pwd.isEmpty()) {
+                if (user.isEmpty() || pwd.isEmpty()) {
                     showToast("Debes rellenar todos los campos");
                 } else {
                     getIdUser(user, new ConnectivityCallback() {
@@ -98,12 +68,12 @@ public class ActivityLogin extends AppCompatActivity {
                             if (isConnected) {
                                 showToast("El usuario " + user + " ya está logueado");
                             } else {
+                                Log.e(TAG, "USUARIO NO CONECTADO");
                                 login(user, pwd);
                             }
                         }
                     });
-                }*/
-                login("pabloADMIN", "1234");
+                }
             }
         });
 
@@ -138,31 +108,52 @@ public class ActivityLogin extends AppCompatActivity {
         });
     }
 
+    /* @Override
+    protected void onPause() {
+        super.onPause();
+        putUserDisconnected();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        putUserDisconnected();
+    } */
+
     private int randomNum(int num1) {
         Random rnd = new Random();
         return rnd.nextInt(num1) + 1;
     }
 
-    public void setDayNight() {
-        int theme = SharedPreferencesManager.getInstance(this).getTheme();
-        if (theme == 0) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    private void checkUserIsAlreadyConnected() {
+        String token = SharedPreferencesManager.getInstance(ActivityLogin.this).getUsername();
+        if (token != null) {
+            if (!token.equalsIgnoreCase("")) {
+                Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Main.class);
+                intentAppInicio.putExtra("token", token);
+                startActivity(intentAppInicio);
+            }
         }
+    }
+
+    public void setAppTheme() {
+        boolean isDarkTheme = SharedPreferencesManager.getInstance(this).getTheme();
+        AppCompatDelegate.setDefaultNightMode(isDarkTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     private void login(String user, String pwd) {
         ISecurityPadinfo_API securityPadinfoApi = RetrofitSecurityClient.getSecurityPadinfoAPI();
         Call<String> call = securityPadinfoApi.loginUser( new LoginUser(user, pwd) );
-
+        Log.e(TAG, "método login");
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()) {
                     if (response.code() == 401) {
+                        Log.e(TAG, "Error login 401 -> " + response.message());
                         showToast("Usuario o contraseña incorrectos.");
                     } else if (response.code() == 404) {
+                        Log.e(TAG, "ERROR 404");
                         showToast("Usuario o contraseña incorrectos.");
                     } else if (response.code() == 502) {
                         showToast("El servidor no funciona");
@@ -179,11 +170,6 @@ public class ActivityLogin extends AppCompatActivity {
                 if (token != null) {
                     token = "Bearer " + token;
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveToken(token);
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(user);
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(3);
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail("pablo@gmail.com");
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage("admin_img");
-
 
 
                     Intent intentAppInicio = new Intent(ActivityLogin.this, Activity_Main.class);
@@ -203,6 +189,50 @@ public class ActivityLogin extends AppCompatActivity {
             }
         });
     }
+
+    /*private void getUserInfo(String username, String password) {
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<UserEntity> call = padinfoApi.getUserByUsername(username);
+
+        call.enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                if(!response.isSuccessful()) {
+                    if (response.code() == 500) {
+                        showToast("Usuario o contraseña incorrectos");
+                    } else {
+                        Log.v(TAG, "No va (getUserInfo) -> response");
+                        showToast("Código error: " + response.code());
+                    }
+                    return;
+                }
+
+                UserEntity user = response.body();
+
+                if (user != null) {
+                    long id = user.getId();
+
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(id);
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail(user.getEmail());
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage(user.getImageURL());
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(username);
+                    //SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(3);
+                    //SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail("pablo@gmail.com");
+                    //SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage("admin_img");
+                    Log.v(TAG, "INICIO SESION - id -> " + id);
+                    login(username, password);
+                } else {
+                    showToast("Error en la respuesta del servidor");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (getIdUser)", t);
+                showToast("Código error: " + t.getMessage());
+            }
+        });
+    }*/
 
     private void getIdUser(String username, ConnectivityCallback callback) {
         IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
@@ -228,7 +258,9 @@ public class ActivityLogin extends AppCompatActivity {
 
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveUserID(id);
                     SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail(user.getEmail());
-                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail(user.getImageURL());
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveImage(user.getImageURL());
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(username);
+
                     Log.v(TAG, "INICIO SESION - id -> " + id);
                     checkUserConnectivity(id, callback);
                 } else {
@@ -262,8 +294,10 @@ public class ActivityLogin extends AppCompatActivity {
                 if (isConnectedAPI == null) {
                     showToast("Error en la respuesta del servidor");
                 } else if (isConnectedAPI == 0) {
+                    Log.v(TAG, "CONECTADO : FALSE");
                     callback.onConnectivityChecked(false);
                 } else {
+                    Log.v(TAG, "CONECTADO : TRUE");
                     callback.onConnectivityChecked(true);
                 }
 
@@ -297,6 +331,8 @@ public class ActivityLogin extends AppCompatActivity {
                         @Override
                         public void onConnectivityChecked(boolean isConnected) {
                             if (!isConnected) {
+                                SharedPreferencesManager.getInstance(ActivityLogin.this).saveEmail(createUser.getEmail());
+                                SharedPreferencesManager.getInstance(ActivityLogin.this).saveUsername(createUser.getUsername());
                                 login(createUser.getUsername(), createUser.getPassword());
                             } else {
                                 showToast("Vuelve a intentarlo, el usuario " + createUser.getUsername() + " ya está logueado.");
@@ -313,6 +349,36 @@ public class ActivityLogin extends AppCompatActivity {
             public void onFailure(Call<ResponseEntity> call, Throwable t) {
                 Log.e(TAG, "Error en la llamada Retrofit - (signupGUEST)", t);
                 showToast("Código error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void putUserDisconnected() {
+        long id = SharedPreferencesManager.getInstance(ActivityLogin.this).getUserId();
+        IPadinfo_API padinfoApi = RetrofitClient.getPadinfoAPI();
+        Call<ResponseEntity> call = padinfoApi.updateIsConnected(id);
+        call.enqueue(new Callback<ResponseEntity>() {
+            @Override
+            public void onResponse(Call<ResponseEntity> call, Response<ResponseEntity> response) {
+                if (!response.isSuccessful()) {
+                    showToast("1-Código error - (putUserDisconnected): " + response.code());
+                    return;
+                }
+
+                ResponseEntity res = response.body();
+
+                if (res == null || !res.getMessege().equalsIgnoreCase("IsConnected actualizado correctamente")) {
+                    showToast("Error en la respuesta del servidor");
+                } else {
+                    SharedPreferencesManager.getInstance(ActivityLogin.this).clear();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity> call, Throwable t) {
+                Log.e(TAG, "Error en la llamada Retrofit - (putUserDisconnected)", t);
+                showToast("2- Código error - (putUserDisconnected): " + t.getMessage());
+                t.printStackTrace();
             }
         });
     }

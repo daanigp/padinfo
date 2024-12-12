@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitSecurityClient {
 
-    private static final String BASE_URL = "http://localhost:8080/api/";
+    private static final String BASE_URL = "https://0552-2-141-35-122.ngrok-free.app/auth/";
     //private static final String BASE_URL = "http://54.197.161.208/auth/"; -> AWS
     //private static final String BASE_URL = "https://55fa-2-141-39-112.ngrok-free.app/auth/";
     private static Retrofit retrofit = null;
