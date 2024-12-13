@@ -8,9 +8,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://0552-2-141-35-122.ngrok-free.app/api/";
-    //private static final String BASE_URL = "http://54.197.161.208/api/"; -> AWS
-    //private static final String BASE_URL = "https://55fa-2-141-39-112.ngrok-free.app/api/";
+
+    // Conexión con AWS
+    private static final String BASE_URL = "http://51.20.204.251/api/";
+    //private static final String BASE_URL = "https://55fa-2-141-39-112.ngrok-free.app/api/"; -> ngrok (local)
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
